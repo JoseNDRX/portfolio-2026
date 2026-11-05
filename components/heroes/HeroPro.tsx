@@ -2,9 +2,10 @@
 
 import { useI18n } from '@/lib/i18n-context';
 import { Code2, Network, Mail, Download, ArrowDown, Zap, Layers, Globe } from 'lucide-react';
+import { cvHref } from '@/lib/cv';
 
 export default function HeroPro() {
-  const { t } = useI18n();
+  const { t, lang } = useI18n();
 
   const stats = [
     { value: '25+', label: t.hero.yearsExp, icon: <Zap size={18} /> },
@@ -130,7 +131,7 @@ export default function HeroPro() {
                 {t.hero.contact}
               </a>
               <a
-                href="/CV-JARO-ESP.pdf"
+                href={cvHref(lang)}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="btn-outline"

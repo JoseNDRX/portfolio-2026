@@ -3,7 +3,8 @@
 import { useI18n } from '@/lib/i18n-context';
 import UniverseBackdrop from '@/components/universe/UniverseBackdrop';
 import { useUniverse } from '@/lib/universe-context';
-import { Mail, MapPin, Send, Code2, Network } from 'lucide-react';
+import { Mail, MapPin, Send, Code2, Network, Download } from 'lucide-react';
+import { cvHref } from '@/lib/cv';
 import { siWhatsapp } from 'simple-icons';
 import BrandIcon from '@/components/BrandIcon';
 import { useState } from 'react';
@@ -143,7 +144,7 @@ export default function Contact() {
             ))}
 
             {/* Social */}
-            <div style={{ display: 'flex', gap: '0.75rem', marginTop: '0.5rem' }}>
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.75rem', marginTop: '0.5rem' }}>
               {[
                 { icon: <Code2 size={18} />, href: 'https://github.com/JoseNDRX', label: 'GitHub' },
                 {
@@ -151,6 +152,8 @@ export default function Contact() {
                   href: 'https://www.linkedin.com/in/jos%C3%A9-andr%C3%A9s-ram%C3%ADrez-olvera-ba7822268',
                   label: 'LinkedIn',
                 },
+                // CV en el idioma del sitio (disponible en todos los universos).
+                { icon: <Download size={18} />, href: cvHref(lang), label: t.hero.downloadCV },
               ].map((s) => (
                 <a
                   key={s.label}

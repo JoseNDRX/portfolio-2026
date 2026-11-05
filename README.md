@@ -76,6 +76,8 @@ const { t, lang, setLang } = useI18n();
 
 El stack de la sección Habilidades está en [lib/skills.ts](lib/skills.ts).
 
+**CV descargable:** los PDF están en `public/cv/` (`CV-JARO-ESP.pdf` y `CV-JARO-ENG.pdf`) y el botón "Descargar CV" del hero y de Contacto entrega el del idioma activo ([lib/cv.ts](lib/cv.ts)). Para actualizar el CV, reemplaza el archivo conservando el nombre y vuelve a desplegar.
+
 ## Universos temáticos
 
 El sitio tiene 6 universos que cambian el hero, la paleta, las tipografías y los nombres de las secciones: **Profesional** (por defecto), **Escuadrón**, **Olimpo**, **Grimorio**, **Capítulo final** y **Bastión**. Se eligen desde el botón **Universo** del menú, que abre una cartelera con una previa de cada uno. Todos menos Profesional reproducen una intro de unos 3 segundos, que se puede saltar con el botón o con `Esc`.
