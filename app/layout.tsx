@@ -21,6 +21,7 @@ import './projects-archive.css';
 import './universe-backdrops.css';
 import './universe-motion.css';
 import './universe-olimpo.css';
+import './universe-grimorio.css';
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter', display: 'swap' });
 

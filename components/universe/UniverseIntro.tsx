@@ -6,6 +6,7 @@ import { useI18n } from '@/lib/i18n-context';
 import { useUniverse } from '@/lib/universe-context';
 import { universeCopy } from '@/lib/universe-copy';
 import { WALL_PATH } from '@/components/heroes/HeroBastion';
+import MagicCircle from './MagicCircle';
 
 function Letterbox() {
   return (
@@ -89,15 +90,9 @@ export default function UniverseIntro() {
       <div key="gri" className="u-intro" style={{ background: 'radial-gradient(ellipse at center, #3b3322 0%, #17140d 75%)' }} role="presentation">
         <Letterbox />
         <div style={{ position: 'absolute', inset: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 18, padding: '0 20px' }}>
-          <svg viewBox="0 0 300 300" width="340" height="340" aria-hidden="true" style={{ maxWidth: '70vw', height: 'auto' }}>
-            <g fill="none" stroke="#f3dd9a" strokeWidth="1.6">
-              <circle className="ig-draw" cx="150" cy="150" r="138" />
-              <polygon className="ig-draw" points="150,30 254,210 46,210" style={{ animationDelay: '.6s' }} />
-              <polygon className="ig-draw" points="150,270 46,90 254,90" style={{ animationDelay: '.9s' }} />
-              <circle className="ig-draw" cx="150" cy="150" r="56" style={{ animationDelay: '1.1s' }} />
-            </g>
-            <circle className="ig-glow" cx="150" cy="150" r="40" fill="#fff6c9" opacity=".9" />
-          </svg>
+          <MagicCircle className="mc-intro" drawClass="ig-draw" size={340}>
+            <circle className="ig-glow" cx="150" cy="150" r="30" fill="#b8fff4" opacity=".85" />
+          </MagicCircle>
           <div className="ig-title gri-title" style={{ fontSize: 'clamp(2rem, 5vw, 2.9rem)', color: '#f6eedb', textAlign: 'center' }}>{c.introTitle}</div>
         </div>
         {skip}

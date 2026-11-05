@@ -1,0 +1,231 @@
+/* =====================================================================
+   UNIVERSO GRIMORIO · hero élfico con objetos flotando
+   Imágenes en public/universes/grimorio/ (Pixabay, Licencia de contenido
+   de Pixabay; las ilustraciones son generadas con IA).
+   ===================================================================== */
+
+html:not(.dark)[data-universe='gri'] {
+  --gr-photo: url('/universes/grimorio/bg/hero-dia.jpg');
+  --gr-photo-filter: saturate(.85) brightness(1.02) sepia(.15);
+  --gr-veil: linear-gradient(90deg, rgba(239,229,204,.88) 0%, rgba(239,229,204,.55) 45%, rgba(239,229,204,.15) 100%), linear-gradient(180deg, transparent 70%, var(--bg-primary));
+  --gr-page-bg: rgba(246,238,219,.9);
+}
+html.dark[data-universe='gri'] {
+  --gr-photo: url('/universes/grimorio/bg/hero-noche.jpg');
+  --gr-photo-filter: saturate(.9) brightness(.8);
+  --gr-veil: linear-gradient(90deg, rgba(16,13,8,.9) 0%, rgba(16,13,8,.55) 45%, rgba(16,13,8,.1) 100%), linear-gradient(180deg, transparent 70%, var(--bg-primary));
+  --gr-page-bg: rgba(43,38,25,.86);
+}
+
+.gr-hero { background: var(--bg-primary); }
+.gr-photo {
+  position: absolute; inset: -30px;
+  background: var(--gr-photo) center / cover no-repeat;
+  filter: var(--gr-photo-filter);
+  transform: translate(calc(var(--gx, 0) * -14px), calc(var(--gy, 0) * -10px)) scale(1.05);
+  transition: transform .3s ease-out;
+}
+.gr-veil { position: absolute; inset: 0; background: var(--gr-veil); }
+
+/* Página translúcida del grimorio */
+.gr-page {
+  position: relative; z-index: 3;
+  padding: clamp(1.75rem, 4vw, 3rem);
+  border-radius: 6px;
+  background: var(--gr-page-bg) !important;
+  backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+  border: 1px solid color-mix(in srgb, var(--g-brown) 35%, transparent);
+}
+
+/* Escenario del círculo mágico */
+.gr-stage {
+  position: relative; z-index: 2;
+  width: min(520px, 88vw); aspect-ratio: 1; margin: 0 auto;
+  flex: 0 1 520px !important;
+}
+.gr-circle {
+  /* sin objetos alrededor, el círculo ocupa más del escenario */
+  position: absolute; inset: 2%;
+  display: flex; align-items: center; justify-content: center;
+  transform: translate(calc(var(--gx, 0) * 6px), calc(var(--gy, 0) * 6px));
+  transition: transform .3s ease-out;
+}
+.gr-circle .magic-circle { width: 100%; height: auto; }
+
+
+/* Luciérnagas */
+.gr-firefly {
+  position: absolute; z-index: 2; width: 5px; height: 5px; border-radius: 50%;
+  opacity: 0; pointer-events: none;
+  animation: gr-firefly 9s ease-in-out infinite;
+}
+.gr-firefly-g { background: #fff2b0; box-shadow: 0 0 12px 4px rgba(255,226,140,.75); }
+.gr-firefly-t { background: #c9fff6; box-shadow: 0 0 12px 4px rgba(64,224,208,.7); }
+@keyframes gr-firefly {
+  0% { transform: translate(0, 0); opacity: 0; }
+  15% { opacity: 1; }
+  50% { transform: translate(30px, -220px); opacity: .9; }
+  85% { opacity: .8; }
+  100% { transform: translate(-20px, -460px); opacity: 0; }
+}
+
+@media (max-width: 900px) {
+  .gr-stage { width: min(420px, 86vw); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .gr-firefly { animation: none !important; }
+}
+
+/* =====================================================================
+   FONDOS POR SECCIÓN (components/universe/UniverseBackdrop.tsx → GriBackdrop)
+   ===================================================================== */
+html.dark[data-universe='gri'] {
+  --gr-bg-filter: brightness(.7) saturate(.85);
+  --gr-bg-op: .75;
+  --gr-sec-veil: radial-gradient(ellipse at 50% 50%, rgba(23,20,13,.88) 0%, rgba(23,20,13,.72) 55%, rgba(23,20,13,.4) 100%);
+  --gr-ghost-op: .4;
+  --gr-ray: rgba(120,230,215,.07);
+  --gr-ray2: rgba(255,226,150,.06);
+}
+html:not(.dark)[data-universe='gri'] {
+  --gr-bg-filter: brightness(1.05) saturate(.7) sepia(.25);
+  --gr-bg-op: .5;
+  --gr-sec-veil: radial-gradient(ellipse at 50% 50%, rgba(239,229,204,.95) 0%, rgba(239,229,204,.86) 50%, rgba(239,229,204,.5) 100%);
+  --gr-ghost-op: .5;
+  --gr-ray: rgba(255,240,200,.35);
+  --gr-ray2: rgba(255,255,255,.3);
+}
+
+.ub-gri-photo {
+  position: absolute; inset: -4%;
+  background-position: center; background-size: cover; background-repeat: no-repeat;
+  filter: var(--gr-bg-filter); opacity: var(--gr-bg-op);
+  animation: ub-gri-drift 26s ease-in-out infinite alternate;
+}
+/* Zoom y desplazamiento lento del paisaje */
+@keyframes ub-gri-drift { 0% { transform: scale(1.02) translate(0, 0); } 50% { transform: scale(1.1) translate(-2%, -1.5%); } 100% { transform: scale(1.14) translate(1.5%, -2.5%); } }
+/* Parallax con el scroll: el paisaje avanza más lento que el contenido */
+@supports (animation-timeline: view()) {
+  .ub-gri-photo { animation: ub-gri-drift 26s ease-in-out infinite alternate, ub-gri-parallax linear both; animation-timeline: auto, view(); }
+  @keyframes ub-gri-parallax { from { translate: 0 -7%; } to { translate: 0 7%; } }
+}
+
+/* Rayos de luz entre los árboles: se mecen y respiran */
+.ub-gri-rays {
+  position: absolute; inset: -20% -10% 0;
+  background: repeating-linear-gradient(105deg, transparent 0 70px, var(--gr-ray) 70px 110px, transparent 110px 190px, var(--gr-ray2) 190px 210px, transparent 210px 300px);
+  -webkit-mask-image: linear-gradient(180deg, #000 0%, transparent 75%);
+  mask-image: linear-gradient(180deg, #000 0%, transparent 75%);
+  mix-blend-mode: screen; filter: blur(6px);
+  transform-origin: 50% 0;
+  animation: ub-gri-rays 14s ease-in-out infinite alternate;
+}
+@keyframes ub-gri-rays { 0% { transform: skewX(-4deg) translateX(-2%); opacity: .55; } 50% { opacity: 1; } 100% { transform: skewX(5deg) translateX(3%); opacity: .6; } }
+.ub-gri .gr-firefly { z-index: 1; }
+.ub-gri-veil { position: absolute; inset: 0; background: var(--gr-sec-veil); }
+.ub-gri-about .ub-gri-photo { background-image: url('/universes/grimorio/bg/ciudad.jpg'); background-position: center 40%; }
+.ub-gri-skills .ub-gri-photo { background-image: url('/universes/grimorio/bg/cascada.jpg'); }
+.ub-gri-experience .ub-gri-photo { background-image: url('/universes/grimorio/bg/bosque.jpg'); }
+.ub-gri-courses .ub-gri-photo { background-image: url('/universes/grimorio/bg/academia.jpg'); background-position: center 35%; }
+.ub-gri-contact .ub-gri-photo { background-image: url('/universes/grimorio/bg/biblioteca.jpg'); background-position: center 45%; }
+.ub-gri-footer { background: radial-gradient(ellipse at 50% 120%, rgba(64,224,208,.12), transparent 60%); }
+.ub-gri-footer .ub-gri-veil { display: none; }
+
+/* Objetos que aparecen y desaparecen, semitransparentes */
+.ub-gri-ghost {
+  position: absolute; height: auto; pointer-events: none;
+  rotate: var(--rot);
+  filter: drop-shadow(0 0 12px rgba(64,224,208,.35));
+  animation: ub-gri-ghost 5.2s ease-in-out both;
+}
+@keyframes ub-gri-ghost {
+  0% { opacity: 0; transform: translateY(18px) scale(.85); filter: blur(4px) drop-shadow(0 0 12px rgba(64,224,208,.35)); }
+  25% { opacity: var(--gr-ghost-op); transform: translateY(0) scale(1); filter: blur(0) drop-shadow(0 0 12px rgba(64,224,208,.35)); }
+  70% { opacity: var(--gr-ghost-op); transform: translateY(-14px) scale(1); }
+  100% { opacity: 0; transform: translateY(-30px) scale(.95); filter: blur(3px) drop-shadow(0 0 12px rgba(64,224,208,.35)); }
+}
+
+/* =====================================================================
+   PORTAL (fondo de Proyectos): un arco que deja ver otro mundo
+   ===================================================================== */
+.ub-gri-projects .ub-gri-photo { background-image: url('/universes/grimorio/bg/hero-noche.jpg'); opacity: calc(var(--gr-bg-op) * .9); }
+.ub-gri-projects .ub-gri-veil { background: radial-gradient(ellipse at 50% 55%, transparent 0%, rgba(16,13,8,.35) 35%, rgba(16,13,8,.85) 75%); }
+html:not(.dark)[data-universe='gri'] .ub-gri-projects .ub-gri-veil { background: radial-gradient(ellipse at 50% 55%, transparent 0%, rgba(239,229,204,.45) 35%, rgba(239,229,204,.9) 75%); }
+
+.ub-gri-portal-wrap {
+  position: absolute; left: 50%; top: 54%;
+  width: min(520px, 62vw); height: min(640px, 74vh);
+  translate: -50% -50%;
+}
+.ub-gri-portal {
+  position: absolute; inset: 0; overflow: hidden;
+  border-radius: 999px 999px 18px 18px;
+  -webkit-mask-image: radial-gradient(ellipse 80% 90% at 50% 45%, #000 60%, transparent 100%);
+  mask-image: radial-gradient(ellipse 80% 90% at 50% 45%, #000 60%, transparent 100%);
+}
+.ub-gri-portal-world {
+  position: absolute; inset: -8%;
+  background: url('/universes/grimorio/bg/reino.jpg') center / cover;
+  animation: ub-gri-breathe 14s ease-in-out infinite alternate;
+  filter: saturate(1.1) brightness(1.05);
+}
+@keyframes ub-gri-breathe { from { transform: scale(1); } to { transform: scale(1.12); } }
+/* Brillo que gira dentro del portal */
+.ub-gri-portal-swirl {
+  position: absolute; inset: -30%;
+  background: conic-gradient(from 0deg, transparent 0 20%, rgba(180,255,245,.18) 30%, transparent 40% 70%, rgba(255,230,160,.16) 80%, transparent 90%);
+  animation: mc-spin 18s linear infinite;
+  mix-blend-mode: screen;
+}
+/* Marco del arco con resplandor turquesa */
+.ub-gri-portal-ring {
+  position: absolute; inset: -6px;
+  border-radius: 999px 999px 22px 22px;
+  border: 2px solid rgba(64,224,208,.85);
+  box-shadow: 0 0 18px rgba(64,224,208,.6), 0 0 60px rgba(64,224,208,.3), inset 0 0 40px rgba(64,224,208,.35);
+  animation: ub-gri-ring 4s ease-in-out infinite;
+}
+@keyframes ub-gri-ring { 0%, 100% { opacity: .75; } 50% { opacity: 1; } }
+/* Chispas que son atraídas hacia el portal */
+.ub-gri-spark {
+  position: absolute; left: 50%; top: 50%; width: 5px; height: 5px; border-radius: 50%;
+  background: #c9fff6; box-shadow: 0 0 10px 3px rgba(64,224,208,.8);
+  rotate: var(--a);
+  animation: ub-gri-spark 4.5s ease-in infinite;
+}
+@keyframes ub-gri-spark {
+  0% { transform: translateY(-62vh) scale(1); opacity: 0; }
+  20% { opacity: 1; }
+  100% { transform: translateY(0) scale(.2); opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ub-gri-photo, .ub-gri-rays, .ub-gri .gr-firefly, .ub-gri-ghost, .ub-gri-portal-world, .ub-gri-portal-swirl, .ub-gri-portal-ring, .ub-gri-spark { animation: none !important; }
+  .ub-gri-ghost, .ub-gri-spark { display: none; }
+}
+
+/* =====================================================================
+   ICONOS DEL STACK · estilo élfico (components/SkillIcon.tsx)
+   Medallón con doble aro dorado, hoja en la cima y resplandor turquesa.
+   ===================================================================== */
+html[data-universe='gri'] .skill-ico {
+  width: 48px; height: 48px; border-radius: 50%;
+  color: var(--g-sage);
+  background: radial-gradient(circle at 50% 35%, color-mix(in srgb, var(--g-sage) 22%, transparent), transparent 70%), var(--g-page);
+  border: 1px solid var(--g-brown);
+  box-shadow: 0 0 0 3px var(--g-page), 0 0 0 4px color-mix(in srgb, var(--g-brown) 60%, transparent), 0 0 18px rgba(64,224,208,.25);
+}
+html[data-universe='gri'] .skill-ico-t1 { color: var(--g-brown); }
+html[data-universe='gri'] .skill-ico-t2 { color: #1b8f86; }
+html.dark[data-universe='gri'] .skill-ico-t2 { color: #40e0d0; }
+/* Hoja élfica en la cima del medallón */
+html[data-universe='gri'] .skill-ico::before {
+  content: ''; position: absolute; top: -9px; left: 50%; width: 10px; height: 10px;
+  translate: -50% 0; rotate: 45deg;
+  border-radius: 0 100% 0 100%;
+  background: linear-gradient(135deg, var(--g-sage), var(--g-brown));
+  box-shadow: 0 0 6px rgba(64,224,208,.5);
+}
+html[data-universe='gri'] .skill-ico-svg { stroke-width: 1.5; filter: drop-shadow(0 0 4px rgba(64,224,208,.35)); }
+html[data-universe='gri'] .card:hover .skill-ico { box-shadow: 0 0 0 3px var(--g-page), 0 0 0 4px var(--g-brown), 0 0 26px rgba(64,224,208,.55); }

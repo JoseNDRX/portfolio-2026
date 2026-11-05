@@ -7,6 +7,7 @@ import type { Lang } from '@/lib/translations';
 import { useUniverse } from '@/lib/universe-context';
 import { universeCopy } from '@/lib/universe-copy';
 import { UNIVERSES, UNIVERSE_IDS, type UniverseId } from '@/lib/universes';
+import MagicCircle from './MagicCircle';
 
 /** Mini clip en loop de cada póster (se reproduce al pasar el cursor). */
 function Clip({ id, lang }: { id: UniverseId; lang: Lang }) {
@@ -55,16 +56,9 @@ function Clip({ id, lang }: { id: UniverseId; lang: Lang }) {
     case 'gri':
       return (
         <div className="u-clip gri-bg">
-          <svg viewBox="0 0 220 230" width="100%" height="230" aria-hidden="true" style={{ position: 'absolute', inset: 0 }}>
-            <g fill="none" stroke="#8a6d3b" strokeWidth="1.4">
-              <circle className="c-draw" cx="110" cy="115" r="78" />
-              <g className="u-spin-rev">
-                <polygon className="c-draw" points="110,45 171,150 49,150" />
-                <polygon className="c-draw" points="110,185 49,80 171,80" />
-              </g>
-              <circle cx="110" cy="115" r="30" stroke="#4f6b52" />
-            </g>
-          </svg>
+          <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <MagicCircle className="mc-poster" drawClass="c-draw" size={180} />
+          </div>
           <div className="u-mote" style={{ left: '30%', bottom: 0 }} />
           <div className="u-mote" style={{ left: '70%', bottom: 0, animationDelay: '3s' }} />
         </div>

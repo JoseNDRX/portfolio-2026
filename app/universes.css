@@ -306,3 +306,42 @@ html[data-universe='esc'] .skill-ico-t2::after { background: #4ea8ff; }
 html[data-universe='esc'] .skill-ico-svg { position: relative; z-index: 1; width: 25px; height: 25px; stroke-width: 2.5; }
 html[data-universe='esc'] .card:hover .skill-ico { transform: none; box-shadow: none; animation: skill-ico-pop 0.45s cubic-bezier(0.2, 1.6, 0.4, 1); }
 @keyframes skill-ico-pop { 0% { scale: 1; } 40% { scale: 1.25; rotate: 6deg; } 100% { scale: 1; rotate: -8deg; } }
+
+/* =====================================================================
+   CÍRCULO MÁGICO · GRIMORIO (components/universe/MagicCircle.tsx)
+   Astrolabio: anillo exterior (horario), astrolabio (contrario) y núcleo (pulso).
+   Resplandor turquesa #40e0d0 con drop-shadow; hereda por stroke="currentColor".
+   ===================================================================== */
+.magic-circle {
+  --mc-stroke: #40e0d0;
+  --mc-glow: rgba(64, 224, 208, 0.7);
+  color: var(--mc-stroke);
+  overflow: visible;
+  filter: drop-shadow(0 0 2px var(--mc-glow)) drop-shadow(0 0 8px var(--mc-glow));
+}
+/* Sobre pergamino claro: turquesa más profundo y resplandor más suave para que se lea */
+html:not(.dark)[data-universe='gri'] .mc-hero,
+.mc-poster {
+  --mc-stroke: #1b8f86;
+  --mc-glow: rgba(64, 224, 208, 0.45);
+}
+.magic-circle .mc-outer,
+.magic-circle .mc-astro,
+.magic-circle .mc-core { transform-box: view-box; transform-origin: 50% 50%; }
+.magic-circle .mc-outer { animation: mc-spin 60s linear infinite; }
+.magic-circle .mc-astro { animation: spin-counter 36s linear infinite; }
+.magic-circle .mc-core { animation: mc-pulse 3.2s ease-in-out infinite; }
+@keyframes mc-spin { to { rotate: 360deg; } }
+@keyframes spin-counter { to { rotate: -360deg; } }
+@keyframes mc-pulse { 0%, 100% { scale: 1; opacity: 0.88; } 50% { scale: 1.035; opacity: 1; } }
+/* Intro y póster: la triquetra aparece después de que se dibujan los anillos */
+.magic-circle .mc-core-in { animation: mc-core-in 1.2s ease-out 1s both, mc-pulse 3.2s ease-in-out 2.2s infinite; }
+@keyframes mc-core-in { from { opacity: 0; scale: .6; rotate: -40deg; } to { opacity: .88; scale: 1; rotate: 0deg; } }
+
+/* Dibujo del póster: trazos largos (el anillo exterior mide ~880) */
+.mc-poster .c-draw { stroke-dasharray: 1000; animation-name: mc-draw-long; }
+@keyframes mc-draw-long { 0% { stroke-dashoffset: 1000; } 60%, 100% { stroke-dashoffset: 0; } }
+
+@media (prefers-reduced-motion: reduce) {
+  .magic-circle .mc-outer, .magic-circle .mc-astro, .magic-circle .mc-core { animation: none; }
+}
