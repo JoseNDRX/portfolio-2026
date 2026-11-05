@@ -152,8 +152,44 @@ function EscBackdrop({ section }: { section: BackdropSection }) {
   );
 }
 
+/* ------------------------------------------------------------------ OLIMPO
+   Cada sección con su lugar real de Grecia (fotos de Wikimedia Commons,
+   dominio público / CC0), muy tenue, con zoom lento, polvo dorado y una
+   franja de greca arriba. Sin onomatopeyas. */
+const OLI_MOTES: Record<BackdropSection, number> = {
+  about: 4, skills: 0, experience: 4, projects: 3, courses: 4, contact: 5, footer: 0,
+};
+
+function OliBackdrop({ section }: { section: BackdropSection }) {
+  const motes = OLI_MOTES[section];
+  return (
+    <div className={`ub ub-oli ub-oli-${section}`} aria-hidden="true">
+      {section !== 'footer' && <div className="ub-oli-photo" />}
+      <div className="ub-oli-veil" />
+      {section !== 'projects' && (
+        <svg className="ub-oli-band" width="100%" height="14">
+          <defs>
+            <pattern id={`ub-oli-meander-${section}`} width="22" height="14" patternUnits="userSpaceOnUse">
+              <path d="M1 13 V2 H19 V10 H7 V5 H14" fill="none" stroke="currentColor" strokeWidth="1.6" />
+            </pattern>
+          </defs>
+          <rect width="100%" height="14" fill={`url(#ub-oli-meander-${section})`} />
+        </svg>
+      )}
+      {Array.from({ length: motes }, (_, i) => (
+        <span
+          key={i}
+          className="ub-oli-mote"
+          style={{ left: `${12 + ((i * 23) % 76)}%`, bottom: `${(i * 17) % 30}%`, animationDelay: `${i * 2.1}s` }}
+        />
+      ))}
+    </div>
+  );
+}
+
 export default function UniverseBackdrop({ section }: { section: BackdropSection }) {
   const { universe } = useUniverse();
   if (universe === 'esc') return <EscBackdrop section={section} />;
+  if (universe === 'oli') return <OliBackdrop section={section} />;
   return null;
 }

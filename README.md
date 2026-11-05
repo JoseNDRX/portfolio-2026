@@ -89,6 +89,8 @@ El sitio tiene 6 universos que cambian el hero, la paleta, las tipografías y lo
 
 **Fondos por sección:** cada universo puede tener un fondo temático en cada sección ([components/universe/UniverseBackdrop.tsx](components/universe/UniverseBackdrop.tsx) y [app/universe-backdrops.css](app/universe-backdrops.css)). Por ahora los tiene Escuadrón: trama y ciudad en Origen, líneas de velocidad en Poderes, líneas de movimiento en Misiones, viñetas en Expedientes, trama degradada en Entrenamiento, rayos de sol en Señal, y onomatopeyas que aparecen y desaparecen en posiciones al azar (fuera de la columna de contenido).
 
+**Olimpo** tiene secciones propias: hero con el Partenón y parallax con el mouse ([HeroOlimpo.tsx](components/heroes/HeroOlimpo.tsx)), interludio del Coro con Perseo ([OlimpoCoro.tsx](components/universe/OlimpoCoro.tsx)) y Habilidades como **el Panteón** ([SkillsPanteon.tsx](components/SkillsPanteon.tsx)): 9 dioses, cada uno protege categorías de `lib/skills.ts` (la asignación está en [lib/olimpo.ts](lib/olimpo.ts)). Estilos en [app/universe-olimpo.css](app/universe-olimpo.css); imágenes en `public/universes/olimpo/` (ilustraciones de Pixabay y fotos de Wikimedia Commons, con licencias de uso comercial sin atribución obligatoria; los créditos están en `lib/olimpo.ts`).
+
 **Animaciones por universo:** los títulos, etiquetas, tarjetas y badges de cada sección entran con una animación propia del universo, y el hover de las tarjetas también cambia ([components/universe/UniverseMotion.tsx](components/universe/UniverseMotion.tsx) y [app/universe-motion.css](app/universe-motion.css)):
 
 | Universo | Entrada |

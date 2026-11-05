@@ -5,6 +5,7 @@ import {
   Cinzel,
   Cormorant_Garamond,
   IM_Fell_English,
+  GFS_Didot,
   Anton,
   Oswald,
 } from 'next/font/google';
@@ -19,6 +20,7 @@ import './projects-gallery.css';
 import './projects-archive.css';
 import './universe-backdrops.css';
 import './universe-motion.css';
+import './universe-olimpo.css';
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter', display: 'swap' });
 
@@ -26,12 +28,13 @@ const inter = Inter({ subsets: ['latin'], variable: '--font-inter', display: 'sw
 // cuando un universo las usa.
 const bangers = Bangers({ weight: '400', subsets: ['latin'], variable: '--font-bangers', display: 'swap', preload: false });
 const cinzel = Cinzel({ subsets: ['latin'], variable: '--font-cinzel', display: 'swap', preload: false });
-const cormorant = Cormorant_Garamond({ weight: ['400', '600'], style: ['normal', 'italic'], subsets: ['latin'], variable: '--font-cormorant', display: 'swap', preload: false });
+const cormorant = Cormorant_Garamond({ weight: ['400', '500', '600', '700'], style: ['normal', 'italic'], subsets: ['latin'], variable: '--font-cormorant', display: 'swap', preload: false });
 const fell = IM_Fell_English({ weight: '400', style: ['normal', 'italic'], subsets: ['latin'], variable: '--font-fell', display: 'swap', preload: false });
 const anton = Anton({ weight: '400', subsets: ['latin'], variable: '--font-anton', display: 'swap', preload: false });
+const didot = GFS_Didot({ weight: '400', subsets: ['greek'], variable: '--font-didot', display: 'swap', preload: false });
 const oswald = Oswald({ subsets: ['latin'], variable: '--font-oswald', display: 'swap', preload: false });
 
-const fontVars = [inter, bangers, cinzel, cormorant, fell, anton, oswald].map((f) => f.variable).join(' ');
+const fontVars = [inter, bangers, cinzel, cormorant, fell, anton, oswald, didot].map((f) => f.variable).join(' ');
 
 // Aplica el universo antes de pintar (evita ver la paleta profesional un instante).
 const slugMap = Object.fromEntries(UNIVERSE_IDS.flatMap((id) => [[UNIVERSES[id].slug, id], [id, id]]));

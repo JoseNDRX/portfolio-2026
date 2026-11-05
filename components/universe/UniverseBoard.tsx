@@ -37,6 +37,8 @@ function Clip({ id, lang }: { id: UniverseId; lang: Lang }) {
     case 'oli':
       return (
         <div className="u-clip oli-bg">
+          {/* El Partenón real del hero, con rayo de luz y estrellas */}
+          <div className="c-slide-bg" style={{ position: 'absolute', inset: 0, background: "url('/universes/olimpo/ol-parthenon_w.jpg') center 35% / cover", filter: 'brightness(.45) sepia(.3) saturate(.8)' }} />
           <div className="c-beam" style={{ position: 'absolute', left: '50%', top: 0, width: 70, marginLeft: -35, height: '100%', background: 'linear-gradient(180deg, rgba(243,221,154,.9), rgba(243,221,154,0))' }} />
           <svg viewBox="0 0 220 230" width="100%" height="230" aria-hidden="true" style={{ position: 'absolute', inset: 0 }}>
             <g fill="#f3dd9a">

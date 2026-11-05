@@ -51,6 +51,7 @@ export const UNIVERSES: Record<UniverseId, Universe> = {
       en: { home: 'Temple', about: 'The hero', skills: 'Arts', experience: 'Odyssey', projects: 'Feats', courses: 'Wisdom', contact: 'Oracle' },
     },
     hasIntro: true,
+    introMs: 6000,
   },
   gri: {
     id: 'gri',

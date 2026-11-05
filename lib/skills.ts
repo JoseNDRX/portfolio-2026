@@ -20,21 +20,22 @@ export const skillData = {
 
 export type SkillCategory = keyof typeof skillData;
 
-/** Orden en que se muestran las categorías y su icono. */
-export const skillCategoryOrder: { key: SkillCategory; emoji: string }[] = [
-  { key: 'languages', emoji: '📝' },
-  { key: 'backend', emoji: '⚙️' },
-  { key: 'frontend', emoji: '🎨' },
-  { key: 'databases', emoji: '🗄️' },
-  { key: 'ai', emoji: '🤖' },
-  { key: 'integrations', emoji: '🔌' },
-  { key: 'geospatial', emoji: '🗺️' },
-  { key: 'reporting', emoji: '📊' },
-  { key: 'devops', emoji: '🐳' },
-  { key: 'architecture', emoji: '🏗️' },
-  { key: 'testing', emoji: '🧪' },
-  { key: 'mobile', emoji: '📱' },
-  { key: 'tools', emoji: '🛠️' },
+/** Orden en que se muestran las categorías. */
+// Los iconos de cada categoría están en components/SkillIcon.tsx.
+export const skillCategoryOrder: { key: SkillCategory }[] = [
+  { key: 'languages' },
+  { key: 'backend' },
+  { key: 'frontend' },
+  { key: 'databases' },
+  { key: 'ai' },
+  { key: 'integrations' },
+  { key: 'geospatial' },
+  { key: 'reporting' },
+  { key: 'devops' },
+  { key: 'architecture' },
+  { key: 'testing' },
+  { key: 'mobile' },
+  { key: 'tools' },
 ];
 
 /** Total de tecnologías listadas (para el contador del hero). */

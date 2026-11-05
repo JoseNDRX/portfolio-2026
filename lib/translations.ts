@@ -70,6 +70,8 @@ export const translations = {
       title: 'Experiencia Profesional',
       subtitle: 'Trayectoria de impacto en industria y tecnología',
       present: 'Presente',
+      highlightsLabel: 'Logros del puesto',
+      moreHighlights: '+{n} logros más · desliza',
       jobs: [
         {
           company: 'PETROAADLAB S.A. de C.V.',
@@ -373,6 +375,8 @@ export const translations = {
       title: 'Professional Experience',
       subtitle: 'A track record of impact in industry and technology',
       present: 'Present',
+      highlightsLabel: 'Role achievements',
+      moreHighlights: '+{n} more achievements · scroll',
       jobs: [
         {
           company: 'PETROAADLAB S.A. de C.V.',

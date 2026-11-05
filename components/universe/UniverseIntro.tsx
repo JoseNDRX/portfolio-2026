@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect } from 'react';
+import Image from 'next/image';
 import { useI18n } from '@/lib/i18n-context';
 import { useUniverse } from '@/lib/universe-context';
 import { universeCopy } from '@/lib/universe-copy';
@@ -62,20 +63,21 @@ export default function UniverseIntro() {
   if (intro === 'oli') {
     const c = copy.oli;
     return (
-      <div key="oli" className="u-intro" style={{ background: '#05070e' }} role="presentation">
+      // 6 s (introMs = 6000 en universes.ts): humo → Perseo → la Musa → relámpago → título.
+      <div key="oli" className="u-intro" style={{ background: '#050505', '--intro-out': '5.5s' } as React.CSSProperties} role="presentation">
         <Letterbox />
-        <div className="io-beam" style={{ position: 'absolute', left: '50%', top: 0, width: 260, marginLeft: -130, height: '100%', background: 'linear-gradient(180deg, rgba(243,221,154,.85) 0%, rgba(243,221,154,.15) 70%, transparent 100%)' }} />
-        <svg viewBox="0 0 1000 600" preserveAspectRatio="xMidYMid slice" width="100%" height="100%" aria-hidden="true" style={{ position: 'absolute', inset: 0 }}>
-          <g fill="#f3dd9a">
-            {[[120, 140], [860, 120], [780, 460], [200, 470], [520, 90], [330, 260], [680, 300]].map(([x, y], i) => (
-              <circle key={i} className={`u-twinkle ${['', 'd2', 'd3'][i % 3]}`} cx={x} cy={y} r={i < 4 ? 2.2 : 1.6} />
-            ))}
-          </g>
-        </svg>
-        <div style={{ position: 'absolute', inset: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', textAlign: 'center', padding: '0 20px' }}>
-          <div className="io-title oli-name" style={{ fontSize: 'clamp(2.6rem, 7vw, 4.5rem)', fontWeight: 700, textTransform: 'uppercase' }}>{c.introTitle}</div>
-          <div className="io-sub oli-serif" style={{ marginTop: 14, fontSize: 'clamp(1.2rem, 2.4vw, 1.6rem)', fontStyle: 'italic', color: '#e8e1cf' }}>{c.introSub}</div>
+        <div className="io2-smoke" style={{ left: '4%' }} />
+        <div className="io2-smoke" style={{ left: '34%', animationDelay: '.5s' }} />
+        <div className="io2-smoke" style={{ left: '64%', animationDelay: '1s' }} />
+        <div style={{ position: 'absolute', inset: 0, zIndex: 3, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 20, padding: '0 20px', textAlign: 'center' }}>
+          <div className="io2-hero">
+            <Image src="/universes/olimpo/concept/coro-perseo.jpg" alt="" fill sizes="260px" priority />
+          </div>
+          <div className="io2-musa">{c.introMusa}</div>
+          <div className="io2-title">{c.introTitle}</div>
+          <div className="io2-sub">{c.introSub}</div>
         </div>
+        <div className="io2-flash" />
         {skip}
       </div>
     );

@@ -10,6 +10,7 @@ import Footer from '@/components/Footer';
 import UniverseBoard from '@/components/universe/UniverseBoard';
 import UniverseIntro from '@/components/universe/UniverseIntro';
 import UniverseMotion from '@/components/universe/UniverseMotion';
+import OlimpoCoro from '@/components/universe/OlimpoCoro';
 
 export default function Home() {
   return (
@@ -17,6 +18,7 @@ export default function Home() {
       <Navbar />
       <main>
         <Hero />
+        <OlimpoCoro />
         <About />
         <Skills />
         <Experience />

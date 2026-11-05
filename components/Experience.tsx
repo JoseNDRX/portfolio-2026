@@ -5,13 +5,42 @@ import UniverseBackdrop from '@/components/universe/UniverseBackdrop';
 import { useUniverse } from '@/lib/universe-context';
 import ScrollCue from '@/components/universe/ScrollCue';
 import { Briefcase, MapPin, ChevronRight } from 'lucide-react';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
+
+/** Logros visibles sin scroll; el resto se ve con scroll dentro del contenedor. */
+const VISIBLE_HIGHLIGHTS = 7;
 
 export default function Experience() {
-  const { t } = useI18n();
-  const { sectionLabel } = useUniverse();
+  const { t, lang } = useI18n();
+  const { universe, sectionLabel } = useUniverse();
   const [activeJob, setActiveJob] = useState(0);
   const jobs = t.experience.jobs;
+  const hidden = Math.max(0, jobs[activeJob].highlights.length - VISIBLE_HIGHLIGHTS);
+
+  // Alto del contenedor = hasta el final del 7º logro (se mide porque el alto
+  // de cada logro depende del texto y del ancho de pantalla).
+  const listRef = useRef<HTMLDivElement>(null);
+  const [maxH, setMaxH] = useState<number | null>(null);
+  const [atEnd, setAtEnd] = useState(false);
+
+  useEffect(() => {
+    const el = listRef.current;
+    if (!el) return;
+    el.scrollTop = 0;
+    const measure = () => {
+      const items = el.children;
+      if (items.length <= VISIBLE_HIGHLIGHTS) {
+        setMaxH(null);
+        return;
+      }
+      const last = items[VISIBLE_HIGHLIGHTS - 1] as HTMLElement;
+      setMaxH(last.offsetTop - el.offsetTop + last.offsetHeight + 4);
+    };
+    // El ResizeObserver mide al empezar a observar y cada vez que cambia el ancho.
+    const ro = new ResizeObserver(measure);
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, [activeJob, lang, universe]);
 
   return (
     <section
@@ -53,7 +82,10 @@ export default function Experience() {
             {jobs.map((job, i) => (
               <button
                 key={job.company}
-                onClick={() => setActiveJob(i)}
+                onClick={() => {
+                  setActiveJob(i);
+                  setAtEnd(false);
+                }}
                 style={{
                   textAlign: 'left',
                   padding: '1rem 1.1rem',
@@ -129,8 +161,22 @@ export default function Experience() {
               </div>
             </div>
 
-            {/* Highlights */}
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.7rem' }}>
+            {/* Highlights: se ven los 7 principales; el resto con scroll interno */}
+            <div style={{ position: 'relative' }}>
+            <div
+              ref={listRef}
+              className="exp-highlights"
+              onScroll={(e) => setAtEnd(e.currentTarget.scrollTop + e.currentTarget.clientHeight >= e.currentTarget.scrollHeight - 4)}
+              {...(hidden > 0 ? { tabIndex: 0, role: 'region', 'aria-label': t.experience.highlightsLabel } : {})}
+              style={{
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '0.7rem',
+                maxHeight: maxH ?? undefined,
+                overflowY: maxH ? 'auto' : undefined,
+                paddingRight: maxH ? '0.4rem' : undefined,
+              }}
+            >
               {jobs[activeJob].highlights.map((hl, i) => (
                 <div
                   key={i}
@@ -155,6 +201,13 @@ export default function Experience() {
                 </div>
               ))}
             </div>
+            {/* Aviso de que hay más logros con scroll */}
+            {hidden > 0 && !atEnd && (
+              <div className="exp-more" aria-hidden="true">
+                <span>{t.experience.moreHighlights.replace('{n}', String(hidden))}</span>
+              </div>
+            )}
+            </div>
           </div>
         </div>
       </div>
@@ -164,6 +217,18 @@ export default function Experience() {
           .exp-grid {
             grid-template-columns: 1fr !important;
           }
+        }
+        .exp-highlights { scrollbar-width: thin; scrollbar-color: var(--accent) transparent; overscroll-behavior: contain; }
+        .exp-highlights:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
+        .exp-more {
+          position: absolute; left: 0; right: 0.4rem; bottom: 0; height: 72px;
+          display: flex; align-items: flex-end; justify-content: center; padding-bottom: 6px;
+          background: linear-gradient(180deg, transparent, var(--bg-card) 85%);
+          pointer-events: none;
+        }
+        .exp-more span {
+          font-size: 0.75rem; font-weight: 700; letter-spacing: 0.06em; color: var(--accent);
+          padding: 0.25rem 0.75rem; border: 1px solid var(--accent-soft); border-radius: 999px; background: var(--bg-card);
         }
       `}</style>
       <ScrollCue to="projects" />

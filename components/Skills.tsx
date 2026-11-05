@@ -7,10 +7,15 @@ import ScrollCue from '@/components/universe/ScrollCue';
 import { Code2 } from 'lucide-react';
 
 import { skillData, skillCategoryOrder } from '@/lib/skills';
+import SkillsPanteon from '@/components/SkillsPanteon';
+import SkillIcon from '@/components/SkillIcon';
 
 export default function Skills() {
   const { t } = useI18n();
-  const { sectionLabel } = useUniverse();
+  const { universe, sectionLabel } = useUniverse();
+
+  // En Olimpo, Habilidades se presenta como el Panteón.
+  if (universe === 'oli') return <SkillsPanteon />;
 
   const categories = skillCategoryOrder.map((c) => ({ ...c, label: t.skills.categories[c.key] }));
 
@@ -59,7 +64,7 @@ export default function Skills() {
                   marginBottom: '1.1rem',
                 }}
               >
-                <span style={{ fontSize: '1.25rem' }}>{cat.emoji}</span>
+                <SkillIcon category={cat.key} />
                 <span
                   style={{
                     fontWeight: 700,

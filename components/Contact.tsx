@@ -118,7 +118,7 @@ export default function Contact() {
                   {item.icon}
                 </div>
                 <div>
-                  <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginBottom: '0.1rem' }}>
+                  <div style={{ fontSize: '0.78rem', fontWeight: 600, letterSpacing: '0.04em', textTransform: 'uppercase', color: 'var(--text-muted)', marginBottom: '0.15rem' }}>
                     {item.label}
                   </div>
                   {item.href ? (
@@ -126,7 +126,7 @@ export default function Contact() {
                       href={item.href}
                       {...('external' in item && item.external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
                       style={{
-                        fontSize: '0.9rem',
+                        fontSize: '1rem',
                         color: 'var(--text-primary)',
                         textDecoration: 'none',
                         fontWeight: 600,
@@ -135,7 +135,7 @@ export default function Contact() {
                       {item.value}
                     </a>
                   ) : (
-                    <span style={{ fontSize: '0.9rem', color: 'var(--text-primary)', fontWeight: 600 }}>
+                    <span style={{ fontSize: '1rem', color: 'var(--text-primary)', fontWeight: 600 }}>
                       {item.value}
                     </span>
                   )}
@@ -161,7 +161,7 @@ export default function Contact() {
                   target="_blank"
                   rel="noopener noreferrer"
                   className="btn-outline"
-                  style={{ flex: 1, justifyContent: 'center', padding: '0.6rem 1rem', fontSize: '0.85rem' }}
+                  style={{ flex: '1 1 auto', justifyContent: 'center', padding: '0.6rem 1rem', fontSize: '0.85rem', whiteSpace: 'nowrap' }}
                 >
                   {s.icon}
                   {s.label}
