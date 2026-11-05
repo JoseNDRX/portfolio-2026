@@ -42,3 +42,7 @@ next-env.d.ts
 
 # capturas de pruebas con Playwright
 /.playwright-mcp/
+
+# Cloudflare Wrangler (archivos locales de desarrollo)
+.wrangler/
+.dev.vars*

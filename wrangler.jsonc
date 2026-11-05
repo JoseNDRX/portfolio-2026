@@ -1,0 +1,18 @@
+// Despliegue en Cloudflare Workers como sitio estático.
+// `npm run build` genera `out/` (output: "export" en next.config.ts) y
+// `npx wrangler deploy` sube esa carpeta. No se usa OpenNext: el sitio no
+// necesita servidor porque todas sus páginas son estáticas.
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  // Debe coincidir con el nombre del Worker en el panel de Cloudflare.
+  "name": "portfolio-2026",
+  "compatibility_date": "2026-11-04",
+  "assets": {
+    "directory": "./out",
+    // Rutas inexistentes muestran la página 404 de Next.
+    "not_found_handling": "404-page"
+  },
+  "observability": {
+    "enabled": true
+  }
+}

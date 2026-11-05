@@ -124,9 +124,24 @@ La sección Proyectos es un **archivo inmersivo**: un lienzo infinito donde los 
 
 ## Despliegue
 
-Se puede desplegar en cualquier hosting que soporte Node.js:
+El sitio se exporta como **estático** (`output: "export"` en `next.config.ts`): `npm run build` genera la carpeta `out/` con todo el HTML, CSS, JS e imágenes. No necesita servidor de Node.js.
+
+### Cloudflare Workers
+
+La configuración está en [wrangler.jsonc](wrangler.jsonc) (nombre del Worker: `portfolio-2026`, sirve la carpeta `out/`). En el panel de Cloudflare, el proyecto usa:
+
+| Ajuste | Valor |
+|---|---|
+| Comando de build | `npm run build` |
+| Comando de despliegue | `npx wrangler deploy` |
+
+Para probarlo localmente igual que en Cloudflare:
 
 ```bash
 npm run build
-npm run start
+npx wrangler dev
 ```
+
+> No uses OpenNext ni `opennextjs-cloudflare`: no hace falta porque todas las páginas son estáticas. Si `wrangler.jsonc` no está en el repositorio, Wrangler intenta migrar el proyecto a OpenNext automáticamente y el despliegue falla.
+
+También funciona en cualquier hosting de archivos estáticos: basta con subir el contenido de `out/`.
