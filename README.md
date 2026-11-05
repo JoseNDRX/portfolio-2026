@@ -130,6 +130,8 @@ El sitio se exporta como **estático** (`output: "export"` en `next.config.ts`):
 
 ### Cloudflare Workers
 
+Sitio publicado: **https://portfolio-2026.jandresrmz.workers.dev/** (es la URL que aparece en el CV y en `SITE_URL` de `app/layout.tsx`; si cambia, actualiza los tres).
+
 La configuración está en [wrangler.jsonc](wrangler.jsonc) (nombre del Worker: `portfolio-2026`, sirve la carpeta `out/`). En el panel de Cloudflare, el proyecto usa:
 
 | Ajuste | Valor |

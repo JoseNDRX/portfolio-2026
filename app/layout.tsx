@@ -37,7 +37,12 @@ const fontVars = [inter, bangers, cinzel, cormorant, fell, anton, oswald].map((f
 const slugMap = Object.fromEntries(UNIVERSE_IDS.flatMap((id) => [[UNIVERSES[id].slug, id], [id, id]]));
 const universeBootScript = `(function(){try{var m=${JSON.stringify(slugMap)};var q=new URLSearchParams(location.search).get('universo');var s=localStorage.getItem('${UNIVERSE_STORAGE_KEY}');var u=(q&&m[q])||(s&&m[s])||'pro';document.documentElement.dataset.universe=u;}catch(e){document.documentElement.dataset.universe='pro';}})();`;
 
+/** URL pública del portafolio (Cloudflare Workers). Debe coincidir con la del CV. */
+const SITE_URL = 'https://portfolio-2026.jandresrmz.workers.dev';
+
 export const metadata: Metadata = {
+  metadataBase: new URL(SITE_URL),
+  alternates: { canonical: '/' },
   title: 'José Andrés Ramírez | Coordinador de Desarrollo de Software',
   description:
     'Portfolio profesional de José Andrés Ramírez Olvera — Coordinador de Desarrollo de Software con 25+ años de experiencia en LIMS, CRM, microservicios y desarrollo asistido por IA. Puebla, México.',
@@ -59,6 +64,7 @@ export const metadata: Metadata = {
     title: 'José Andrés Ramírez | Software Development Coordinator',
     description: 'Portfolio profesional — LIMS, CRM, microservicios, Angular, NestJS, Next.js',
     type: 'website',
+    url: SITE_URL,
   },
 };
 
