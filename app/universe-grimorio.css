@@ -85,6 +85,7 @@ html.dark[data-universe='gri'] {
   --gr-bg-op: .75;
   --gr-sec-veil: radial-gradient(ellipse at 50% 50%, rgba(23,20,13,.88) 0%, rgba(23,20,13,.72) 55%, rgba(23,20,13,.4) 100%);
   --gr-ghost-op: .4;
+  --gr-scroll-op: .62;
   --gr-ray: rgba(120,230,215,.07);
   --gr-ray2: rgba(255,226,150,.06);
 }
@@ -93,6 +94,7 @@ html:not(.dark)[data-universe='gri'] {
   --gr-bg-op: .5;
   --gr-sec-veil: radial-gradient(ellipse at 50% 50%, rgba(239,229,204,.95) 0%, rgba(239,229,204,.86) 50%, rgba(239,229,204,.5) 100%);
   --gr-ghost-op: .5;
+  --gr-scroll-op: .72;
   --gr-ray: rgba(255,240,200,.35);
   --gr-ray2: rgba(255,255,255,.3);
 }
@@ -144,6 +146,73 @@ html:not(.dark)[data-universe='gri'] {
   25% { opacity: var(--gr-ghost-op); transform: translateY(0) scale(1); filter: blur(0) drop-shadow(0 0 12px rgba(64,224,208,.35)); }
   70% { opacity: var(--gr-ghost-op); transform: translateY(-14px) scale(1); }
   100% { opacity: 0; transform: translateY(-30px) scale(.95); filter: blur(3px) drop-shadow(0 0 12px rgba(64,224,208,.35)); }
+}
+
+/* ---------------------------------------------------------- PERGAMINOS
+   Se desenrollan (el rodillo de abajo baja), muestran runas y un sello de
+   cera, y se vuelven a enrollar. Duración = SCROLL_LIFE_MS (6.8 s). */
+.ub-gri-scroll {
+  position: absolute;
+  pointer-events: none;
+  rotate: var(--rot);
+  filter: drop-shadow(0 6px 14px rgba(0,0,0,.35)) drop-shadow(0 0 14px rgba(64,224,208,.25));
+  animation: ub-gri-scroll 6.8s ease-in-out both;
+}
+@keyframes ub-gri-scroll {
+  0% { opacity: 0; translate: 0 14px; }
+  8% { opacity: var(--gr-scroll-op); translate: 0 0; }
+  88% { opacity: var(--gr-scroll-op); translate: 0 -12px; }
+  100% { opacity: 0; translate: 0 -20px; }
+}
+.ub-gri-paper {
+  margin: 0 6%;
+  color: #5a3e1b;
+  background:
+    radial-gradient(ellipse at 50% 40%, transparent 55%, rgba(120, 80, 30, .35) 100%),
+    linear-gradient(180deg, #e9d6a4, #f3e5bd 18%, #efdcab 82%, #dcc387);
+  border-inline: 1px solid rgba(110, 70, 20, .5);
+  box-shadow: inset 0 0 16px rgba(110, 70, 20, .5);
+  clip-path: inset(0 0 100% 0);
+  animation: ub-gri-unroll 6.8s cubic-bezier(.5, 0, .3, 1) both;
+}
+.ub-gri-paper svg path { opacity: 0; animation: ub-gri-runes 6.8s ease-out both; }
+.ub-gri-seal { fill: #9e1b1b; stroke: #6d1010; stroke-width: 1.5; }
+@keyframes ub-gri-unroll {
+  0%, 6% { clip-path: inset(0 0 100% 0); }
+  22%, 80% { clip-path: inset(0 0 0 0); }
+  94%, 100% { clip-path: inset(0 0 100% 0); }
+}
+@keyframes ub-gri-runes {
+  0%, 18% { opacity: 0; }
+  32%, 100% { opacity: .85; }
+}
+/* Rodillos de madera con remates dorados */
+.ub-gri-rod {
+  position: relative;
+  z-index: 1;
+  display: block;
+  height: 9px;
+  border-radius: 5px;
+  background: linear-gradient(180deg, #8a5a2b, #5b3816 55%, #3f260e);
+  box-shadow: 0 2px 4px rgba(0,0,0,.4);
+}
+.ub-gri-rod::before,
+.ub-gri-rod::after {
+  content: '';
+  position: absolute;
+  top: -2px;
+  width: 9px;
+  height: 13px;
+  border-radius: 4px;
+  background: linear-gradient(180deg, #f0d48a, #b8862d);
+}
+.ub-gri-rod::before { left: -5px; }
+.ub-gri-rod::after { right: -5px; }
+.ub-gri-rod.is-bottom { animation: ub-gri-rod 6.8s cubic-bezier(.5, 0, .3, 1) both; }
+@keyframes ub-gri-rod {
+  0%, 6% { translate: 0 calc(-1 * var(--h)); }
+  22%, 80% { translate: 0 0; }
+  94%, 100% { translate: 0 calc(-1 * var(--h)); }
 }
 
 /* =====================================================================
@@ -202,7 +271,7 @@ html:not(.dark)[data-universe='gri'] .ub-gri-projects .ub-gri-veil { background:
 
 @media (prefers-reduced-motion: reduce) {
   .ub-gri-photo, .ub-gri-rays, .ub-gri .gr-firefly, .ub-gri-ghost, .ub-gri-portal-world, .ub-gri-portal-swirl, .ub-gri-portal-ring, .ub-gri-spark { animation: none !important; }
-  .ub-gri-ghost, .ub-gri-spark { display: none; }
+  .ub-gri-ghost, .ub-gri-spark, .ub-gri-scroll { display: none; }
 }
 
 /* =====================================================================
@@ -229,3 +298,21 @@ html[data-universe='gri'] .skill-ico::before {
 }
 html[data-universe='gri'] .skill-ico-svg { stroke-width: 1.5; filter: drop-shadow(0 0 4px rgba(64,224,208,.35)); }
 html[data-universe='gri'] .card:hover .skill-ico { box-shadow: 0 0 0 3px var(--g-page), 0 0 0 4px var(--g-brown), 0 0 26px rgba(64,224,208,.55); }
+
+/* =====================================================================
+   VÓRTICE de Proyectos: las tarjetas caen en espiral hacia el portal
+   (la posición, escala y opacidad las anima ProjectsArchive en modo vortex).
+   ===================================================================== */
+.pa-tile-vortex {
+  /* Sin transición de opacidad: la controla la animación cuadro a cuadro. */
+  transition: scale .3s ease, box-shadow .3s ease, border-color .3s ease;
+  box-shadow: 0 10px 30px rgba(0,0,0,.35), 0 0 18px rgba(64,224,208,.22);
+  border-color: rgba(64,224,208,.35);
+}
+.pa-tile-vortex:hover,
+.pa-tile-vortex:focus-visible {
+  box-shadow: 0 14px 40px rgba(0,0,0,.45), 0 0 26px rgba(64,224,208,.55);
+  border-color: rgba(64,224,208,.85);
+}
+/* En el vórtice el scroll no recorre el archivo: la pista mide una sola pantalla. */
+.pa-track.pa-track-vortex { height: 100vh; }

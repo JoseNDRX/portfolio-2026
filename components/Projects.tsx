@@ -53,7 +53,7 @@ export default function Projects() {
       {universe === 'bas' ? (
         <ProjectsGallery projects={projects} header={header} />
       ) : (
-        <ProjectsArchive projects={projects} header={header} backdrop={<UniverseBackdrop section="projects" />} />
+        <ProjectsArchive projects={projects} header={header} backdrop={<UniverseBackdrop section="projects" />} vortex={universe === 'gri'} />
       )}
       <ScrollCue to="courses" />
     </section>

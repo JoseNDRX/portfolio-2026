@@ -1,0 +1,473 @@
+/* =====================================================================
+   CAPÍTULO FINAL · fondos animados por sección (PulpBackdrop en
+   components/universe/UniverseBackdrop.tsx).
+   Noir de venganza: blanco y negro de alto contraste + un solo color (rojo).
+   Película, no cómic: grano, rayones, lluvia, flashes de relámpago.
+   ===================================================================== */
+
+/* Tintas por modo: --p-ink es "el otro color" del fondo (crema sobre negro,
+   negro sobre crema), así lluvia, persianas y siluetas sirven en ambos modos. */
+html:not(.dark)[data-universe='pulp'] {
+  --p-ink: #141414;
+  --p-rain-c: rgba(20, 20, 20, 0.2);
+  --p-snow-c: rgba(20, 20, 20, 0.28);
+  --p-blind-op: 0.07;
+  --p-city-op: 0.16;
+  --p-moon-op: 0.75;
+  --p-sun-op: 0.78;
+  --p-flash-c: rgba(20, 20, 20, 0.1);
+  --p-blade: #141414;
+  --p-neon-glow: rgba(193, 18, 31, 0.35);
+  --p-tube-on: 0.32;
+  --p-tube-dim: 0.16;
+  --p-tube-off: 0.07;
+}
+html.dark[data-universe='pulp'] {
+  --p-ink: #f1e9d2;
+  --p-rain-c: rgba(241, 233, 210, 0.22);
+  --p-snow-c: rgba(255, 250, 238, 0.75);
+  --p-blind-op: 0.06;
+  --p-city-op: 0.09;
+  --p-moon-op: 0.8;
+  --p-sun-op: 0.82;
+  --p-flash-c: rgba(241, 233, 210, 0.16);
+  --p-blade: #ffffff;
+  --p-neon-glow: rgba(229, 56, 59, 0.75);
+  --p-tube-on: 0.42;
+  --p-tube-dim: 0.18;
+  --p-tube-off: 0.07;
+}
+
+.ub-pulp > * { position: absolute; }
+
+/* ------------------------------------------------------------ COMUNES */
+
+/* Lluvia: trazos inclinados en una máscara que se desliza en diagonal.
+   El desplazamiento (-120, 640) es múltiplo exacto del mosaico, así no salta. */
+.ub-pulp-rain {
+  inset: 0;
+  background: var(--p-rain-c);
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='160'%3E%3Cg stroke='%23000' stroke-width='1.1' stroke-linecap='round'%3E%3Cpath d='M14 4l-6 32M64 46l-6 32M104 92l-6 32M38 112l-6 32M90 8l-4 22M8 70l-4 22'/%3E%3C/g%3E%3C/svg%3E") 0 0 / 120px 160px;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='160'%3E%3Cg stroke='%23000' stroke-width='1.1' stroke-linecap='round'%3E%3Cpath d='M14 4l-6 32M64 46l-6 32M104 92l-6 32M38 112l-6 32M90 8l-4 22M8 70l-4 22'/%3E%3C/g%3E%3C/svg%3E") 0 0 / 120px 160px;
+  animation: ub-pulp-rain 2.4s linear infinite;
+}
+.ub-pulp-rain.is-near {
+  -webkit-mask-size: 210px 280px;
+  mask-size: 210px 280px;
+  opacity: 0.7;
+  animation-name: ub-pulp-rain-near;
+  animation-duration: 1.8s;
+}
+@keyframes ub-pulp-rain { to { -webkit-mask-position: -120px 640px; mask-position: -120px 640px; } }
+@keyframes ub-pulp-rain-near { to { -webkit-mask-position: -210px 1120px; mask-position: -210px 1120px; } }
+
+/* Grano de película que tiembla cuadro a cuadro */
+.ub-pulp-grain {
+  inset: -50%;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='220' height='220' filter='url(%23n)'/%3E%3C/svg%3E");
+  opacity: var(--p-grain-opacity);
+  mix-blend-mode: var(--p-grain-blend);
+  animation: ub-pulp-grain 0.9s steps(6) infinite;
+}
+@keyframes ub-pulp-grain {
+  0% { translate: 0 0; }
+  20% { translate: -4% 3%; }
+  40% { translate: 3% -5%; }
+  60% { translate: -6% -2%; }
+  80% { translate: 5% 4%; }
+  100% { translate: 0 0; }
+}
+
+/* Rayones de la cinta: líneas verticales que saltan de lugar */
+.ub-pulp-scratch {
+  inset: 0;
+  background:
+    linear-gradient(90deg, transparent calc(50% - 0.5px), var(--p-ink) 50%, transparent calc(50% + 0.5px)) 0 0 / 100% 100% no-repeat,
+    linear-gradient(90deg, transparent calc(50% - 0.5px), var(--p-ink) 50%, transparent calc(50% + 0.5px)) 0 0 / 100% 60% no-repeat;
+  opacity: 0;
+  animation: ub-pulp-scratch 6s steps(1) infinite;
+}
+@keyframes ub-pulp-scratch {
+  0% { opacity: 0.18; background-position: -31vw 0, 22vw 30%; }
+  6% { opacity: 0.1; background-position: -12vw 0, 38vw 10%; }
+  12% { opacity: 0; }
+  48% { opacity: 0.14; background-position: 41vw 0, -27vw 50%; }
+  53% { opacity: 0.08; background-position: 18vw 0, -40vw 20%; }
+  58% { opacity: 0; }
+}
+
+/* Relámpago: doble destello cada pocos segundos */
+.ub-pulp-flash {
+  inset: 0;
+  background: var(--p-flash-c);
+  opacity: 0;
+  animation: ub-pulp-flash 11s linear infinite;
+}
+.ub-pulp-contact .ub-pulp-flash { animation-delay: -5s; }
+@keyframes ub-pulp-flash {
+  0%, 88%, 100% { opacity: 0; }
+  88.6% { opacity: 1; }
+  89.4% { opacity: 0.15; }
+  90.4% { opacity: 0.85; }
+  93% { opacity: 0; }
+}
+
+/* ------------------------------------------------------------- SECCIONES */
+
+/* Origen: ciudad bajo la lluvia con luna roja */
+.ub-pulp-moon {
+  top: 9%;
+  right: 7%;
+  width: clamp(120px, 16vw, 230px);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: var(--p-red);
+  opacity: var(--p-moon-op);
+  box-shadow: 0 0 80px var(--p-neon-glow);
+  overflow: hidden;
+}
+/* Nubes (del color del fondo) que cruzan delante de la luna */
+.ub-pulp-moon::before,
+.ub-pulp-moon::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  width: 160%;
+  border-radius: 50%;
+  background: linear-gradient(90deg, transparent, var(--p-bg) 25% 75%, transparent);
+  filter: blur(2px);
+  opacity: 0.9;
+  animation: ub-pulp-cloud 18s linear infinite;
+}
+.ub-pulp-moon::before { top: 34%; height: 6%; }
+.ub-pulp-moon::after { top: 64%; height: 4%; animation-duration: 26s; animation-delay: -9s; }
+@keyframes ub-pulp-cloud { from { translate: -170% 0; } to { translate: 110% 0; } }
+.ub-pulp-city {
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 220px;
+  fill: var(--p-ink);
+  opacity: var(--p-city-op);
+}
+.ub-pulp-city .ub-pulp-lit {
+  fill: var(--p-red);
+  animation: ub-pulp-lit 7s steps(1) infinite;
+}
+@keyframes ub-pulp-lit {
+  0%, 100% { opacity: 1; }
+  30% { opacity: 0.4; }
+  34% { opacity: 1; }
+  70% { opacity: 0.6; }
+}
+
+/* Poderes: luz que entra por las persianas y se mece despacio */
+.ub-pulp-blinds {
+  inset: -20%;
+  background: repeating-linear-gradient(172deg, var(--p-ink) 0 16px, transparent 16px 44px);
+  opacity: var(--p-blind-op);
+  -webkit-mask-image: radial-gradient(ellipse 60% 55% at 22% 30%, #000 0%, transparent 75%);
+  mask-image: radial-gradient(ellipse 60% 55% at 22% 30%, #000 0%, transparent 75%);
+  animation: ub-pulp-blinds 18s ease-in-out infinite alternate;
+}
+@keyframes ub-pulp-blinds {
+  from { transform: rotate(-2deg) translateY(-12px); }
+  to { transform: rotate(2.5deg) translateY(16px); }
+}
+
+/* Viajes: luces de autos bajo la lluvia */
+.ub-pulp-streak {
+  left: 0;
+  width: 22vw;
+  height: 2px;
+  border-radius: 2px;
+  background: linear-gradient(90deg, transparent, var(--p-ink));
+  opacity: 0.35;
+  filter: blur(0.6px);
+  animation: ub-pulp-streak 3s linear infinite;
+}
+.ub-pulp-streak.is-red {
+  background: linear-gradient(90deg, transparent, var(--p-red));
+  box-shadow: 0 0 10px var(--p-neon-glow);
+  opacity: 0.7;
+}
+.ub-pulp-streak.is-rev { scale: -1 1; animation-name: ub-pulp-streak-rev; }
+@keyframes ub-pulp-streak { from { translate: -30vw 0; } to { translate: 130vw 0; } }
+@keyframes ub-pulp-streak-rev { from { translate: 130vw 0; } to { translate: -30vw 0; } }
+
+/* Encargos (archivo de proyectos): sol rojo tras la celosía shoji, con nieve */
+.ub-pulp-sun {
+  left: 50%;
+  top: 54%;
+  width: min(68vh, 78vw);
+  aspect-ratio: 1;
+  translate: -50% -50%;
+  border-radius: 50%;
+  background: radial-gradient(circle at 50% 45%, var(--p-red) 0 62%, color-mix(in srgb, var(--p-red) 70%, #000) 100%);
+  opacity: var(--p-sun-op);
+  box-shadow: 0 0 120px var(--p-neon-glow);
+  animation: ub-pulp-sun 9s ease-in-out infinite alternate;
+}
+@keyframes ub-pulp-sun { from { scale: 1; } to { scale: 1.05; } }
+.ub-pulp-shoji {
+  inset: 0;
+  background:
+    repeating-linear-gradient(90deg, var(--p-bg) 0 5px, transparent 5px 96px),
+    repeating-linear-gradient(0deg, var(--p-bg) 0 5px, transparent 5px 128px);
+  opacity: 0.85;
+}
+.ub-pulp-snow {
+  inset: 0;
+  background: var(--p-snow-c);
+  -webkit-mask: radial-gradient(circle, #000 1.6px, transparent 2.2px) 0 0 / 70px 90px,
+    radial-gradient(circle, #000 1.1px, transparent 1.6px) 35px 45px / 70px 90px;
+  mask: radial-gradient(circle, #000 1.6px, transparent 2.2px) 0 0 / 70px 90px,
+    radial-gradient(circle, #000 1.1px, transparent 1.6px) 35px 45px / 70px 90px;
+  animation: ub-pulp-snow 9s linear infinite;
+}
+.ub-pulp-snow.is-far {
+  -webkit-mask-size: 46px 60px, 46px 60px;
+  mask-size: 46px 60px, 46px 60px;
+  opacity: 0.55;
+  animation-duration: 14s;
+  animation-name: ub-pulp-snow-far;
+}
+@keyframes ub-pulp-snow {
+  to { -webkit-mask-position: 70px 360px, 105px 405px; mask-position: 70px 360px, 105px 405px; }
+}
+@keyframes ub-pulp-snow-far {
+  to { -webkit-mask-position: -46px 240px, -23px 270px; mask-position: -46px 240px, -23px 270px; }
+}
+
+/* Academia: kanji de "entrenamiento", pincelada roja y humo */
+.ub-pulp-kanji {
+  top: 6%;
+  right: 3%;
+  writing-mode: vertical-rl;
+  font-family: var(--font-notojp), serif;
+  font-weight: 900;
+  font-size: clamp(7rem, 16vw, 15rem);
+  line-height: 1;
+  user-select: none;
+}
+/* Cada carácter es un tubo de neón: encendido brilla en rojo con resplandor;
+   apagado deja ver el tubo frío y tenue. Parpadean con cortes secos (steps). */
+.ub-pulp-tube {
+  /* inline: en escritura vertical, un bloque abriría otra columna */
+  color: var(--p-red);
+  opacity: var(--p-tube-on);
+  text-shadow: 0 0 8px var(--p-neon-glow), 0 0 28px var(--p-neon-glow), 0 0 70px var(--p-neon-glow);
+  animation: ub-pulp-tube 6.5s steps(1) infinite;
+}
+.ub-pulp-tube.is-faulty {
+  /* El tubo dañado: falla más seguido y a veces se queda zumbando a media luz */
+  animation: ub-pulp-tube-faulty 4.3s steps(1) infinite;
+  animation-delay: -1.2s;
+}
+@keyframes ub-pulp-tube {
+  0%, 100% { opacity: var(--p-tube-on); text-shadow: 0 0 8px var(--p-neon-glow), 0 0 28px var(--p-neon-glow), 0 0 70px var(--p-neon-glow); }
+  52% { opacity: var(--p-tube-off); text-shadow: none; }
+  53% { opacity: var(--p-tube-on); text-shadow: 0 0 8px var(--p-neon-glow), 0 0 28px var(--p-neon-glow), 0 0 70px var(--p-neon-glow); }
+  55% { opacity: var(--p-tube-off); text-shadow: none; }
+  56.5% { opacity: var(--p-tube-on); text-shadow: 0 0 8px var(--p-neon-glow), 0 0 28px var(--p-neon-glow), 0 0 70px var(--p-neon-glow); }
+}
+@keyframes ub-pulp-tube-faulty {
+  0%, 100% { opacity: var(--p-tube-on); text-shadow: 0 0 8px var(--p-neon-glow), 0 0 28px var(--p-neon-glow), 0 0 70px var(--p-neon-glow); }
+  8% { opacity: var(--p-tube-off); text-shadow: none; }
+  9.5% { opacity: var(--p-tube-on); text-shadow: 0 0 8px var(--p-neon-glow), 0 0 28px var(--p-neon-glow); }
+  11% { opacity: var(--p-tube-off); text-shadow: none; }
+  /* Se queda apagado un rato… */
+  30% { opacity: var(--p-tube-dim); text-shadow: 0 0 6px var(--p-neon-glow); }
+  31% { opacity: var(--p-tube-off); text-shadow: none; }
+  32.5% { opacity: var(--p-tube-dim); text-shadow: 0 0 6px var(--p-neon-glow); }
+  /* …y vuelve de golpe */
+  34% { opacity: var(--p-tube-on); text-shadow: 0 0 8px var(--p-neon-glow), 0 0 28px var(--p-neon-glow), 0 0 70px var(--p-neon-glow); }
+  71% { opacity: var(--p-tube-off); text-shadow: none; }
+  71.8% { opacity: var(--p-tube-on); text-shadow: 0 0 8px var(--p-neon-glow), 0 0 28px var(--p-neon-glow), 0 0 70px var(--p-neon-glow); }
+}
+.ub-pulp-brush {
+  left: 3%;
+  bottom: 6%;
+  width: min(46vw, 560px);
+  height: 60px;
+  fill: none;
+  stroke: var(--p-red);
+  stroke-width: 12;
+  stroke-linecap: round;
+  stroke-dasharray: 700;
+  stroke-dashoffset: 700;
+  opacity: 0.55;
+  animation: ub-pulp-brush 10s cubic-bezier(0.6, 0, 0.2, 1) infinite;
+}
+@keyframes ub-pulp-brush {
+  0% { stroke-dashoffset: 700; opacity: 0.55; }
+  14% { stroke-dashoffset: 0; }
+  86% { stroke-dashoffset: 0; opacity: 0.55; }
+  100% { stroke-dashoffset: 0; opacity: 0; }
+}
+.ub-pulp-smoke {
+  inset: -10%;
+  background:
+    radial-gradient(ellipse 30% 22% at 20% 70%, var(--p-ink), transparent 70%),
+    radial-gradient(ellipse 26% 18% at 78% 35%, var(--p-ink), transparent 70%);
+  opacity: 0.05;
+  filter: blur(20px);
+  animation: ub-pulp-smoke 22s ease-in-out infinite alternate;
+}
+@keyframes ub-pulp-smoke {
+  from { transform: translate(-3%, 2%) scale(1); }
+  to { transform: translate(4%, -4%) scale(1.15); }
+}
+
+/* Carta: letrero de neón vertical que parpadea */
+.ub-pulp-neon {
+  display: none;
+  top: 50%;
+  right: 1.5rem;
+  translate: 0 -50%;
+  writing-mode: vertical-rl;
+  font-family: var(--font-anton), Impact, sans-serif;
+  font-size: clamp(1.6rem, 2.6vw, 2.6rem);
+  letter-spacing: 0.18em;
+  color: var(--p-red);
+  text-shadow: 0 0 6px var(--p-neon-glow), 0 0 22px var(--p-neon-glow), 0 0 48px var(--p-neon-glow);
+  animation: ub-pulp-neon 7s steps(1) infinite;
+  user-select: none;
+}
+@media (min-width: 1240px) {
+  .ub-pulp-neon { display: block; }
+}
+@keyframes ub-pulp-neon {
+  0%, 100% { opacity: 0.95; }
+  41% { opacity: 0.3; }
+  42% { opacity: 0.95; }
+  43% { opacity: 0.2; }
+  45% { opacity: 0.95; }
+  78% { opacity: 0.6; }
+  79% { opacity: 0.95; }
+}
+
+/* ---------------------------------------------------- TAJO DE KATANA
+   Una hoja larga cruza (0.8 s), deja una salpicadura de tinta roja que se
+   esparce y unos chorros que escurren hacia abajo; todo se desvanece a los
+   4.4 s (CUT_LIFE_MS en UniverseBackdrop.tsx). Componente: InkSplash.tsx. */
+.ub-pulp-cut {
+  position: absolute;
+  width: 0;
+  height: 0;
+}
+.ub-pulp-slash { position: absolute; left: 0; top: 0; }
+.ub-pulp-blade {
+  position: absolute;
+  left: -220px;
+  top: -1.5px;
+  width: 600px;
+  height: 3px;
+  border-radius: 3px;
+  background: linear-gradient(90deg, transparent, var(--p-blade) 22%, var(--p-blade) 80%, transparent);
+  box-shadow: 0 0 14px var(--p-blade), 0 0 30px var(--p-neon-glow);
+  transform-origin: left center;
+  animation: ub-pulp-blade 0.8s cubic-bezier(0.9, 0, 0.1, 1) both;
+}
+@keyframes ub-pulp-blade {
+  0% { scale: 0 1; opacity: 1; }
+  35% { scale: 1 1; opacity: 1; }
+  100% { scale: 1 0.4; opacity: 0; translate: 70px 0; }
+}
+.ub-pulp-ink {
+  position: absolute;
+  left: -160px;
+  top: -90px;
+  fill: var(--p-red);
+  overflow: visible;
+  transform-origin: 160px 90px;
+  animation: ub-pulp-ink 4.4s cubic-bezier(0.2, 0.9, 0.3, 1) both;
+}
+@keyframes ub-pulp-ink {
+  0%, 7% { scale: 0.05 0.3; opacity: 0; }
+  12% { scale: 1.1 1; opacity: 0.95; }
+  18% { scale: 1; }
+  75% { opacity: 0.9; }
+  100% { opacity: 0; }
+}
+.ub-pulp-drips {
+  position: absolute;
+  left: -40px;
+  top: -6px;
+  fill: var(--p-red);
+  overflow: visible;
+  animation: ub-pulp-drips-fade 4.4s linear both;
+}
+.ub-pulp-drips rect {
+  transform-box: fill-box;
+  transform-origin: top;
+  animation: ub-pulp-drip 2.2s cubic-bezier(0.3, 0.6, 0.4, 1) both;
+}
+@keyframes ub-pulp-drip { from { scale: 1 0; } to { scale: 1 1; } }
+@keyframes ub-pulp-drips-fade { 0%, 75% { opacity: 0.9; } 100% { opacity: 0; } }
+
+/* Intro: el tajo grande cae sobre la línea roja del corte (que nace en
+   left -5%, top 59% y sube 11°): este punto queda justo sobre ella. */
+.ip-splash {
+  left: 30%;
+  top: calc(59% - 6.8vw);
+  z-index: 5;
+  scale: 1.8;
+}
+.ip-splash .ub-pulp-blade { width: 1000px; left: -380px; }
+
+/* ---------------------------------------------------------- HERO */
+.pulp-hero .ub-pulp-rain,
+.pulp-hero .ub-pulp-flash { position: absolute; z-index: 1; pointer-events: none; }
+
+/* Parallax con el scroll */
+@supports (animation-timeline: view()) {
+  .ub-pulp-city,
+  .ub-pulp-kanji {
+    animation: ub-pulp-parallax linear both;
+    animation-timeline: view();
+  }
+  .ub-pulp-moon {
+    animation: ub-pulp-parallax-moon linear both;
+    animation-timeline: view();
+  }
+  @keyframes ub-pulp-parallax { from { translate: 0 30px; } to { translate: 0 -30px; } }
+  @keyframes ub-pulp-parallax-moon { from { translate: 0 60px; } to { translate: 0 -60px; } }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ub-pulp *, .pulp-hero .ub-pulp-rain, .pulp-hero .ub-pulp-flash { animation: none !important; }
+  .ub-pulp-flash, .ub-pulp-streak, .ub-pulp-cut { display: none; }
+  .ub-pulp-brush { stroke-dashoffset: 0; }
+}
+
+/* ---------------------------------------------------- HERO · PARED DE TAJOS
+   Reemplaza la franja roja: marcas de espada en la pared. Cada tajo rojo
+   aparece de golpe en su dirección (como un corte); los rayones de tinta
+   son textura fija. Mientras corre la intro, esperan (.is-waiting). */
+.pulp-wall {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  pointer-events: none;
+}
+.pulp-gash {
+  fill: var(--p-red);
+  transform-box: fill-box;
+  transform-origin: left center;
+  animation: pulp-gash 0.32s cubic-bezier(0.9, 0, 0.1, 1) both;
+}
+.pulp-gash-core { fill: color-mix(in srgb, var(--p-red) 45%, #000); }
+.pulp-scratch { fill: var(--p-ink); }
+.pulp-wall.is-waiting .pulp-gash { animation-play-state: paused; }
+@keyframes pulp-gash {
+  0% { scale: 0 0.3; opacity: 0; }
+  1% { opacity: 1; }
+  70% { scale: 1.03 1.15; }
+  100% { scale: 1 1; opacity: 1; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .pulp-gash { animation: none; }
+}

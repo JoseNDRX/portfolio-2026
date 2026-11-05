@@ -74,6 +74,8 @@ export const UNIVERSES: Record<UniverseId, Universe> = {
       en: { home: 'Trailer', about: 'Ch. 1', skills: 'Ch. 2', experience: 'Ch. 3', projects: 'Ch. 4', courses: 'Ch. 5', contact: 'Ch. 6' },
     },
     hasIntro: true,
+    // Más larga que el resto para que el tajo y la salpicadura de tinta alcancen a verse.
+    introMs: 4600,
   },
   bas: {
     id: 'bas',

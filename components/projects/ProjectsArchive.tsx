@@ -38,6 +38,15 @@ const noopSubscribe = () => () => {};
 const DRIFT = { x: 26, y: 12 };
 const IDLE_DELAY_MS = 1800;
 
+/* Modo vórtice (universo Grimorio): las tarjetas giran en espiral hacia el
+   portal del fondo, encogiéndose hasta desaparecer, y vuelven a entrar por fuera.
+   - period: segundos que tarda una tarjeta en ir del borde al portal.
+   - turn: grados que gira la espiral en ese recorrido.
+   - cy: centro del portal respecto al centro del escenario (fracción del alto);
+     debe coincidir con .ub-gri-portal-wrap (top: 54%) en universe-grimorio.css.
+   - reach: radio de entrada (fracción del ancho / alto de la pantalla). */
+const VORTEX = { period: 26, turn: 220, cy: 0.04, reach: 0.64 };
+
 const copy = {
   es: { hint: 'Arrastra para explorar · Clic para abrir', open: 'Abrir proyecto' },
   en: { hint: 'Drag to explore · Click to open', open: 'Open project' },
@@ -127,14 +136,82 @@ function ArchiveTile({ tile, project, image, category, total, panX, panY, boardW
   );
 }
 
+type VortexProps = Omit<TileProps, 'panX' | 'panY' | 'boardW' | 'boardH' | 'onFocusTile'> & {
+  /** Avance de la succión (1 = del borde al portal). */
+  flow: MotionValue<number>;
+  /** Giro extra del remolino en grados (arrastre horizontal). */
+  spin: MotionValue<number>;
+  phase: number;
+  angle: number;
+};
+
+/** Posición de una tarjeta en la espiral para un avance t (0 = borde, 1 = dentro del portal). */
+function vortexAt(t: number, angle: number) {
+  const e = 1 - t;
+  const a = ((angle + t * VORTEX.turn) * Math.PI) / 180;
+  const rf = Math.pow(e, 1.15) * VORTEX.reach;
+  const w = window.innerWidth;
+  const h = window.innerHeight;
+  return {
+    x: Math.cos(a) * w * rf,
+    y: Math.sin(a) * h * rf + h * VORTEX.cy,
+    // Tamaño original durante el primer tramo; se encoge solo al acercarse al portal.
+    scale: 0.04 + 0.96 * Math.pow(1 - Math.max(0, (t - 0.3) / 0.7), 1.4),
+    // Aparece al entrar por el borde y se desvanece al cruzar el portal.
+    opacity: t < 0.06 ? t / 0.06 : t > 0.78 ? Math.max(0, (1 - t) / 0.22) : 1,
+  };
+}
+
+const frac = (v: number) => v - Math.floor(v);
+
+function VortexTile({ tile, project, image, category, total, tileW, openLabel, onOpen, wasDragged, flow, spin, phase, angle }: VortexProps) {
+  const t = useTransform(flow, (f) => frac(phase + f));
+  const x = useTransform([t, spin], ([tt, sp]: number[]) => vortexAt(tt, angle + sp).x);
+  const y = useTransform([t, spin], ([tt, sp]: number[]) => vortexAt(tt, angle + sp).y);
+  const scale = useTransform(t, (tt) => vortexAt(tt, 0).scale);
+  const opacity = useTransform(t, (tt) => vortexAt(tt, 0).opacity);
+  // Las más cercanas (grandes) quedan por encima de las que ya caen al portal.
+  const zIndex = useTransform(t, (tt) => Math.round((1 - tt) * 30));
+  const num = String(tile.projectIndex + 1).padStart(2, '0');
+  const width = Math.round(tileW * tile.depth);
+
+  return (
+    <motion.button
+      type="button"
+      className="pa-tile pa-tile-vortex"
+      style={{ x, y, scale, opacity, zIndex, width }}
+      tabIndex={tile.primary ? 0 : -1}
+      aria-hidden={tile.primary ? undefined : true}
+      onMouseDown={tile.primary ? undefined : (e) => e.preventDefault()}
+      aria-label={`${openLabel}: ${project.title} (${num} / ${String(total).padStart(2, '0')})`}
+      onClick={() => {
+        if (!wasDragged()) onOpen(tile.projectIndex);
+      }}
+    >
+      <span className="pa-media">
+        <Image src={image} alt="" fill sizes={`${width}px`} draggable={false} />
+        <span className="pa-num">{num}</span>
+      </span>
+      <span className="pa-caption">
+        <span className="pa-meta">
+          {category}{project.year ? ` · ${project.year}` : ''}
+        </span>
+        <span className="pa-title">{project.title}</span>
+      </span>
+    </motion.button>
+  );
+}
+
 type Props = {
   projects: readonly Project[];
   header: React.ReactNode;
   /** Fondo temático del universo, detrás de las tarjetas. */
   backdrop?: React.ReactNode;
+  /** Las tarjetas son atraídas en espiral hacia el centro (portal de Grimorio). */
+  vortex?: boolean;
 };
 
-export default function ProjectsArchive({ projects, header, backdrop }: Props) {
+export default function ProjectsArchive({ projects, header, backdrop, vortex = false }: Props) {
   const { lang } = useI18n();
   const narrow = useNarrow();
   // Las tarjetas dependen del scroll y del ancho de pantalla, que no existen en
@@ -183,6 +260,21 @@ export default function ProjectsArchive({ projects, header, backdrop }: Props) {
     }
     return out;
   }, [L, total]);
+
+  // Vórtice: cada proyecto aparece al menos una vez, repartidos en fase y ángulo.
+  const vortexTiles = useMemo(() => {
+    const n = Math.max(total, narrow ? 10 : 14);
+    return Array.from({ length: n }, (_, i) => ({
+      tile: { key: i, projectIndex: i % total, baseX: 0, baseY: 0, depth: DEPTHS[Math.floor(seeded(i + 7) * DEPTHS.length)], primary: i < total } as Tile,
+      phase: i / n,
+      angle: (i * 137.5) % 360, // ángulo áureo: reparto uniforme alrededor del portal
+    }));
+  }, [total, narrow]);
+  // Avance de la succión: movimiento propio + arrastre vertical. El scroll de la
+  // página NO interviene (aceleraría el remolino); por eso la pista mide una sola pantalla.
+  const flowBase = useMotionValue(0);
+  const flow = useTransform([flowBase, dragY], ([f, d]: number[]) => f - d / 700);
+  const spin = useTransform(dragX, (d) => d * 0.12);
 
   // ---- Arrastre con inercia ----
   const drag = useRef({ active: false, moved: 0, lastX: 0, lastY: 0, lastT: 0, vx: 0, vy: 0, raf: 0 });
@@ -259,7 +351,7 @@ export default function ProjectsArchive({ projects, header, backdrop }: Props) {
   // Mientras nadie interactúa, el archivo deriva solo. Se detiene al pasar el
   // mouse, arrastrar, usar el teclado o abrir un proyecto, y vuelve a arrancar
   // (con aceleración suave) un momento después.
-  const idle = useRef({ hovering: false, lastInteraction: 0, speed: 0, inView: false });
+  const idle = useRef({ hovering: false, focused: false, lastInteraction: 0, speed: 0, inView: false });
   const selectedRef = useRef<number | null>(null);
   useEffect(() => {
     selectedRef.current = selected;
@@ -284,13 +376,16 @@ export default function ProjectsArchive({ projects, header, backdrop }: Props) {
       prev = now;
       const s = idle.current;
       const busy =
-        s.hovering || drag.current.active || selectedRef.current !== null || now - s.lastInteraction < IDLE_DELAY_MS;
+        // En el vórtice, una tarjeta con foco de teclado no debe ser tragada por el portal.
+        s.hovering || (vortex && s.focused) || drag.current.active || selectedRef.current !== null || now - s.lastInteraction < IDLE_DELAY_MS;
       // Acelera / frena con suavidad hacia la velocidad objetivo.
       const target = busy || !s.inView || document.hidden ? 0 : 1;
       // Arranca despacio (≈1 s) y frena rápido (≈0.3 s) al detectar interacción.
       s.speed += (target - s.speed) * Math.min(1, dt * (target ? 2.2 : 9));
       if (!target && s.speed < 0.02) s.speed = 0;
-      if (s.speed > 0.001) {
+      if (s.speed > 0.001 && vortex) {
+        flowBase.set(flowBase.get() + (s.speed * dt) / VORTEX.period);
+      } else if (s.speed > 0.001) {
         dragX.set(dragX.get() - DRIFT.x * s.speed * dt);
         dragY.set(dragY.get() - DRIFT.y * s.speed * dt);
       }
@@ -301,7 +396,7 @@ export default function ProjectsArchive({ projects, header, backdrop }: Props) {
       cancelAnimationFrame(raf);
       io.disconnect();
     };
-  }, [dragX, dragY]);
+  }, [dragX, dragY, flowBase, vortex]);
 
   // Teclado: al enfocar una tarjeta, el archivo se mueve para centrarla.
   const focusTile = (x: number, y: number, depth: number) => {
@@ -314,7 +409,7 @@ export default function ProjectsArchive({ projects, header, backdrop }: Props) {
   const c = copy[lang];
 
   return (
-    <div ref={trackRef} className="pa-track" style={{ position: 'relative' }}>
+    <div ref={trackRef} className={`pa-track${vortex ? ' pa-track-vortex' : ''}`} style={{ position: 'relative' }}>
       <div
         ref={stageRef}
         className="pa-stage"
@@ -322,7 +417,18 @@ export default function ProjectsArchive({ projects, header, backdrop }: Props) {
           markInteraction();
           onPointerDown(e);
         }}
-        onPointerMove={onPointerMove}
+        onPointerMove={(e) => {
+          if (e.pointerType === 'mouse') {
+            // Al hacer scroll el navegador emite "movimientos" sin desplazamiento real
+            // (el contenido pasa bajo un cursor quieto): esos solo pueden quitar la pausa, nunca ponerla.
+            const moved = e.movementX !== 0 || e.movementY !== 0;
+            // En el vórtice solo se pausa con el cursor sobre una tarjeta; en el archivo, sobre todo el escenario.
+            const over = vortex ? !!(e.target as Element).closest('.pa-tile') : true;
+            if (!over) idle.current.hovering = false;
+            else if (moved) idle.current.hovering = true;
+          }
+          onPointerMove(e);
+        }}
         onPointerUp={(e) => {
           markInteraction();
           onPointerUp();
@@ -333,21 +439,45 @@ export default function ProjectsArchive({ projects, header, backdrop }: Props) {
           markInteraction();
           onPointerUp();
         }}
-        onPointerEnter={(e) => {
-          if (e.pointerType === 'mouse') idle.current.hovering = true;
-        }}
         onPointerLeave={(e) => {
           if (e.pointerType === 'mouse') {
             idle.current.hovering = false;
             markInteraction();
           }
         }}
-        onFocusCapture={markInteraction}
-        onWheelCapture={markInteraction}
+        onFocusCapture={() => {
+          markInteraction();
+          idle.current.focused = true;
+        }}
+        onBlurCapture={() => {
+          idle.current.focused = false;
+        }}
+        // Solo la rueda horizontal mueve el archivo; la vertical es el scroll de la página y no pausa.
+        onWheelCapture={(e) => {
+          if (e.shiftKey || Math.abs(e.deltaX) > Math.abs(e.deltaY)) markInteraction();
+        }}
       >
         {backdrop}
         <motion.div className="pa-world" style={{ rotateX: tiltX, rotateY: tiltY }}>
-          {mounted && tiles.map((tile) => (
+          {mounted && vortex && vortexTiles.map(({ tile, phase, angle }) => (
+            <VortexTile
+              key={tile.key}
+              tile={tile}
+              project={projects[tile.projectIndex]}
+              image={media[tile.projectIndex].image}
+              category={media[tile.projectIndex].category}
+              total={total}
+              tileW={L.tileW}
+              openLabel={c.open}
+              onOpen={setSelected}
+              wasDragged={() => drag.current.moved > 6}
+              flow={flow}
+              spin={spin}
+              phase={phase}
+              angle={angle}
+            />
+          ))}
+          {mounted && !vortex && tiles.map((tile) => (
             <ArchiveTile
               key={tile.key}
               tile={tile}

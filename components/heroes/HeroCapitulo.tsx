@@ -5,6 +5,7 @@ import ScrollCue from '@/components/universe/ScrollCue';
 import { useUniverse } from '@/lib/universe-context';
 import { universeCopy } from '@/lib/universe-copy';
 import type { SectionKey } from '@/lib/universes';
+import { seededRand } from '@/components/universe/InkSplash';
 
 const chapters: { key: SectionKey; href: string }[] = [
   { key: 'skills', href: '#skills' },
@@ -13,9 +14,40 @@ const chapters: { key: SectionKey; href: string }[] = [
   { key: 'contact', href: '#contact' },
 ];
 
+/** Tajo afilado: delgado en las puntas y ancho al centro, trazado en horizontal desde x0. */
+function gash(len: number, w: number, x0 = 0) {
+  const a = x0, b = x0 + len;
+  return `M${a} 0Q${(a + len * 0.42).toFixed(1)} ${(-w).toFixed(1)} ${b} 0Q${(a + len * 0.58).toFixed(1)} ${w.toFixed(1)} ${a} 0Z`;
+}
+
+// Pared: los tajos rojos se concentran en una diagonal (donde antes iba la franja),
+// cruzándose a veces; los rayones finos de tinta se reparten por toda la pared.
+const rand = seededRand(1973);
+const GASHES = Array.from({ length: 24 }, (_, i) => {
+  const t = rand();
+  const cross = rand() < 0.28;
+  return {
+    x: Math.round(t * 1700 - 120),
+    y: Math.round(650 - t * 430 + (rand() - 0.5) * 300),
+    rot: cross ? Math.round(14 + rand() * 30) : -Math.round(6 + rand() * 26),
+    len: Math.round(160 + rand() * 380),
+    w: +(4 + rand() * 12).toFixed(1),
+    op: +(0.6 + rand() * 0.35).toFixed(2),
+    delay: +(0.1 + i * 0.07 + rand() * 0.1).toFixed(2),
+  };
+});
+const SCRATCHES = Array.from({ length: 22 }, () => ({
+  x: Math.round(rand() * 1600),
+  y: Math.round(rand() * 900),
+  rot: Math.round((rand() - 0.5) * 120),
+  len: Math.round(50 + rand() * 190),
+  w: +(0.8 + rand() * 1.6).toFixed(1),
+  op: +(0.14 + rand() * 0.16).toFixed(2),
+}));
+
 export default function HeroCapitulo() {
   const { lang, t } = useI18n();
-  const { sectionLabel } = useUniverse();
+  const { sectionLabel, intro } = useUniverse();
   const c = universeCopy[lang].pulp;
   const words = t.hero.name.split(' ');
 
@@ -27,7 +59,26 @@ export default function HeroCapitulo() {
         </filter>
         <rect width="100%" height="100%" filter="url(#pulp-noise)" />
       </svg>
-      <div aria-hidden="true" style={{ position: 'absolute', left: '-10%', right: '-10%', top: '52%', height: 120, background: 'var(--p-red)', transform: 'rotate(-11deg)', opacity: 0.9, zIndex: 1 }} />
+      {/* Lluvia y relámpago, como en los fondos de las secciones (app/universe-pulp.css) */}
+      <div className="ub-pulp-rain" aria-hidden="true" style={{ inset: 0 }} />
+      <div className="ub-pulp-rain is-near" aria-hidden="true" style={{ inset: 0 }} />
+      <div className="ub-pulp-flash" aria-hidden="true" style={{ inset: 0 }} />
+      {/* Pared marcada por tajos de espada (antes era una franja roja) */}
+      <svg className={`pulp-wall${intro === 'pulp' ? ' is-waiting' : ''}`} viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+        {SCRATCHES.map((s, i) => (
+          <g key={`s${i}`} transform={`translate(${s.x} ${s.y}) rotate(${s.rot})`}>
+            <path className="pulp-scratch" d={gash(s.len, s.w)} style={{ opacity: s.op }} />
+          </g>
+        ))}
+        {GASHES.map((g, i) => (
+          <g key={i} transform={`translate(${g.x} ${g.y}) rotate(${g.rot})`}>
+            <g className="pulp-gash" style={{ animationDelay: `${g.delay}s` }}>
+              <path d={gash(g.len, g.w)} style={{ opacity: g.op }} />
+              <path className="pulp-gash-core" d={gash(g.len * 0.86, g.w * 0.32, g.len * 0.07)} />
+            </g>
+          </g>
+        ))}
+      </svg>
       <div className="u-wrap">
         <div className="u-main" style={{ flexBasis: 640 }}>
           <p className="pulp-name" style={{ fontSize: '1.4rem', letterSpacing: '0.4em', color: 'var(--p-red)' }}>{c.chapter}</p>

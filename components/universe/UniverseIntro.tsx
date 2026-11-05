@@ -7,6 +7,10 @@ import { useUniverse } from '@/lib/universe-context';
 import { universeCopy } from '@/lib/universe-copy';
 import { WALL_PATH } from '@/components/heroes/HeroBastion';
 import MagicCircle from './MagicCircle';
+import InkSplash, { makeSplash, seededRand } from './InkSplash';
+
+/** La salpicadura de la intro es siempre la misma (generador fijo). */
+const INTRO_SPLASH = makeSplash(seededRand(1977));
 
 function Letterbox() {
   return (
@@ -113,6 +117,8 @@ export default function UniverseIntro() {
           <div className="ip-c2 pulp-name" style={{ fontSize: 'clamp(3rem, 9vw, 6rem)', textAlign: 'center' }}>{c.introTitle}</div>
         </div>
         <div className="ip-line" style={{ position: 'absolute', left: '-5%', top: '59%', width: '115%', height: 4, background: '#e5383b', boxShadow: '0 0 18px #e5383b', zIndex: 4 }} />
+        {/* El tajo de katana corta la pantalla y salpica tinta justo antes de que se abra */}
+        <InkSplash splash={INTRO_SPLASH} rot={-11} delay={1.9} className="ip-splash" />
         {skip}
       </div>
     );

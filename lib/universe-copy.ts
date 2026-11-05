@@ -18,7 +18,7 @@ export const universeCopy = {
       caption: 'Mientras tanto, en Puebla…',
       bubble: '¡Hola! Llevo 25+ años convirtiendo procesos industriales en software: LIMS, CRM, microservicios y desarrollo asistido por IA.',
       cta: '¡Ver misiones!',
-      contact: 'Llamar al héroe',
+      contact: 'Llamar',
       burst: '¡ZAS!',
       card: 'Ficha de héroe',
       stats: ['Años en acción', 'Misiones', 'Armas tech'],
@@ -49,7 +49,7 @@ export const universeCopy = {
       credits: 'Ilustraciones: Pixabay (generadas con IA) · Partenón, columnata y mármol: Wikimedia Commons (dominio público / CC0)',
       introMusa: 'Canta, oh Musa, la historia de un desarrollador…',
       introTitle: 'Olimpo',
-      introSub: 'Una tragedia en cuatro edades',
+      introSub: 'Una odisea en tres travesías',
     },
     gri: {
       kicker: 'Grimorio de',
@@ -131,7 +131,7 @@ export const universeCopy = {
       credits: 'Illustrations: Pixabay (AI-generated) · Parthenon, colonnade and marble: Wikimedia Commons (public domain / CC0)',
       introMusa: 'Sing, O Muse, the story of a developer…',
       introTitle: 'Olympus',
-      introSub: 'A tragedy in four ages',
+      introSub: 'An odyssey in three voyages',
     },
     gri: {
       kicker: 'Grimoire of',

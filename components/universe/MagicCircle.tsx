@@ -25,8 +25,9 @@ function polar(r: number, deg: number) {
   return [C + r * Math.cos(a), C + r * Math.sin(a)] as const;
 }
 
-/** Runas del futhark antiguo, trazadas en una caja de 6 × 10 (y hacia abajo). */
-const RUNES = [
+/** Runas del futhark antiguo, trazadas en una caja de 6 × 10 (y hacia abajo).
+    También se usan en los pergaminos de los fondos (UniverseBackdrop). */
+export const RUNES = [
   'M1 0L1 10M1 2L5 0M1 5L5 3', // fehu
   'M1 10L1 0L5 4L5 10', // uruz
   'M1 0L1 10M1 3L4 5L1 7', // thurisaz
