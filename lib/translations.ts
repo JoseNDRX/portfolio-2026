@@ -3,6 +3,7 @@ export type Lang = 'es' | 'en';
 export const translations = {
   es: {
     nav: {
+      home: 'Inicio',
       about: 'Sobre mí',
       skills: 'Habilidades',
       experience: 'Experiencia',
@@ -177,6 +178,7 @@ export const translations = {
       title: 'Cursos y Certificaciones',
       subtitle: 'Aprendizaje continuo en tecnologías modernas',
       items: [
+        { name: 'C# y ASP.NET', institution: '', year: '2026' },
         { name: 'Angular Pro', institution: 'Fernando Herrera', year: '2025' },
         { name: 'n8n – Automatización Avanzada', institution: 'Udemy', year: '2025' },
         { name: 'Docker para Desarrolladores', institution: 'Udemy', year: '2025' },
@@ -210,6 +212,7 @@ export const translations = {
 
   en: {
     nav: {
+      home: 'Home',
       about: 'About',
       skills: 'Skills',
       experience: 'Experience',
@@ -384,6 +387,7 @@ export const translations = {
       title: 'Courses & Certifications',
       subtitle: 'Continuous learning in modern technologies',
       items: [
+        { name: 'C# & ASP.NET', institution: '', year: '2026' },
         { name: 'Angular Pro', institution: 'Fernando Herrera', year: '2025' },
         { name: 'n8n – Advanced Automation', institution: 'Udemy', year: '2025' },
         { name: 'Docker for Developers', institution: 'Udemy', year: '2025' },

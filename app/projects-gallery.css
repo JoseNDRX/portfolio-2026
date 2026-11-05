@@ -1,0 +1,158 @@
+/* =====================================================================
+   PROYECTOS · Archivo inmersivo 3D
+   La sección es alta (pg-track); dentro, un escenario fijo (pg-stage) con
+   perspectiva donde las tarjetas avanzan en Z según el scroll.
+   ===================================================================== */
+
+:root {
+  --pg-spread: min(24vw, 330px);
+}
+
+.pg-track {
+  position: relative;
+}
+
+.pg-stage {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow: hidden;
+  perspective: 1100px;
+  perspective-origin: 50% 45%;
+}
+
+.pg-world {
+  position: absolute;
+  inset: 0;
+  transform-style: preserve-3d;
+}
+
+.pg-card {
+  position: absolute;
+  width: min(420px, 86vw);
+  will-change: transform, opacity;
+}
+
+.pg-header {
+  position: absolute;
+  top: 5.5rem;
+  left: 0;
+  right: 0;
+  z-index: 5;
+  padding: 0 1.5rem;
+  pointer-events: none;
+}
+
+.pg-floor {
+  position: absolute;
+  left: -50%;
+  right: -50%;
+  bottom: -12%;
+  height: 75%;
+  transform: rotateX(78deg);
+  transform-origin: bottom;
+  background-image:
+    linear-gradient(var(--border) 1px, transparent 1px),
+    linear-gradient(90deg, var(--border) 1px, transparent 1px);
+  background-size: 80px 80px;
+  opacity: 0.35;
+  -webkit-mask-image: linear-gradient(to top, #000 10%, transparent 85%);
+  mask-image: linear-gradient(to top, #000 10%, transparent 85%);
+  pointer-events: none;
+}
+
+.pg-hud {
+  position: absolute;
+  left: 1.5rem;
+  bottom: 1.75rem;
+  z-index: 5;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  pointer-events: none;
+}
+
+.pg-hud-count {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 800;
+  line-height: 1;
+  color: var(--accent);
+}
+
+.pg-hud-title {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  max-width: 60vw;
+}
+
+.pg-rail {
+  position: absolute;
+  right: 1.5rem;
+  top: 30%;
+  bottom: 30%;
+  width: 2px;
+  background: var(--border);
+  z-index: 5;
+}
+
+.pg-rail-fill {
+  position: absolute;
+  inset: 0;
+  background: var(--accent);
+  transform-origin: top;
+}
+
+/* Portada de cada expediente */
+.pg-cover {
+  position: relative;
+  height: 120px;
+  margin: -1.5rem -1.5rem 0;
+  padding: 1rem 1.5rem;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1rem;
+  overflow: hidden;
+  background: linear-gradient(135deg, var(--accent-light), transparent 70%), var(--bg-secondary);
+  border-bottom: 1px solid var(--border);
+}
+
+.pg-cover-num {
+  font-family: var(--font-display);
+  font-size: 5rem;
+  font-weight: 800;
+  line-height: 0.8;
+  color: transparent;
+  -webkit-text-stroke: 1.5px var(--accent);
+}
+
+.pg-cover-tags {
+  font-size: 0.7rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  text-align: right;
+}
+
+/* Cuadrícula (cuando el sistema pide reducir movimiento) */
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+}
+
+@media (max-width: 900px) {
+  .projects-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 760px) {
+  :root { --pg-spread: 5vw; }
+  .pg-header { top: 4.5rem; }
+  .pg-header h2 { font-size: 1.4rem !important; }
+  .pg-rail { display: none; }
+}
+
+@media (max-width: 550px) {
+  .projects-grid { grid-template-columns: 1fr; }
+}

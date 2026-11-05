@@ -2,30 +2,38 @@
 
 import { useTheme } from 'next-themes';
 import { useI18n } from '@/lib/i18n-context';
-import { Moon, Sun, Menu, X, Code2 } from 'lucide-react';
-import { useState, useEffect } from 'react';
+import { Moon, Sun, Menu, X, Code2, Clapperboard } from 'lucide-react';
+import { useUniverse } from '@/lib/universe-context';
+import { universeCopy } from '@/lib/universe-copy';
+import { UNIVERSES } from '@/lib/universes';
+import { useState, useEffect, useSyncExternalStore } from 'react';
+
+const noopSubscribe = () => () => {};
 
 export default function Navbar() {
   const { theme, setTheme } = useTheme();
-  const { lang, setLang, t } = useI18n();
+  const { lang, setLang } = useI18n();
+  const { universe, openBoard, sectionLabel } = useUniverse();
+  const boardCopy = universeCopy[lang].board;
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
-  const [mounted, setMounted] = useState(false);
+  // true en el navegador, false en el servidor (evita desajustes de hidratación).
+  const mounted = useSyncExternalStore(noopSubscribe, () => true, () => false);
 
   useEffect(() => {
-    setMounted(true);
     const handler = () => setScrolled(window.scrollY > 40);
     window.addEventListener('scroll', handler);
     return () => window.removeEventListener('scroll', handler);
   }, []);
 
   const navLinks = [
-    { href: '#about', label: t.nav.about },
-    { href: '#skills', label: t.nav.skills },
-    { href: '#experience', label: t.nav.experience },
-    { href: '#projects', label: t.nav.projects },
-    { href: '#courses', label: t.nav.courses },
-    { href: '#contact', label: t.nav.contact },
+    { href: '#hero', label: sectionLabel('home') },
+    { href: '#about', label: sectionLabel('about') },
+    { href: '#skills', label: sectionLabel('skills') },
+    { href: '#experience', label: sectionLabel('experience') },
+    { href: '#projects', label: sectionLabel('projects') },
+    { href: '#courses', label: sectionLabel('courses') },
+    { href: '#contact', label: sectionLabel('contact') },
   ];
 
   return (
@@ -131,14 +139,46 @@ export default function Navbar() {
             {lang === 'es' ? 'EN' : 'ES'}
           </button>
 
-          {/* Theme toggle */}
+          {/* Selector de universo */}
+          <button
+            onClick={openBoard}
+            aria-label={`${boardCopy.openLabel}: ${UNIVERSES[universe].name[lang]}`}
+            style={{
+              height: 38,
+              padding: '0 0.85rem',
+              borderRadius: 'min(var(--radius), 10px)',
+              border: '1.5px solid var(--accent)',
+              background: 'var(--accent)',
+              // En Profesional el azul es claro: texto oscuro para que se lea.
+              color: universe === 'pro' ? '#04121f' : 'var(--on-accent)',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '0.45rem',
+              fontWeight: 700,
+              fontSize: '0.8rem',
+              cursor: 'pointer',
+              fontFamily: 'var(--font-inter), sans-serif',
+            }}
+          >
+            <Clapperboard size={16} aria-hidden="true" />
+            <span className="universe-btn-label">
+              {boardCopy.open}: {UNIVERSES[universe].name[lang]}
+            </span>
+          </button>
+
+          {/* Claro / oscuro (cada universo tiene sus dos versiones) */}
           {mounted && (
             <button
               onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+              aria-label={
+                theme === 'dark'
+                  ? lang === 'es' ? 'Cambiar a modo claro' : 'Switch to light mode'
+                  : lang === 'es' ? 'Cambiar a modo oscuro' : 'Switch to dark mode'
+              }
               style={{
                 width: 38,
                 height: 38,
-                borderRadius: '10px',
+                borderRadius: 'min(var(--radius), 10px)',
                 border: '1.5px solid var(--border)',
                 background: 'var(--bg-card)',
                 color: 'var(--text-primary)',
@@ -217,6 +257,7 @@ export default function Navbar() {
         @media (max-width: 768px) {
           .desktop-nav { display: none !important; }
           .hamburger-btn { display: flex !important; }
+          .universe-btn-label { display: none; }
         }
       `}</style>
     </>

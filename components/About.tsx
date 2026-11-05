@@ -1,6 +1,9 @@
 'use client';
 
 import { useI18n } from '@/lib/i18n-context';
+import UniverseBackdrop from '@/components/universe/UniverseBackdrop';
+import { useUniverse } from '@/lib/universe-context';
+import ScrollCue from '@/components/universe/ScrollCue';
 import { User, Globe, Briefcase, MapPin } from 'lucide-react';
 
 const coreSkills = [
@@ -27,6 +30,7 @@ const coreSkillsEn = [
 
 export default function About() {
   const { t, lang } = useI18n();
+  const { sectionLabel } = useUniverse();
   const skills = lang === 'es' ? coreSkills : coreSkillsEn;
 
   return (
@@ -34,12 +38,13 @@ export default function About() {
       id="about"
       style={{ padding: '6rem 1.5rem', background: 'var(--bg-secondary)' }}
     >
+      <UniverseBackdrop section="about" />
       <div className="section-container">
         {/* Header */}
         <div style={{ textAlign: 'center', marginBottom: '3.5rem' }}>
           <div className="section-tag" style={{ display: 'inline-flex' }}>
             <User size={12} />
-            {t.about.title}
+            {sectionLabel('about', t.about.title)}
           </div>
           <h2
             style={{
@@ -206,6 +211,7 @@ export default function About() {
           }
         }
       `}</style>
+      <ScrollCue to="skills" />
     </section>
   );
 }

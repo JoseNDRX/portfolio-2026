@@ -1,6 +1,7 @@
 'use client';
 
 import { useI18n } from '@/lib/i18n-context';
+import UniverseBackdrop from '@/components/universe/UniverseBackdrop';
 import { Code2, Network, Mail } from 'lucide-react';
 
 export default function Footer() {
@@ -13,8 +14,10 @@ export default function Footer() {
         padding: '2.5rem 1.5rem',
         background: 'var(--bg-secondary)',
         borderTop: '1px solid var(--border)',
+        position: 'relative',
       }}
     >
+      <UniverseBackdrop section="footer" />
       <div
         className="section-container"
         style={{

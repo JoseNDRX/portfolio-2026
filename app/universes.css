@@ -1,0 +1,261 @@
+/* =====================================================================
+   UNIVERSOS · formas, heroes, cartelera e intros
+   Las paletas (claro / oscuro) de cada universo están en universe-themes.css.
+   ===================================================================== */
+
+/* --- Ajustes de forma por universo, en todo el sitio --- */
+html[data-universe='esc'] .card { border: 3px solid var(--border); border-radius: 0; }
+html[data-universe='esc'] .skill-badge,
+html[data-universe='esc'] .section-tag { border: 2px solid var(--border); border-radius: 0; background: #ffd23f; color: #111; }
+html[data-universe='esc'] h2 { letter-spacing: 0.03em; font-weight: 400 !important; }
+/* Bangers, IM Fell y Anton solo tienen un grosor: sin esto el navegador simula
+   una negrita que empasta las letras (títulos de tarjetas h3). */
+html[data-universe='esc'] h3 { font-weight: 400 !important; letter-spacing: 0.04em; }
+html[data-universe='gri'] h3,
+html[data-universe='pulp'] h3 { font-weight: 400 !important; }
+html[data-universe='oli'] .section-tag,
+html[data-universe='bas'] .section-tag,
+html[data-universe='pulp'] .section-tag { border-radius: 0; letter-spacing: 0.25em; }
+html[data-universe='oli'] h2 { letter-spacing: 0.06em; font-weight: 600 !important; }
+html[data-universe='gri'] h2 { font-weight: 400 !important; }
+html[data-universe='pulp'] h2,
+html[data-universe='bas'] h2 { text-transform: uppercase; font-weight: 400 !important; letter-spacing: 0.02em; }
+html[data-universe='pulp'] .card,
+html[data-universe='bas'] .card,
+html[data-universe='oli'] .card { border-radius: var(--radius); }
+html[data-universe='gri'] .grid-bg,
+html[data-universe='esc'] .grid-bg { background-image: none; }
+
+/* =====================================================================
+   HEROES
+   ===================================================================== */
+.u-hero { position: relative; min-height: 100vh; overflow: hidden; box-sizing: border-box; }
+.u-wrap { max-width: 1240px; margin: 0 auto; padding: 7rem 1.5rem 4rem; position: relative; z-index: 2; box-sizing: border-box; min-height: 100vh; display: flex; flex-wrap: wrap; align-items: center; gap: 2.5rem; }
+.u-main { flex: 999 1 520px; min-width: 0; }
+.u-side { flex: 1 1 280px; min-width: 0; }
+.u-btn { display: inline-flex; align-items: center; gap: 0.5rem; min-height: 44px; padding: 0 1.5rem; text-decoration: none; cursor: pointer; transition: transform 0.2s ease; }
+.u-btn:hover { transform: translateY(-2px); }
+
+/* Escuadrón */
+.esc-bg { background-color: #ffd23f; background-image: radial-gradient(#e0a800 22%, transparent 24%); background-size: 14px 14px; color: #111; }
+.esc-panel { background: #fff; border: 4px solid #111; box-shadow: 8px 8px 0 #111; }
+.esc-font { font-family: var(--font-bangers), Impact, sans-serif; letter-spacing: 0.05em; font-weight: 400; }
+.esc-name { font-family: var(--font-bangers), Impact, sans-serif; font-weight: 400; letter-spacing: 0.03em; color: #111; text-shadow: 4px 4px 0 #e63946; line-height: 0.95; font-size: clamp(3.2rem, 8vw, 6.5rem); }
+.esc-burst { clip-path: polygon(50% 0, 61% 22%, 85% 8%, 78% 34%, 100% 42%, 79% 56%, 93% 80%, 66% 74%, 58% 100%, 45% 78%, 22% 95%, 25% 68%, 0 62%, 20% 47%, 5% 22%, 32% 28%); }
+.esc-pop { animation: u-pop 1.6s ease-in-out infinite; }
+@keyframes u-pop { 0%, 100% { transform: rotate(-8deg) scale(1); } 50% { transform: rotate(-4deg) scale(1.08); } }
+.esc-chip { border: 3px solid #111; padding: 0.25rem 0.65rem; font-weight: 800; background: #fff; }
+
+/* Olimpo */
+.oli-bg { background: radial-gradient(ellipse at 70% 30%, #1b2546 0%, #0b1020 60%, #070a14 100%); color: #e8e1cf; }
+.oli-name { font-family: var(--font-cinzel), Georgia, serif; color: #e2c275; letter-spacing: 0.08em; line-height: 1.05; font-weight: 600; }
+.oli-serif { font-family: var(--font-cormorant), Georgia, serif; }
+.u-twinkle { animation: u-twinkle 2.4s ease-in-out infinite; }
+.u-twinkle.d2 { animation-delay: 0.8s; }
+.u-twinkle.d3 { animation-delay: 1.6s; }
+@keyframes u-twinkle { 0%, 100% { opacity: 0.35; } 50% { opacity: 1; } }
+.oli-line { stroke-dasharray: 400; stroke-dashoffset: 400; animation: u-drawline 3s ease forwards; }
+@keyframes u-drawline { to { stroke-dashoffset: 0; } }
+
+/* Grimorio */
+.gri-bg { background: radial-gradient(ellipse at center, #efe5cc 0%, #d9c9a3 70%, #bda97c 100%); color: #24352a; }
+.gri-page { background: #f6eedb; box-shadow: 0 30px 60px rgba(60, 45, 20, 0.25); }
+.gri-title { font-family: var(--font-fell), Georgia, serif; color: #24352a; font-weight: 400; }
+.gri-serif { font-family: var(--font-cormorant), Georgia, serif; }
+.u-spin { transform-box: fill-box; transform-origin: center; animation: u-spin 40s linear infinite; }
+.u-spin-rev { transform-box: fill-box; transform-origin: center; animation: u-spin 26s linear infinite reverse; }
+@keyframes u-spin { to { transform: rotate(360deg); } }
+.u-mote { position: absolute; width: 6px; height: 6px; border-radius: 50%; background: #fff6c9; box-shadow: 0 0 12px 4px rgba(255, 236, 150, 0.7); animation: u-mote 7s linear infinite; opacity: 0; pointer-events: none; }
+@keyframes u-mote { 0% { transform: translateY(0); opacity: 0; } 15% { opacity: 1; } 100% { transform: translateY(-420px); opacity: 0; } }
+
+/* Capítulo final */
+.pulp-bg { background: #0b0b0b; color: #f1e9d2; }
+.pulp-name { font-family: var(--font-anton), Impact, sans-serif; color: #f1e9d2; text-transform: uppercase; line-height: 0.9; letter-spacing: 0.01em; font-weight: 400; }
+.pulp-serif { font-family: Georgia, 'Times New Roman', serif; }
+.u-grain { position: absolute; inset: -50%; width: 200%; height: 200%; pointer-events: none; opacity: 0.13; animation: u-grain 1s steps(6) infinite; z-index: 3; will-change: transform; }
+@keyframes u-grain { 0% { transform: translate(0, 0); } 20% { transform: translate(-5%, 3%); } 40% { transform: translate(4%, -6%); } 60% { transform: translate(-3%, 5%); } 80% { transform: translate(6%, 2%); } 100% { transform: translate(0, 0); } }
+.u-flicker { animation: u-flicker 4s steps(1) infinite; }
+@keyframes u-flicker { 0%, 100% { opacity: 1; } 92% { opacity: 0.82; } 94% { opacity: 1; } 96% { opacity: 0.88; } }
+
+/* Bastión */
+.bas-bg { background: linear-gradient(180deg, #1f2326 0%, #33302c 45%, #6b3d24 82%, #a2552c 100%); color: #ece6da; }
+.bas-name { font-family: var(--font-oswald), Impact, sans-serif; font-weight: 700; text-transform: uppercase; color: #f2ede3; line-height: 0.92; letter-spacing: 0.01em; text-shadow: 0 6px 30px rgba(0, 0, 0, 0.6); }
+.bas-font { font-family: var(--font-oswald), Impact, sans-serif; }
+.bas-jp { font-family: var(--font-notojp), serif; font-weight: 900; }
+.u-focus-lines { position: absolute; inset: -30%; background: repeating-conic-gradient(from 0deg at 50% 50%, rgba(255, 255, 255, 0.07) 0deg 1.5deg, transparent 1.5deg 7deg); pointer-events: none; animation: u-spin 90s linear infinite; }
+.u-ash { position: absolute; top: -20px; width: 4px; height: 4px; border-radius: 50%; background: #cbbfae; opacity: 0.7; animation: u-ash 9s linear infinite; pointer-events: none; }
+@keyframes u-ash { from { transform: translate(0, 0); } to { transform: translate(-160px, 110vh); } }
+.u-cape { transform-origin: top left; animation: u-cape 2.8s ease-in-out infinite; }
+@keyframes u-cape { 0%, 100% { transform: skewX(0); } 50% { transform: skewX(-4deg); } }
+
+/* =====================================================================
+   CARTELERA
+   ===================================================================== */
+.u-board { position: fixed; inset: 0; z-index: 2000; background: rgba(5, 5, 8, 0.95); overflow-y: auto; animation: u-fadein 0.35s ease both; font-family: var(--font-inter), system-ui, sans-serif; }
+@keyframes u-fadein { from { opacity: 0; } to { opacity: 1; } }
+.u-board-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 18px; margin-top: 30px; }
+.u-poster { all: unset; box-sizing: border-box; cursor: pointer; display: flex; flex-direction: column; background: #141418; border: 1px solid #2a2a33; border-radius: 10px; overflow: hidden; transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease; }
+.u-poster:hover, .u-poster:focus-visible { transform: translateY(-6px) scale(1.02); border-color: #f1e9d2; box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6); }
+.u-poster:focus-visible { outline: 3px solid #38bdf8; outline-offset: 3px; }
+.u-poster[aria-pressed='true'] { border-color: #34d399; }
+.u-clip { position: relative; height: 230px; overflow: hidden; }
+.u-clip * { animation-play-state: paused; }
+.u-poster:hover .u-clip *, .u-poster:focus-visible .u-clip *, .u-poster[aria-pressed='true'] .u-clip * { animation-play-state: running; }
+@media (hover: none) { .u-clip * { animation-play-state: running; } }
+.u-clip-label { position: absolute; top: 10px; left: 10px; z-index: 5; font: 700 10px/1 var(--font-inter), sans-serif; letter-spacing: 0.14em; text-transform: uppercase; background: rgba(0, 0, 0, 0.7); color: #fff; padding: 5px 7px; border-radius: 3px; display: flex; align-items: center; gap: 6px; }
+.u-rec { width: 7px; height: 7px; border-radius: 50%; background: #ff4d4d; animation: u-twinkle 1s ease-in-out infinite; }
+.c-slide { animation: c-slide 3s ease-in-out infinite; }
+@keyframes c-slide { 0%, 15% { transform: translateX(-120%); } 30%, 85% { transform: translateX(0); } 100% { transform: translateX(120%); } }
+.c-burst { animation: c-burst 3s ease-in-out infinite; }
+@keyframes c-burst { 0%, 35% { transform: scale(0) rotate(-20deg); } 50% { transform: scale(1.15) rotate(-6deg); } 60%, 90% { transform: scale(1) rotate(-6deg); } 100% { transform: scale(0); } }
+.c-beam { animation: c-beam 3.2s ease-in-out infinite; transform-origin: top; }
+@keyframes c-beam { 0% { transform: scaleY(0); opacity: 0; } 40% { transform: scaleY(1); opacity: 1; } 100% { opacity: 0.2; } }
+.c-draw { stroke-dasharray: 500; animation: c-draw 3.5s ease-in-out infinite; }
+@keyframes c-draw { 0% { stroke-dashoffset: 500; } 60%, 100% { stroke-dashoffset: 0; } }
+.c-slash { animation: c-slash 2.6s ease-in infinite; transform-origin: left; }
+@keyframes c-slash { 0%, 45% { transform: rotate(-14deg) scaleX(0); } 60%, 100% { transform: rotate(-14deg) scaleX(1); } }
+.c-splitT { animation: c-splitT 2.6s ease-in infinite; }
+.c-splitB { animation: c-splitB 2.6s ease-in infinite; }
+@keyframes c-splitT { 0%, 62% { transform: translate(0, 0); } 100% { transform: translate(-8%, -60%); } }
+@keyframes c-splitB { 0%, 62% { transform: translate(0, 0); } 100% { transform: translate(8%, 60%); } }
+.c-ep { animation: c-ep 3s steps(1) infinite; }
+@keyframes c-ep { 0%, 30% { opacity: 0; } 31%, 100% { opacity: 1; } }
+.c-shake { animation: c-shake 3s linear infinite; }
+@keyframes c-shake { 0%, 30%, 48%, 100% { transform: translate(0, 0); } 34% { transform: translate(-4px, 2px); } 38% { transform: translate(4px, -3px); } 42% { transform: translate(-3px, 3px); } 46% { transform: translate(3px, -1px); } }
+.pro-grid-bg { background-color: #0a0f1c; background-image: linear-gradient(rgba(56, 189, 248, 0.07) 1px, transparent 1px), linear-gradient(90deg, rgba(56, 189, 248, 0.07) 1px, transparent 1px); background-size: 24px 24px; }
+.u-orb { position: absolute; border-radius: 50%; pointer-events: none; animation: u-orb 8s ease-in-out infinite alternate; }
+@keyframes u-orb { to { transform: translate(-40px, 30px) scale(1.1); } }
+
+/* =====================================================================
+   INTROS
+   ===================================================================== */
+.u-intro { position: fixed; inset: 0; z-index: 3000; overflow: hidden; animation: u-introout 0.45s ease var(--intro-out, 2.95s) both; }
+@keyframes u-introout { to { opacity: 0; visibility: hidden; } }
+.u-lb-top, .u-lb-bot { position: absolute; left: 0; right: 0; height: 11%; background: #000; z-index: 10; animation: u-lbin 0.5s ease both; }
+.u-lb-top { top: 0; transform-origin: top; }
+.u-lb-bot { bottom: 0; transform-origin: bottom; }
+@keyframes u-lbin { from { transform: scaleY(0); } to { transform: scaleY(1); } }
+.u-skip { position: absolute; right: 24px; bottom: calc(11% + 16px); z-index: 12; font: 600 13px var(--font-inter), sans-serif; color: #fff; background: rgba(0, 0, 0, 0.55); border: 1px solid rgba(255, 255, 255, 0.4); border-radius: 999px; padding: 0 18px; cursor: pointer; min-height: 44px; }
+.u-skip:hover { background: rgba(0, 0, 0, 0.8); }
+@keyframes u-fadeup { from { opacity: 0; transform: translateY(24px); } }
+/* escuadrón */
+.ie-p1 { animation: ie-p1 0.55s cubic-bezier(0.2, 1.4, 0.4, 1) 0.3s both; }
+.ie-p2 { animation: ie-p2 0.55s cubic-bezier(0.2, 1.4, 0.4, 1) 1.6s both; }
+.ie-p3 { animation: ie-p3 0.55s cubic-bezier(0.2, 1.4, 0.4, 1) 2.9s both; }
+@keyframes ie-p1 { from { transform: translateX(-120%) rotate(-6deg); } }
+@keyframes ie-p2 { from { transform: translateY(-140%) rotate(4deg); } }
+@keyframes ie-p3 { from { transform: translateX(140%) rotate(6deg); } }
+.ie-title { animation: u-fadeup 0.5s ease 4.1s both; }
+/* olimpo */
+.io-beam { animation: io-beam 1.4s ease-out 0.3s both; transform-origin: top; }
+@keyframes io-beam { from { transform: scaleY(0); opacity: 0; } 60% { opacity: 1; } to { transform: scaleY(1); opacity: 0.85; } }
+.io-title { animation: io-title 1.6s ease-out 1s both; }
+@keyframes io-title { from { opacity: 0; letter-spacing: 0.9em; filter: blur(8px); } to { opacity: 1; letter-spacing: 0.28em; filter: blur(0); } }
+.io-sub { animation: u-fadeup 0.8s ease 1.9s both; }
+/* grimorio */
+.ig-draw { stroke-dasharray: 1400; animation: ig-draw 1.8s ease-in-out 0.3s both; }
+@keyframes ig-draw { from { stroke-dashoffset: 1400; } to { stroke-dashoffset: 0; } }
+.ig-glow { transform-box: fill-box; transform-origin: center; filter: blur(14px); animation: ig-glow 1.2s ease 1.7s both; }
+@keyframes ig-glow { from { opacity: 0; transform: scale(0.6); } to { opacity: 1; transform: scale(1); } }
+.ig-title { animation: u-fadeup 1s ease 1.6s both; }
+/* capítulo final */
+.ip-c1 { animation: ip-c1 1.3s steps(1) 0.2s both; }
+@keyframes ip-c1 { 0% { opacity: 0; } 10% { opacity: 1; } 14% { opacity: 0.4; } 18%, 100% { opacity: 1; } }
+.ip-c2 { animation: u-fadeup 0.4s ease 1s both; }
+.ip-line { animation: ip-line 0.25s ease-in 2.05s both; transform-origin: left; }
+@keyframes ip-line { from { transform: rotate(-11deg) scaleX(0); } to { transform: rotate(-11deg) scaleX(1); } }
+.ip-top { animation: ip-top 0.7s cubic-bezier(0.7, 0, 0.3, 1) 2.35s both; }
+.ip-bot { animation: ip-bot 0.7s cubic-bezier(0.7, 0, 0.3, 1) 2.35s both; }
+@keyframes ip-top { to { transform: translate(-10%, -75%); } }
+@keyframes ip-bot { to { transform: translate(10%, 75%); } }
+/* bastión */
+.u-shake { animation: u-shake 0.45s linear 1.4s 2; }
+@keyframes u-shake { 0%, 100% { transform: translate(0, 0); } 20% { transform: translate(-6px, 3px); } 40% { transform: translate(5px, -4px); } 60% { transform: translate(-4px, 5px); } 80% { transform: translate(6px, -2px); } }
+.ib-jp { animation: ib-jp 0.5s cubic-bezier(0.2, 1.5, 0.4, 1) 0.3s both; }
+@keyframes ib-jp { from { opacity: 0; transform: scale(1.6); } }
+.ib-ep { animation: u-fadeup 0.4s ease 0.8s both; }
+.ib-flash { animation: ib-flash 0.6s ease 1.4s both; }
+@keyframes ib-flash { 0% { opacity: 0; } 15% { opacity: 0.85; } 100% { opacity: 0; } }
+.ib-title { animation: u-fadeup 0.6s ease 2s both; }
+
+@media (max-width: 760px) {
+  .u-intro-panels { grid-template-columns: 1fr !important; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .u-hero *, .u-board *, .u-intro * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    animation-delay: 0s !important;
+  }
+}
+
+/* =====================================================================
+   INDICADOR DE SCROLL DEL HERO (components/heroes/ScrollCue.tsx)
+   ===================================================================== */
+.scroll-cue {
+  position: absolute;
+  left: 50%;
+  bottom: 1rem;
+  translate: -50% 0;
+  z-index: 5;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.35rem;
+  min-height: 44px;
+  font-size: 0.8rem;
+  text-decoration: none;
+  color: var(--text-muted);
+  animation: float 2.5s ease-in-out infinite;
+}
+
+/* Escuadrón: cuadro de narración amarillo */
+html[data-universe='esc'] .scroll-cue {
+  font-family: var(--font-bangers), Impact, sans-serif;
+  font-size: 1.15rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #111;
+}
+html[data-universe='esc'] .scroll-cue span {
+  background: #ffd23f;
+  border: 3px solid #111;
+  box-shadow: 4px 4px 0 #111;
+  padding: 0.2rem 0.7rem;
+}
+html[data-universe='esc'] .scroll-cue svg { color: var(--e-text); }
+
+/* Olimpo: dorado espaciado */
+html[data-universe='oli'] .scroll-cue {
+  font-family: var(--font-cinzel), Georgia, serif;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: var(--o-gold);
+}
+
+/* Grimorio: cursiva de pergamino */
+html[data-universe='gri'] .scroll-cue {
+  font-family: var(--font-fell), Georgia, serif;
+  font-style: italic;
+  font-size: 1rem;
+  color: var(--g-muted);
+}
+
+/* Capítulo final: rótulo de película */
+html[data-universe='pulp'] .scroll-cue {
+  font-family: var(--font-anton), Impact, sans-serif;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--p-red);
+}
+
+/* Bastión: en las secciones usa el color de brasa; en el hero va sobre el
+   suelo oscuro (claro y oscuro), así que ahí es siempre claro. */
+html[data-universe='bas'] .scroll-cue {
+  font-family: var(--font-oswald), Impact, sans-serif;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--b-ember);
+}
+html[data-universe='bas'] .bas-hero .scroll-cue { color: #ece6da; }

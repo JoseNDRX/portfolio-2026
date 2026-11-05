@@ -1,0 +1,433 @@
+/* =====================================================================
+   PALETAS DE LOS UNIVERSOS · claro / oscuro
+   - html[data-universe='x']                 → tipografías y forma (ambos modos)
+   - html:not(.dark)[data-universe='x']      → modo claro
+   - html.dark[data-universe='x']            → modo oscuro
+   El modo lo controla next-themes (clase .dark en <html>) con el botón
+   sol / luna del menú. "pro" usa las variables de globals.css.
+   Las variables --e-*, --o-*, --g-*, --p-*, --b-* son del hero de cada universo.
+   ===================================================================== */
+
+/* ---------------------------------------------------------------- ESCUADRÓN */
+html[data-universe='esc'] {
+  --font-display: var(--font-bangers), Impact, sans-serif;
+  --radius: 0px;
+}
+
+/* Claro: cómic amarillo */
+html:not(.dark)[data-universe='esc'] {
+  --bg-primary: #fff4cc;
+  --bg-secondary: #ffe58a;
+  --bg-card: #ffffff;
+  --bg-card-hover: #fffbe8;
+  --text-primary: #111111;
+  --text-secondary: #2b2b2b;
+  --text-muted: #4a4a4a;
+  --border: #111111;
+  --border-hover: #111111;
+  --accent: #c1121f;
+  --accent-2: #1d4ed8;
+  --accent-light: #ffe0e0;
+  --accent-soft: #111111;
+  --gradient-from: #c1121f;
+  --gradient-to: #1d4ed8;
+  --on-accent: #ffffff;
+  --glow: rgba(0, 0, 0, 0);
+  --shadow: 6px 6px 0 #111111;
+  --shadow-hover: 9px 9px 0 #111111;
+  --nav-bg: rgba(255, 255, 255, 0.96);
+
+  --e-bg: #ffd23f;
+  --e-dot: #e0a800;
+  --e-panel: #ffffff;
+  --e-text: #111111;
+  --e-line: #111111;
+  --e-red: #c1121f;
+  --e-name-shadow: #e63946;
+  --e-blue: #1d4ed8;
+  --e-chip-1: #ffd23f;
+  --e-chip-2: #ffffff;
+  --e-chip-3: #bfdbfe;
+  --e-chip-4: #fecaca;
+  --e-burst: #ffd23f;
+}
+
+/* Oscuro: patrulla nocturna */
+html.dark[data-universe='esc'] {
+  --bg-primary: #12172b;
+  --bg-secondary: #181e38;
+  --bg-card: #1c2342;
+  --bg-card-hover: #232b52;
+  --text-primary: #f5f0e1;
+  --text-secondary: #d4d0c4;
+  --text-muted: #a9a59a;
+  --border: #000000;
+  --border-hover: #ffd23f;
+  --accent: #ff6b6b;
+  --accent-2: #60a5fa;
+  --accent-light: rgba(255, 107, 107, 0.12);
+  --accent-soft: #000000;
+  --gradient-from: #e63946;
+  --gradient-to: #2563eb;
+  --on-accent: #ffffff;
+  --glow: rgba(0, 0, 0, 0);
+  --shadow: 6px 6px 0 #000000;
+  --shadow-hover: 9px 9px 0 #000000;
+  --nav-bg: rgba(20, 26, 51, 0.96);
+
+  --e-bg: #141a33;
+  --e-dot: #232c55;
+  --e-panel: #1c2342;
+  --e-text: #f5f0e1;
+  --e-line: #000000;
+  --e-red: #e63946;
+  --e-name-shadow: #c1121f;
+  --e-blue: #7cb4ff;
+  --e-chip-1: #4a3d0a;
+  --e-chip-2: #1c2342;
+  --e-chip-3: #1e3a8a;
+  --e-chip-4: #7f1d1d;
+  --e-burst: #233066;
+}
+
+/* ------------------------------------------------------------------- OLIMPO */
+html[data-universe='oli'] {
+  --font-display: var(--font-cinzel), Georgia, serif;
+  --font-body: var(--font-cormorant), Georgia, serif;
+  --radius: 2px;
+}
+
+/* Claro: mármol a pleno día */
+html:not(.dark)[data-universe='oli'] {
+  --bg-primary: #f6f2e9;
+  --bg-secondary: #efe9dc;
+  --bg-card: #fffdf8;
+  --bg-card-hover: #fbf6ea;
+  --text-primary: #2a2416;
+  --text-secondary: #4a4232;
+  --text-muted: #6e6450;
+  --border: rgba(138, 106, 31, 0.25);
+  --border-hover: rgba(138, 106, 31, 0.55);
+  --accent: #8a6a1f;
+  --accent-2: #a07d2c;
+  --accent-light: rgba(138, 106, 31, 0.08);
+  --accent-soft: rgba(138, 106, 31, 0.3);
+  --gradient-from: #b8912f;
+  --gradient-to: #8a6a1f;
+  --on-accent: #fffaf0;
+  --glow: rgba(184, 145, 47, 0.3);
+  --shadow: 0 4px 24px rgba(60, 45, 10, 0.08);
+  --shadow-hover: 0 8px 40px rgba(138, 106, 31, 0.15);
+  --nav-bg: rgba(246, 242, 233, 0.94);
+
+  --o-bg:
+    linear-gradient(115deg, transparent 40%, rgba(120, 110, 90, 0.06) 41%, transparent 43%),
+    linear-gradient(160deg, transparent 62%, rgba(120, 110, 90, 0.05) 63%, transparent 66%),
+    radial-gradient(ellipse at 70% 30%, #ffffff 0%, #f3efe6 55%, #e7e0d0 100%);
+  --o-gold: #8a6a1f;
+  --o-gold-2: #a07d2c;
+  --o-text: #2a2416;
+  --o-text-2: #4a4232;
+  --o-star: #b8912f;
+  --o-star-core: #8a6a1f;
+  --o-btn-bg: #8a6a1f;
+  --o-btn-text: #fffaf0;
+  --o-rule: rgba(138, 106, 31, 0.35);
+}
+
+/* Oscuro: noche estrellada */
+html.dark[data-universe='oli'] {
+  --bg-primary: #0b1020;
+  --bg-secondary: #0e1428;
+  --bg-card: #121a33;
+  --bg-card-hover: #17213f;
+  --text-primary: #f1e7cf;
+  --text-secondary: #cfc6b0;
+  --text-muted: #a89f88;
+  --border: rgba(201, 165, 76, 0.3);
+  --border-hover: rgba(201, 165, 76, 0.65);
+  --accent: #e2c275;
+  --accent-2: #c9a54c;
+  --accent-light: rgba(226, 194, 117, 0.1);
+  --accent-soft: rgba(226, 194, 117, 0.35);
+  --gradient-from: #f3dd9a;
+  --gradient-to: #c9a54c;
+  --on-accent: #0b1020;
+  --glow: rgba(226, 194, 117, 0.35);
+  --shadow: 0 4px 24px rgba(0, 0, 0, 0.45);
+  --shadow-hover: 0 8px 40px rgba(226, 194, 117, 0.15);
+  --nav-bg: rgba(7, 10, 20, 0.92);
+
+  --o-bg: radial-gradient(ellipse at 70% 30%, #1b2546 0%, #0b1020 60%, #070a14 100%);
+  --o-gold: #e2c275;
+  --o-gold-2: #c9a54c;
+  --o-text: #f1e7cf;
+  --o-text-2: #cfc6b0;
+  --o-star: #f3dd9a;
+  --o-star-core: #fff4cc;
+  --o-btn-bg: #e2c275;
+  --o-btn-text: #0b1020;
+  --o-rule: rgba(201, 165, 76, 0.4);
+}
+
+/* ----------------------------------------------------------------- GRIMORIO */
+html[data-universe='gri'] {
+  --font-display: var(--font-fell), Georgia, serif;
+  --font-body: var(--font-cormorant), Georgia, serif;
+  --radius: 6px;
+}
+
+/* Claro: pergamino */
+html:not(.dark)[data-universe='gri'] {
+  --bg-primary: #efe5cc;
+  --bg-secondary: #e6d9bb;
+  --bg-card: #f6eedb;
+  --bg-card-hover: #fbf5e6;
+  --text-primary: #24352a;
+  --text-secondary: #3d3a2e;
+  --text-muted: #6b5a3a;
+  --border: #cdbb92;
+  --border-hover: #8a6d3b;
+  --accent: #4f6b52;
+  --accent-2: #8a6d3b;
+  --accent-light: rgba(79, 107, 82, 0.1);
+  --accent-soft: rgba(79, 107, 82, 0.3);
+  --gradient-from: #4f6b52;
+  --gradient-to: #8a6d3b;
+  --on-accent: #f6eedb;
+  --glow: rgba(255, 236, 150, 0.5);
+  --shadow: 0 10px 30px rgba(60, 45, 20, 0.12);
+  --shadow-hover: 0 16px 40px rgba(60, 45, 20, 0.2);
+  --nav-bg: rgba(246, 238, 219, 0.94);
+
+  --g-bg: radial-gradient(ellipse at center, #efe5cc 0%, #d9c9a3 70%, #bda97c 100%);
+  --g-page: #f6eedb;
+  --g-page-edge: #e6d9bb;
+  --g-page-shadow: 0 30px 60px rgba(60, 45, 20, 0.25);
+  --g-ink: #24352a;
+  --g-text: #3d3a2e;
+  --g-muted: #6b5a3a;
+  --g-sage: #4f6b52;
+  --g-brown: #8a6d3b;
+  --g-brown-2: #b08d57;
+  --g-btn-text: #f6eedb;
+  --g-outline-text: #5a4524;
+}
+
+/* Oscuro: biblioteca a la luz de las velas */
+html.dark[data-universe='gri'] {
+  --bg-primary: #17140d;
+  --bg-secondary: #1f1b11;
+  --bg-card: #2b2619;
+  --bg-card-hover: #332d1e;
+  --text-primary: #f1e6c8;
+  --text-secondary: #d9ceb2;
+  --text-muted: #b5a47e;
+  --border: #4a3f28;
+  --border-hover: #d2a965;
+  --accent: #9cbf9f;
+  --accent-2: #d2a965;
+  --accent-light: rgba(156, 191, 159, 0.1);
+  --accent-soft: rgba(156, 191, 159, 0.3);
+  --gradient-from: #9cbf9f;
+  --gradient-to: #d2a965;
+  --on-accent: #14110a;
+  --glow: rgba(255, 220, 140, 0.35);
+  --shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+  --shadow-hover: 0 16px 40px rgba(210, 169, 101, 0.15);
+  --nav-bg: rgba(23, 20, 13, 0.94);
+
+  --g-bg: radial-gradient(ellipse at 50% 35%, #3b3322 0%, #1f1b11 60%, #100d07 100%);
+  --g-page: #2b2619;
+  --g-page-edge: #1f1b11;
+  --g-page-shadow: 0 30px 70px rgba(0, 0, 0, 0.55), 0 0 120px rgba(255, 200, 110, 0.08);
+  --g-ink: #f1e6c8;
+  --g-text: #d9ceb2;
+  --g-muted: #b5a47e;
+  --g-sage: #9cbf9f;
+  --g-brown: #d2a965;
+  --g-brown-2: #b08d57;
+  --g-btn-text: #14110a;
+  --g-outline-text: #e8d3a6;
+}
+
+/* ----------------------------------------------------------- CAPÍTULO FINAL */
+html[data-universe='pulp'] {
+  --font-display: var(--font-anton), Impact, sans-serif;
+  --radius: 0px;
+}
+
+/* Claro: póster de cine vintage */
+html:not(.dark)[data-universe='pulp'] {
+  --bg-primary: #f1e9d2;
+  --bg-secondary: #e8dfc4;
+  --bg-card: #faf5e6;
+  --bg-card-hover: #fffaf0;
+  --text-primary: #141414;
+  --text-secondary: #3a352b;
+  --text-muted: #6b6455;
+  --border: #d3c8a8;
+  --border-hover: #c1121f;
+  --accent: #c1121f;
+  --accent-2: #141414;
+  --accent-light: rgba(193, 18, 31, 0.08);
+  --accent-soft: rgba(193, 18, 31, 0.35);
+  --gradient-from: #c1121f;
+  --gradient-to: #c1121f;
+  --on-accent: #f1e9d2;
+  --glow: rgba(193, 18, 31, 0.25);
+  --shadow: 0 4px 24px rgba(60, 40, 10, 0.1);
+  --shadow-hover: 0 8px 40px rgba(193, 18, 31, 0.15);
+  --nav-bg: rgba(241, 233, 210, 0.95);
+
+  --p-bg: #f1e9d2;
+  --p-text: #141414;
+  --p-text-2: #3a352b;
+  --p-muted: #6b6455;
+  --p-red: #c1121f;
+  --p-on-red: #f1e9d2;
+  --p-grain-opacity: 0.18;
+  --p-grain-blend: multiply;
+}
+
+/* Oscuro: negro con grano */
+html.dark[data-universe='pulp'] {
+  --bg-primary: #0b0b0b;
+  --bg-secondary: #121212;
+  --bg-card: #161616;
+  --bg-card-hover: #1d1d1d;
+  --text-primary: #f1e9d2;
+  --text-secondary: #d6ccb2;
+  --text-muted: #a89f88;
+  --border: #2a2a2a;
+  --border-hover: #e5383b;
+  --accent: #e5383b;
+  --accent-2: #f1e9d2;
+  --accent-light: rgba(229, 56, 59, 0.12);
+  --accent-soft: rgba(229, 56, 59, 0.4);
+  --gradient-from: #e5383b;
+  --gradient-to: #e5383b;
+  --on-accent: #0b0b0b;
+  --glow: rgba(229, 56, 59, 0.45);
+  --shadow: 0 4px 24px rgba(0, 0, 0, 0.6);
+  --shadow-hover: 0 8px 40px rgba(229, 56, 59, 0.2);
+  --nav-bg: rgba(0, 0, 0, 0.94);
+
+  --p-bg: #0b0b0b;
+  --p-text: #f1e9d2;
+  --p-text-2: #d6ccb2;
+  --p-muted: #a89f88;
+  --p-red: #e5383b;
+  --p-on-red: #0b0b0b;
+  --p-grain-opacity: 0.13;
+  --p-grain-blend: normal;
+}
+
+/* ------------------------------------------------------------------ BASTIÓN */
+html[data-universe='bas'] {
+  --font-display: var(--font-oswald), Impact, sans-serif;
+  --radius: 0px;
+}
+
+/* Claro: amanecer nublado */
+html:not(.dark)[data-universe='bas'] {
+  --bg-primary: #e7e3dc;
+  --bg-secondary: #ddd7cd;
+  --bg-card: #f5f2ec;
+  --bg-card-hover: #fbf9f5;
+  --text-primary: #1e2124;
+  --text-secondary: #3d3f41;
+  --text-muted: #5d5a54;
+  --border: #b9a58f;
+  --border-hover: #b4501f;
+  --accent: #b4501f;
+  --accent-2: #5d5a54;
+  --accent-light: rgba(180, 80, 31, 0.08);
+  --accent-soft: rgba(180, 80, 31, 0.3);
+  --gradient-from: #b4501f;
+  --gradient-to: #8f3d15;
+  --on-accent: #ffffff;
+  --glow: rgba(180, 80, 31, 0.25);
+  --shadow: 0 4px 24px rgba(30, 33, 36, 0.1);
+  --shadow-hover: 0 8px 40px rgba(180, 80, 31, 0.15);
+  --nav-bg: rgba(231, 227, 220, 0.95);
+
+  --b-bg: linear-gradient(180deg, #dfe3e4 0%, #d9d2c6 50%, #e9b98f 85%, #d9895a 100%);
+  --b-name: #1e2124;
+  --b-name-shadow: 0 6px 30px rgba(255, 255, 255, 0.5);
+  --b-text: #1e2124;
+  --b-text-2: #3d3f41;
+  --b-muted: #5d5a54;
+  --b-ember: #b4501f;
+  --b-on-ember: #ffffff;
+  --b-wall: #3a3d40;
+  --b-ground: #2a2c2e;
+  --b-card: rgba(250, 247, 240, 0.9);
+  --b-line: #b9a58f;
+  --b-lines: rgba(0, 0, 0, 0.05);
+  --b-ash: #6b6b6b;
+}
+
+/* Oscuro: atardecer con brasas */
+html.dark[data-universe='bas'] {
+  --bg-primary: #1f2326;
+  --bg-secondary: #191c1e;
+  --bg-card: #24282b;
+  --bg-card-hover: #2b3033;
+  --text-primary: #ece6da;
+  --text-secondary: #d8cfc0;
+  --text-muted: #b5aa98;
+  --border: #5a4a3c;
+  --border-hover: #e07a3f;
+  --accent: #e07a3f;
+  --accent-2: #cbbfae;
+  --accent-light: rgba(224, 122, 63, 0.12);
+  --accent-soft: rgba(224, 122, 63, 0.4);
+  --gradient-from: #e07a3f;
+  --gradient-to: #c0612c;
+  --on-accent: #16181a;
+  --glow: rgba(224, 122, 63, 0.4);
+  --shadow: 0 4px 24px rgba(0, 0, 0, 0.5);
+  --shadow-hover: 0 8px 40px rgba(224, 122, 63, 0.18);
+  --nav-bg: rgba(20, 22, 24, 0.94);
+
+  --b-bg: linear-gradient(180deg, #1f2326 0%, #33302c 45%, #6b3d24 82%, #a2552c 100%);
+  --b-name: #f2ede3;
+  --b-name-shadow: 0 6px 30px rgba(0, 0, 0, 0.6);
+  --b-text: #ece6da;
+  --b-text-2: #d8cfc0;
+  --b-muted: #b5aa98;
+  --b-ember: #e07a3f;
+  --b-on-ember: #16181a;
+  --b-wall: #141618;
+  --b-ground: #0c0d0e;
+  --b-card: rgba(20, 22, 24, 0.86);
+  --b-line: #5a4a3c;
+  --b-lines: rgba(255, 255, 255, 0.07);
+  --b-ash: #cbbfae;
+}
+
+/* =====================================================================
+   HEROES con paleta por modo
+   (los pósters y las intros usan las clases base con colores fijos)
+   ===================================================================== */
+.esc-hero.esc-bg { background-color: var(--e-bg); background-image: radial-gradient(var(--e-dot) 22%, transparent 24%); color: var(--e-text); }
+.esc-hero .esc-panel { background: var(--e-panel); border-color: var(--e-line); box-shadow: 8px 8px 0 var(--e-line); }
+.esc-hero .esc-name { color: var(--e-text); text-shadow: 4px 4px 0 var(--e-name-shadow); }
+.esc-hero .esc-chip { border-color: var(--e-line); color: var(--e-text); }
+
+.oli-hero.oli-bg { background: var(--o-bg); color: var(--o-text); }
+.oli-hero .oli-name { color: var(--o-gold); }
+
+.gri-hero.gri-bg { background: var(--g-bg); color: var(--g-ink); }
+.gri-hero .gri-page { box-shadow: var(--g-page-shadow); }
+.gri-hero .gri-title { color: var(--g-ink); }
+
+.pulp-hero.pulp-bg { background: var(--p-bg); color: var(--p-text); }
+.pulp-hero .pulp-name { color: var(--p-text); }
+.pulp-hero .u-grain { opacity: var(--p-grain-opacity); mix-blend-mode: var(--p-grain-blend); }
+
+.bas-hero.bas-bg { background: var(--b-bg); color: var(--b-text); }
+.bas-hero .bas-name { color: var(--b-name); text-shadow: var(--b-name-shadow); }
+.bas-hero .u-ash { background: var(--b-ash); }
+.bas-hero .u-focus-lines { background: repeating-conic-gradient(from 0deg at 50% 50%, var(--b-lines) 0deg 1.5deg, transparent 1.5deg 7deg); }

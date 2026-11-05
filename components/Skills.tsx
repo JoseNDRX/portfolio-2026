@@ -1,19 +1,16 @@
 'use client';
 
 import { useI18n } from '@/lib/i18n-context';
+import UniverseBackdrop from '@/components/universe/UniverseBackdrop';
+import { useUniverse } from '@/lib/universe-context';
+import ScrollCue from '@/components/universe/ScrollCue';
 import { Code2 } from 'lucide-react';
 
-const skillData = {
-  languages: ['JavaScript', 'TypeScript', 'PHP', 'HTML5', 'CSS3', 'SQL', 'VBA'],
-  frameworks: ['Angular', 'React', 'Next.js', 'NestJS', 'Node.js', 'Express', 'Tailwind', 'Bootstrap', 'jQuery', 'Laravel'],
-  databases: ['PostgreSQL', 'SQL Server', 'Supabase'],
-  devops: ['Docker', 'PM2', 'XAMPP', 'Git', 'GitHub', 'GitLab'],
-  architecture: ['Microservices', 'MVC / MVVC', 'SOLID', 'Scrum', 'ISO 17025', 'LIMS'],
-  tools: ['Power BI', 'WordPress', 'Excel Avanzado', 'SAP', 'Microsoft Dynamics', 'n8n'],
-};
+import { skillData } from '@/lib/skills';
 
 export default function Skills() {
   const { t } = useI18n();
+  const { sectionLabel } = useUniverse();
 
   const categories = [
     { key: 'languages' as const, label: t.skills.categories.languages, emoji: '📝' },
@@ -30,12 +27,13 @@ export default function Skills() {
       className="grid-bg"
       style={{ padding: '6rem 1.5rem', background: 'var(--bg-primary)' }}
     >
+      <UniverseBackdrop section="skills" />
       <div className="section-container">
         {/* Header */}
         <div style={{ textAlign: 'center', marginBottom: '3.5rem' }}>
           <div className="section-tag" style={{ display: 'inline-flex' }}>
             <Code2 size={12} />
-            {t.skills.title}
+            {sectionLabel('skills', t.skills.title)}
           </div>
           <h2
             style={{
@@ -101,6 +99,7 @@ export default function Skills() {
           .skills-grid { grid-template-columns: 1fr !important; }
         }
       `}</style>
+      <ScrollCue to="experience" />
     </section>
   );
 }

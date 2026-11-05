@@ -22,6 +22,19 @@
     --glass: rgba(255, 255, 255, 0.7);
     --glass-border: rgba(255, 255, 255, 0.9);
     --nav-bg: rgba(240, 244, 255, 0.85);
+
+    /* Compartidas (los universos las redefinen en universes.css) */
+    --font-body: var(--font-inter), system-ui, sans-serif;
+    --font-display: var(--font-body);
+    --on-accent: #ffffff;
+    --accent-soft: rgba(56, 189, 248, 0.2);
+    --glow: rgba(56, 189, 248, 0.4);
+    --radius: 16px;
+    --font-notojp: 'Noto Serif JP', 'Yu Mincho', 'YuMincho', 'Hiragino Mincho ProN', 'MS Mincho', serif;
+  }
+
+  h1, h2, h3 {
+    font-family: var(--font-display);
   }
 
   .dark {
@@ -61,14 +74,14 @@
   body {
     background-color: var(--bg-primary);
     color: var(--text-primary);
-    font-family: 'Inter', sans-serif;
+    font-family: var(--font-body);
     transition: background-color 0.3s ease, color 0.3s ease;
     overflow-x: hidden;
   }
 
   ::selection {
     background: var(--accent);
-    color: white;
+    color: var(--on-accent);
   }
 
   ::-webkit-scrollbar {
@@ -95,7 +108,7 @@
 .card-gradient-border {
   position: relative;
   background: var(--bg-card);
-  border-radius: 16px;
+  border-radius: var(--radius);
   overflow: hidden;
 }
 
@@ -103,7 +116,7 @@
   content: '';
   position: absolute;
   inset: 0;
-  border-radius: 16px;
+  border-radius: inherit;
   padding: 1px;
   background: linear-gradient(135deg, var(--gradient-from), var(--gradient-to));
   -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
@@ -119,7 +132,7 @@
 
 /* Glowing badge */
 .glow-badge {
-  box-shadow: 0 0 12px rgba(56, 189, 248, 0.4);
+  box-shadow: 0 0 12px var(--glow);
 }
 
 /* Animated underline */
@@ -156,7 +169,7 @@
   border-radius: 50%;
   background: linear-gradient(135deg, var(--gradient-from), var(--gradient-to));
   flex-shrink: 0;
-  box-shadow: 0 0 12px rgba(56, 189, 248, 0.5);
+  box-shadow: 0 0 12px var(--glow);
 }
 
 /* Skill badge */
@@ -169,22 +182,22 @@
   font-weight: 500;
   background: var(--accent-light);
   color: var(--accent);
-  border: 1px solid rgba(56, 189, 248, 0.2);
+  border: 1px solid var(--accent-soft);
   transition: all 0.2s ease;
 }
 
 .skill-badge:hover {
   background: var(--accent);
-  color: white;
+  color: var(--on-accent);
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(56, 189, 248, 0.3);
+  box-shadow: 0 4px 12px var(--glow);
 }
 
 /* Grid background pattern */
 .grid-bg {
   background-image:
-    linear-gradient(rgba(56, 189, 248, 0.03) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(56, 189, 248, 0.03) 1px, transparent 1px);
+    linear-gradient(color-mix(in srgb, var(--accent) 5%, transparent) 1px, transparent 1px),
+    linear-gradient(90deg, color-mix(in srgb, var(--accent) 5%, transparent) 1px, transparent 1px);
   background-size: 40px 40px;
 }
 
@@ -200,8 +213,8 @@
 
 /* Glow pulse */
 @keyframes glow-pulse {
-  0%, 100% { box-shadow: 0 0 20px rgba(56, 189, 248, 0.3); }
-  50% { box-shadow: 0 0 40px rgba(56, 189, 248, 0.6); }
+  0%, 100% { box-shadow: 0 0 20px var(--glow); }
+  50% { box-shadow: 0 0 40px var(--glow); }
 }
 
 /* Shimmer for hover */
@@ -220,7 +233,7 @@
   font-weight: 600;
   font-size: 0.95rem;
   background: linear-gradient(135deg, var(--gradient-from), var(--gradient-to));
-  color: white;
+  color: var(--on-accent);
   border: none;
   cursor: pointer;
   transition: all 0.3s ease;
@@ -229,7 +242,7 @@
 
 .btn-primary:hover {
   transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(56, 189, 248, 0.4);
+  box-shadow: 0 8px 24px var(--glow);
 }
 
 .btn-outline {
@@ -250,16 +263,16 @@
 
 .btn-outline:hover {
   background: var(--accent);
-  color: white;
+  color: var(--on-accent);
   transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(56, 189, 248, 0.3);
+  box-shadow: 0 8px 24px var(--glow);
 }
 
 /* Card base */
 .card {
   background: var(--bg-card);
   border: 1px solid var(--border);
-  border-radius: 16px;
+  border-radius: var(--radius);
   padding: 1.5rem;
   transition: all 0.3s ease;
   box-shadow: var(--shadow);
@@ -284,7 +297,7 @@
   text-transform: uppercase;
   background: var(--accent-light);
   color: var(--accent);
-  border: 1px solid rgba(56, 189, 248, 0.2);
+  border: 1px solid var(--accent-soft);
   margin-bottom: 0.75rem;
 }
 
@@ -299,12 +312,12 @@
   font-size: 0.95rem;
   outline: none;
   transition: all 0.2s ease;
-  font-family: 'Inter', sans-serif;
+  font-family: var(--font-body);
 }
 
 .input-field:focus {
   border-color: var(--accent);
-  box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.1);
+  box-shadow: 0 0 0 3px var(--glow);
 }
 
 .input-field::placeholder {

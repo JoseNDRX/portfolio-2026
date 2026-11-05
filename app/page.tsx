@@ -7,6 +7,9 @@ import Projects from '@/components/Projects';
 import Courses from '@/components/Courses';
 import Contact from '@/components/Contact';
 import Footer from '@/components/Footer';
+import UniverseBoard from '@/components/universe/UniverseBoard';
+import UniverseIntro from '@/components/universe/UniverseIntro';
+import UniverseMotion from '@/components/universe/UniverseMotion';
 
 export default function Home() {
   return (
@@ -22,6 +25,9 @@ export default function Home() {
         <Contact />
       </main>
       <Footer />
+      <UniverseBoard />
+      <UniverseIntro />
+      <UniverseMotion />
     </>
   );
 }

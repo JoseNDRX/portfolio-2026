@@ -1,0 +1,194 @@
+/* =====================================================================
+   FONDOS TEMÁTICOS POR SECCIÓN (components/universe/UniverseBackdrop.tsx)
+   Usan las variables del universo (--e-*), así siguen el modo claro / oscuro.
+   ===================================================================== */
+
+section[id],
+footer {
+  position: relative;
+}
+
+section > .section-container,
+footer > .section-container {
+  position: relative;
+  z-index: 1;
+}
+
+.ub {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.ub-layer {
+  position: absolute;
+  inset: 0;
+}
+
+/* --------------------------------------------------------------- ESCUADRÓN */
+
+/* Origen: puntos de trama en las esquinas (con parallax) + ciudad al fondo */
+.ub-esc-about .ub-layer {
+  inset: -15% 0;
+  background-image: radial-gradient(var(--e-dot) 28%, transparent 31%);
+  background-size: 16px 16px;
+  -webkit-mask-image: linear-gradient(160deg, #000 0%, transparent 40%, transparent 65%, #000 100%);
+  mask-image: linear-gradient(160deg, #000 0%, transparent 40%, transparent 65%, #000 100%);
+  opacity: 0.6;
+}
+
+.ub-skyline {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 180px;
+  fill: var(--e-line);
+  opacity: 0.1;
+}
+
+.ub-skyline .ub-windows {
+  fill: var(--e-burst);
+  opacity: 0.9;
+}
+
+/* Poderes: líneas de velocidad radiales */
+.ub-esc-skills .ub-layer {
+  inset: -60%;
+  background: repeating-conic-gradient(
+    from 0deg at 50% 50%,
+    color-mix(in srgb, var(--e-red) 13%, transparent) 0deg 2deg,
+    transparent 2deg 9deg
+  );
+  -webkit-mask-image: radial-gradient(circle at 50% 50%, transparent 0 14%, #000 45%);
+  mask-image: radial-gradient(circle at 50% 50%, transparent 0 14%, #000 45%);
+  animation: u-spin 160s linear infinite;
+}
+
+/* Misiones: líneas de movimiento horizontales + trama en una esquina */
+.ub-esc-experience .ub-layer {
+  background:
+    radial-gradient(var(--e-dot) 28%, transparent 31%) 0 0 / 14px 14px,
+    repeating-linear-gradient(180deg, transparent 0 22px, color-mix(in srgb, var(--e-blue) 16%, transparent) 22px 25px);
+  -webkit-mask-image:
+    radial-gradient(circle at 0% 0%, #000 0, transparent 28%),
+    linear-gradient(90deg, transparent 35%, #000 100%);
+  mask-image:
+    radial-gradient(circle at 0% 0%, #000 0, transparent 28%),
+    linear-gradient(90deg, transparent 35%, #000 100%);
+  opacity: 0.7;
+}
+
+/* Expedientes: cuadrícula de viñetas de una página de cómic */
+.ub-esc-projects .ub-layer {
+  background-image: radial-gradient(var(--e-dot) 26%, transparent 29%);
+  background-size: 18px 18px;
+  opacity: 0.35;
+}
+
+.ub-panels {
+  position: absolute;
+  inset: 0;
+}
+
+.ub-panels rect {
+  fill: none;
+  stroke: var(--e-line);
+  stroke-width: 4;
+  opacity: 0.12;
+}
+
+/* Entrenamiento: trama degradada (puntos que crecen hacia las esquinas) */
+.ub-esc-courses .ub-layer {
+  background:
+    radial-gradient(color-mix(in srgb, var(--e-red) 22%, transparent) 30%, transparent 33%) 0 0 / 24px 24px,
+    radial-gradient(var(--e-dot) 26%, transparent 29%) 6px 6px / 12px 12px;
+  -webkit-mask-image:
+    linear-gradient(135deg, transparent 45%, #000 100%),
+    linear-gradient(315deg, transparent 55%, #000 100%);
+  mask-image:
+    linear-gradient(135deg, transparent 45%, #000 100%),
+    linear-gradient(315deg, transparent 55%, #000 100%);
+  opacity: 0.7;
+}
+
+/* Señal: rayos de sol de portada retro */
+.ub-esc-contact .ub-layer {
+  inset: -80% -40% -10%;
+  background: repeating-conic-gradient(
+    from 0deg at 50% 100%,
+    var(--e-burst) 0deg 6deg,
+    transparent 6deg 12deg
+  );
+  -webkit-mask-image: radial-gradient(ellipse at 50% 100%, #000 10%, transparent 70%);
+  mask-image: radial-gradient(ellipse at 50% 100%, #000 10%, transparent 70%);
+  opacity: 0.55;
+  transform-origin: 50% 100%;
+  animation: ub-sway 18s ease-in-out infinite alternate;
+}
+
+@keyframes ub-sway {
+  from { transform: rotate(-4deg); }
+  to { transform: rotate(4deg); }
+}
+
+/* Pie: trama que se desvanece */
+.ub-esc-footer .ub-layer {
+  background-image: radial-gradient(var(--e-dot) 28%, transparent 31%);
+  background-size: 12px 12px;
+  -webkit-mask-image: linear-gradient(90deg, #000, transparent 30%, transparent 70%, #000);
+  mask-image: linear-gradient(90deg, #000, transparent 30%, transparent 70%, #000);
+  opacity: 0.5;
+}
+
+/* Onomatopeyas: aparecen en un punto al azar, se quedan un momento y se van.
+   La duración (1.9 s) coincide con LIFE_MS en UniverseBackdrop.tsx. */
+.ub-sfx-area {
+  position: absolute;
+  inset: 0;
+}
+
+.ub-sfx {
+  position: absolute;
+  font-family: var(--font-bangers), Impact, sans-serif;
+  letter-spacing: 0.04em;
+  line-height: 1;
+  white-space: nowrap;
+  -webkit-text-stroke: 2px var(--e-line);
+  paint-order: stroke fill;
+  text-shadow: 4px 4px 0 var(--e-line);
+  rotate: var(--rot);
+  transform-origin: center;
+  animation: ub-sfx-pop 1.9s cubic-bezier(0.2, 1.4, 0.4, 1) both;
+  user-select: none;
+}
+
+.ub-sfx-yellow { color: #ffd23f; }
+.ub-sfx-red { color: #e63946; }
+.ub-sfx-blue { color: #3b82f6; }
+
+@keyframes ub-sfx-pop {
+  0% { transform: scale(0) rotate(-25deg); opacity: 0; }
+  12% { transform: scale(1.25) rotate(4deg); opacity: 1; }
+  22% { transform: scale(1) rotate(0deg); }
+  78% { transform: scale(1.04) rotate(0deg); opacity: 1; }
+  100% { transform: scale(0.4) rotate(12deg); opacity: 0; }
+}
+
+/* Parallax de la trama con el scroll (en navegadores que lo soportan) */
+@supports (animation-timeline: view()) {
+  .ub-esc-about .ub-layer {
+    animation: ub-parallax linear both;
+    animation-timeline: view();
+  }
+  @keyframes ub-parallax {
+    from { transform: translateY(-8%); }
+    to { transform: translateY(8%); }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ub *, .ub .ub-layer { animation: none !important; }
+}

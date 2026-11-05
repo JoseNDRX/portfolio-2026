@@ -1,11 +1,16 @@
 'use client';
 
 import { useI18n } from '@/lib/i18n-context';
-import { Mail, MapPin, Phone, Send, Code2, Network } from 'lucide-react';
+import UniverseBackdrop from '@/components/universe/UniverseBackdrop';
+import { useUniverse } from '@/lib/universe-context';
+import { Mail, MapPin, Send, Code2, Network } from 'lucide-react';
+import { siWhatsapp } from 'simple-icons';
+import BrandIcon from '@/components/BrandIcon';
 import { useState } from 'react';
 
 export default function Contact() {
   const { t, lang } = useI18n();
+  const { sectionLabel } = useUniverse();
   const [form, setForm] = useState({ name: '', email: '', message: '' });
   const [sending, setSending] = useState(false);
   const [sent, setSent] = useState(false);
@@ -24,12 +29,13 @@ export default function Contact() {
       id="contact"
       style={{ padding: '6rem 1.5rem', background: 'var(--bg-primary)' }}
     >
+      <UniverseBackdrop section="contact" />
       <div className="section-container">
         {/* Header */}
         <div style={{ textAlign: 'center', marginBottom: '3.5rem' }}>
           <div className="section-tag" style={{ display: 'inline-flex' }}>
             <Mail size={12} />
-            {t.contact.title}
+            {sectionLabel('contact', t.contact.title)}
           </div>
           <h2
             style={{
@@ -72,10 +78,16 @@ export default function Contact() {
                 href: 'mailto:jandresrmz@yahoo.com',
               },
               {
-                icon: <Phone size={18} />,
-                label: 'Phone',
+                // Contacto por WhatsApp: abre el chat con un saludo ya escrito.
+                icon: <BrandIcon icon={siWhatsapp} size={20} />,
+                label: 'WhatsApp',
                 value: '+52 222 811 7255',
-                href: 'tel:+522228117255',
+                href: `https://wa.me/522228117255?text=${encodeURIComponent(
+                  lang === 'es'
+                    ? 'Hola José Andrés, vi tu portafolio y me gustaría platicar contigo.'
+                    : 'Hi José Andrés, I saw your portfolio and would like to talk with you.',
+                )}`,
+                external: true,
               },
               {
                 icon: <MapPin size={18} />,
@@ -111,6 +123,7 @@ export default function Contact() {
                   {item.href ? (
                     <a
                       href={item.href}
+                      {...('external' in item && item.external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
                       style={{
                         fontSize: '0.9rem',
                         color: 'var(--text-primary)',

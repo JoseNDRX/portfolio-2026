@@ -1,11 +1,15 @@
 'use client';
 
 import { useI18n } from '@/lib/i18n-context';
+import UniverseBackdrop from '@/components/universe/UniverseBackdrop';
+import { useUniverse } from '@/lib/universe-context';
+import ScrollCue from '@/components/universe/ScrollCue';
 import { Briefcase, MapPin, ChevronRight } from 'lucide-react';
 import { useState } from 'react';
 
 export default function Experience() {
   const { t } = useI18n();
+  const { sectionLabel } = useUniverse();
   const [activeJob, setActiveJob] = useState(0);
   const jobs = t.experience.jobs;
 
@@ -14,12 +18,13 @@ export default function Experience() {
       id="experience"
       style={{ padding: '6rem 1.5rem', background: 'var(--bg-secondary)' }}
     >
+      <UniverseBackdrop section="experience" />
       <div className="section-container">
         {/* Header */}
         <div style={{ textAlign: 'center', marginBottom: '3.5rem' }}>
           <div className="section-tag" style={{ display: 'inline-flex' }}>
             <Briefcase size={12} />
-            {t.experience.title}
+            {sectionLabel('experience', t.experience.title)}
           </div>
           <h2
             style={{
@@ -161,6 +166,7 @@ export default function Experience() {
           }
         }
       `}</style>
+      <ScrollCue to="projects" />
     </section>
   );
 }
