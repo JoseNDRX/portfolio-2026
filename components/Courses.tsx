@@ -4,7 +4,7 @@ import { useI18n } from '@/lib/i18n-context';
 import UniverseBackdrop from '@/components/universe/UniverseBackdrop';
 import { useUniverse } from '@/lib/universe-context';
 import ScrollCue from '@/components/universe/ScrollCue';
-import { BookOpen, Calendar } from 'lucide-react';
+import { BookOpen, Calendar, GraduationCap } from 'lucide-react';
 import BrandIcon from '@/components/BrandIcon';
 import { courseIcon } from '@/lib/course-icons';
 
@@ -122,33 +122,63 @@ export default function Courses() {
                   <span style={{ fontSize: '0.92rem', color: 'var(--text-secondary)' }}>
                     {course.institution}
                   </span>
-                  <span
-                    style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: '0.3rem',
-                      fontSize: '0.85rem',
-                      padding: '0.2rem 0.6rem',
-                      borderRadius: '999px',
-                      background: `color-mix(in srgb, ${icon.color} 14%, transparent)`,
-                      color: icon.color,
-                      fontWeight: 700,
-                      whiteSpace: 'nowrap',
-                    }}
-                  >
-                    <Calendar size={13} aria-hidden="true" />
-                    {course.year}
-                  </span>
+                  {course.year && (
+                    <span
+                      style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '0.3rem',
+                        fontSize: '0.85rem',
+                        padding: '0.2rem 0.6rem',
+                        borderRadius: '999px',
+                        background: `color-mix(in srgb, ${icon.color} 14%, transparent)`,
+                        color: icon.color,
+                        fontWeight: 700,
+                        whiteSpace: 'nowrap',
+                      }}
+                    >
+                      <Calendar size={13} aria-hidden="true" />
+                      {course.year}
+                    </span>
+                  )}
                 </div>
               </div>
             );
           })}
+        </div>
+
+        {/* Formación académica */}
+        <h3
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: '0.5rem',
+            justifyContent: 'center',
+            marginTop: '3.5rem',
+            marginBottom: '1.5rem',
+            fontSize: '1.35rem',
+            fontWeight: 700,
+            color: 'var(--text-primary)',
+          }}
+        >
+          <GraduationCap size={22} style={{ color: 'var(--accent)' }} aria-hidden="true" />
+          {t.courses.educationTitle}
+        </h3>
+        <div className="education-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '1rem' }}>
+          {t.courses.education.map((ed) => (
+            <div key={ed.name} className="card">
+              <div style={{ fontSize: '0.85rem', fontWeight: 700, color: 'var(--accent)', letterSpacing: '0.04em' }}>{ed.period}</div>
+              <div style={{ marginTop: '0.45rem', fontSize: '1.05rem', fontWeight: 700, color: 'var(--text-primary)', lineHeight: 1.35 }}>{ed.name}</div>
+              <div style={{ marginTop: '0.35rem', fontSize: '0.92rem', color: 'var(--text-secondary)' }}>{ed.institution}</div>
+            </div>
+          ))}
         </div>
       </div>
 
       <style>{`
         @media (max-width: 900px) {
           .courses-grid { grid-template-columns: repeat(2, 1fr) !important; }
+          .education-grid { grid-template-columns: 1fr !important; }
         }
         @media (max-width: 550px) {
           .courses-grid { grid-template-columns: 1fr !important; }

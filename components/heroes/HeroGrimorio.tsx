@@ -65,7 +65,7 @@ export default function HeroGrimorio() {
               <h2 className="gri-title" style={{ fontSize: '1.4rem' }}>{c.spells}</h2>
               <div style={{ marginTop: '0.4rem', fontSize: '1.1rem' }}>{heroSkills[lang].join(' · ')}</div>
               <div style={{ display: 'flex', flexWrap: 'wrap', gap: '1.5rem', justifyContent: 'center', marginTop: '1.1rem', fontSize: '1rem' }}>
-                {['25+', '30+', '15+'].map((v, i) => (
+                {['25+', '30+', '60+'].map((v, i) => (
                   <span key={v}>
                     <strong style={{ fontSize: '1.4rem', color: 'var(--g-brown)' }}>{v}</strong> {c.stats[i]}
                   </span>

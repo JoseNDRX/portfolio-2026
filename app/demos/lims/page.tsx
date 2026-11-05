@@ -103,7 +103,7 @@ export default function LimsDemoPage() {
               border: '1px solid rgba(52,211,153,0.3)',
             }}
           >
-            ISO 17025 Certificado
+            ISO/IEC 17025 Certificado
           </span>
         </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
@@ -155,7 +155,7 @@ export default function LimsDemoPage() {
             Dashboard de Análisis
           </h1>
           <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem' }}>
-            Sistema de Gestión de Información de Laboratorio · Trazabilidad ISO 17025 · Abril 2024
+            Sistema de Gestión de Información de Laboratorio · Trazabilidad ISO/IEC 17025 · Abril 2024
           </p>
         </div>
 

@@ -63,7 +63,7 @@ export default function HeroBastion() {
               </div>
             </div>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, minmax(0, 1fr))', gap: '0.6rem', marginTop: '1rem' }}>
-              {['25+', '30+', '15+'].map((v, i) => (
+              {['25+', '30+', '60+'].map((v, i) => (
                 <div key={v}>
                   <div className="bas-font" style={{ fontSize: '2.1rem', fontWeight: 700, color: i ? 'var(--b-name)' : 'var(--b-ember)' }}>{v}</div>
                   <div style={{ fontSize: '0.75rem', color: 'var(--b-text-2)' }}>{c.stats[i]}</div>

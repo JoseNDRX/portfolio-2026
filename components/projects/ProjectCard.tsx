@@ -16,10 +16,14 @@ export type Project = {
 
 function statusColor(status: string | null) {
   if (!status) return null;
+  if (status.includes('producción') || status.includes('Production'))
+    return { bg: 'rgba(34,197,94,0.12)', color: '#16a34a', border: 'rgba(34,197,94,0.4)' };
   if (status.includes('laboral') || status.includes('Work'))
-    return { bg: 'rgba(52,211,153,0.1)', color: '#34d399', border: 'rgba(52,211,153,0.3)' };
+    return { bg: 'rgba(52,211,153,0.1)', color: '#0d9488', border: 'rgba(52,211,153,0.35)' };
   if (status.includes('desarrollo') || status.includes('Development'))
     return { bg: 'rgba(251,191,36,0.1)', color: '#d97706', border: 'rgba(251,191,36,0.4)' };
+  if (status.includes('curso') || status.includes('Course'))
+    return { bg: 'rgba(148,163,184,0.12)', color: 'var(--text-muted)', border: 'rgba(148,163,184,0.4)' };
   return null;
 }
 
@@ -67,7 +71,7 @@ export default function ProjectCard({ project, index, total, variant = 'grid', o
           <FolderOpen size={20} />
         </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
-          <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>{project.year}</span>
+          {project.year && <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>{project.year}</span>}
           {sc && (
             <span
               style={{

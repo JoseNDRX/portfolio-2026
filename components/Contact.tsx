@@ -148,7 +148,7 @@ export default function Contact() {
                 { icon: <Code2 size={18} />, href: 'https://github.com/JoseNDRX', label: 'GitHub' },
                 {
                   icon: <Network size={18} />,
-                  href: 'https://linkedin.com/in/josendRX',
+                  href: 'https://www.linkedin.com/in/jos%C3%A9-andr%C3%A9s-ram%C3%ADrez-olvera-ba7822268',
                   label: 'LinkedIn',
                 },
               ].map((s) => (

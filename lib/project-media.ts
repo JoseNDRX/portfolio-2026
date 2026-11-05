@@ -17,9 +17,15 @@ import type { Lang } from './translations';
 type Media = { image: string; category: Record<Lang, string> };
 
 export const projectMedia: Record<string, Media> = {
-  saas_srg: { image: '/projects/stock-180.jpg', category: { es: 'Plataforma SaaS', en: 'SaaS platform' } },
   lims_demo: { image: '/projects/stock-60.jpg', category: { es: 'Laboratorio · LIMS', en: 'Laboratory · LIMS' } },
-  crm_demo: { image: '/projects/stock-0.jpg', category: { es: 'CRM', en: 'CRM' } },
+  crm_demo: { image: '/projects/stock-0.jpg', category: { es: 'CRM geoespacial', en: 'Geospatial CRM' } },
+  llm_validator: { image: '/projects/stock-9.jpg', category: { es: 'IA · Cumplimiento normativo', en: 'AI · Compliance' } },
+  room_booking: { image: '/projects/stock-201.jpg', category: { es: 'Kiosco · .NET', en: 'Kiosk · .NET' } },
+  kpi_17025: { image: '/projects/stock-48.jpg', category: { es: 'KPIs · ISO/IEC 17025', en: 'KPIs · ISO/IEC 17025' } },
+  aquaadlablog: { image: '/projects/stock-6.jpg', category: { es: 'App móvil y escritorio', en: 'Mobile & desktop app' } },
+  invitations_engine: { image: '/projects/stock-180.jpg', category: { es: 'Proyecto personal', en: 'Personal project' } },
+  xv_invitation: { image: '/projects/stock-160.jpg', category: { es: 'Proyecto personal', en: 'Personal project' } },
+  saas_srg: { image: '/projects/stock-8.jpg', category: { es: 'Plataforma SaaS', en: 'SaaS platform' } },
   labreport: { image: '/projects/stock-119.jpg', category: { es: 'Herramienta', en: 'Tool' } },
   teslo: { image: '/projects/stock-8.jpg', category: { es: 'E-commerce', en: 'E-commerce' } },
   pokemon_ssr: { image: '/projects/stock-160.jpg', category: { es: 'Web app · SSR', en: 'Web app · SSR' } },

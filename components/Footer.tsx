@@ -59,7 +59,7 @@ export default function Footer() {
         <div style={{ display: 'flex', gap: '0.6rem' }}>
           {[
             { icon: <Code2 size={15} />, href: 'https://github.com/JoseNDRX' },
-            { icon: <Network size={15} />, href: 'https://linkedin.com/in/josendRX' },
+            { icon: <Network size={15} />, href: 'https://www.linkedin.com/in/jos%C3%A9-andr%C3%A9s-ram%C3%ADrez-olvera-ba7822268' },
             { icon: <Mail size={15} />, href: 'mailto:jandresrmz@yahoo.com' },
           ].map((s, i) => (
             <a

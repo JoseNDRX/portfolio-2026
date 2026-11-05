@@ -119,7 +119,7 @@ function ArchiveTile({ tile, project, image, category, total, panX, panY, boardW
       </span>
       <span className="pa-caption">
         <span className="pa-meta">
-          {category} · {project.year}
+          {category}{project.year ? ` · ${project.year}` : ''}
         </span>
         <span className="pa-title">{project.title}</span>
       </span>

@@ -116,8 +116,12 @@ export default function ProjectDetail({ projects, index, image, category, onChan
         <div className="pd-info" key={project.id}>
           <div className="pd-meta">
             <span>{category}</span>
-            <span aria-hidden="true">·</span>
-            <span>{project.year}</span>
+            {project.year && (
+              <>
+                <span aria-hidden="true">·</span>
+                <span>{project.year}</span>
+              </>
+            )}
             {project.status && <span className="pd-status">{project.status}</span>}
           </div>
           <KineticTitle text={project.title} />

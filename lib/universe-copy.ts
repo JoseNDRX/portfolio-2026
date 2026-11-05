@@ -139,6 +139,6 @@ export const universeCopy = {
 } as const;
 
 export const heroSkills = {
-  es: ['LIMS', 'CRM', 'NestJS', 'Angular', 'Docker', 'IA', 'ISO 17025'],
-  en: ['LIMS', 'CRM', 'NestJS', 'Angular', 'Docker', 'AI', 'ISO 17025'],
+  es: ['LIMS', 'CRM', 'C# / .NET', 'SQL Server', 'NestJS', 'IA', 'ISO/IEC 17025'],
+  en: ['LIMS', 'CRM', 'C# / .NET', 'SQL Server', 'NestJS', 'AI', 'ISO/IEC 17025'],
 } as const;

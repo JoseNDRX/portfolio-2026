@@ -4,28 +4,33 @@ import { useI18n } from '@/lib/i18n-context';
 import UniverseBackdrop from '@/components/universe/UniverseBackdrop';
 import { useUniverse } from '@/lib/universe-context';
 import ScrollCue from '@/components/universe/ScrollCue';
-import { User, Globe, Briefcase, MapPin } from 'lucide-react';
+import { User, Globe, Briefcase, MapPin, Plane, Sparkles, Bot } from 'lucide-react';
 
+// Competencias clave (Core Skills del CV).
 const coreSkills = [
-  'Arquitectura de Software',
-  'LIMS & CRM',
-  'Microservicios',
-  'ISO 17025',
-  'AI-Assisted Dev',
-  'Liderazgo Técnico',
-  'Automatización',
-  'Administración de Servidores',
+  'Clean Architecture / Arquitectura en capas',
+  'Integración LIMS, CRM y ERP',
+  'Reglas regulatorias como código (ISO/IEC 17025, NOM-016-CRE, NOM-001-SEMARNAT)',
+  'LLMs para validar cumplimiento normativo',
+  'Tableros KPI y sistemas Andon',
+  'Bitácoras de auditoría y trazabilidad',
+  'Aplicaciones geoespaciales',
+  'Liderazgo técnico y code review',
+  'Documentación de requisitos, PRD y ADR',
+  'Despliegue on-premise y administración de servidores',
 ];
 
 const coreSkillsEn = [
-  'Software Architecture',
-  'LIMS & CRM',
-  'Microservices',
-  'ISO 17025',
-  'AI-Assisted Dev',
-  'Technical Leadership',
-  'Process Automation',
-  'Server Administration',
+  'Layered / Clean Architecture',
+  'LIMS, CRM & ERP Integration',
+  'Regulatory Rules as Code (ISO/IEC 17025, NOM-016-CRE, NOM-001-SEMARNAT)',
+  'LLM Integration for Compliance Validation',
+  'KPI Dashboards & Andon Systems',
+  'Audit Trails & Data Traceability',
+  'Geospatial Applications',
+  'Technical Team Leadership & Code Review',
+  'Requirements, PRD & ADR Documentation',
+  'On-Premise Deployment & Server Administration',
 ];
 
 export default function About() {
@@ -183,6 +188,7 @@ export default function About() {
                   { icon: <Briefcase size={14} />, text: t.about.hybrid },
                   { icon: <MapPin size={14} />, text: 'Puebla, México' },
                   { icon: <Globe size={14} />, text: t.about.travel },
+                  { icon: <Plane size={14} />, text: t.about.relocation },
                 ].map((item) => (
                   <div
                     key={item.text}
@@ -199,6 +205,34 @@ export default function About() {
                   </div>
                 ))}
               </div>
+            </div>
+
+            {/* Innovación e IA */}
+            <div className="card">
+              <div
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '0.5rem',
+                  marginBottom: '1rem',
+                  color: 'var(--accent)',
+                  fontWeight: 700,
+                  fontSize: '0.9rem',
+                }}
+              >
+                <Sparkles size={16} />
+                {t.about.innovationTitle}
+              </div>
+              <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '0.65rem' }}>
+                {t.about.innovation.map((text) => (
+                  <li key={text} style={{ display: 'flex', gap: '0.6rem', color: 'var(--text-secondary)', fontSize: '0.9rem', lineHeight: 1.55 }}>
+                    <span style={{ color: 'var(--accent-2)', flexShrink: 0, marginTop: '0.2rem' }}>
+                      <Bot size={14} aria-hidden="true" />
+                    </span>
+                    {text}
+                  </li>
+                ))}
+              </ul>
             </div>
           </div>
         </div>

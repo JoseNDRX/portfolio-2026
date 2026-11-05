@@ -44,7 +44,7 @@ export default function HeroOlimpo() {
             <a href="#contact" className="u-btn" style={{ border: '1px solid var(--o-gold-2)', color: 'var(--o-gold)', fontFamily: 'var(--font-cinzel), Georgia, serif', fontWeight: 600, letterSpacing: '0.12em', fontSize: '0.9rem', textTransform: 'uppercase' }}>{c.contact}</a>
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, minmax(0, 1fr))', marginTop: '2.9rem', maxWidth: 560, borderTop: '1px solid var(--o-rule)' }}>
-            {['XXV+', 'XXX+', 'XV+'].map((v, i) => (
+            {['XXV+', 'XXX+', 'LX+'].map((v, i) => (
               <div key={v} style={{ padding: i === 0 ? '1rem 0.75rem 0 0' : '1rem 0.75rem 0', borderLeft: i ? '1px solid var(--o-rule)' : 'none' }}>
                 <div className="oli-name" style={{ fontSize: '1.9rem' }}>{v}</div>
                 <div className="oli-serif" style={{ fontSize: '1rem', color: 'var(--o-text-2)' }}>{c.stats[i]}</div>

@@ -9,7 +9,7 @@ export default function HeroPro() {
   const stats = [
     { value: '25+', label: t.hero.yearsExp, icon: <Zap size={18} /> },
     { value: '30+', label: t.hero.projects, icon: <Layers size={18} /> },
-    { value: '15+', label: t.hero.techStack, icon: <Globe size={18} /> },
+    { value: '60+', label: t.hero.techStack, icon: <Globe size={18} /> },
   ];
 
   return (
@@ -150,7 +150,7 @@ export default function HeroPro() {
                 },
                 {
                   icon: <Network size={18} />,
-                  href: 'https://linkedin.com/in/josendRX',
+                  href: 'https://www.linkedin.com/in/jos%C3%A9-andr%C3%A9s-ram%C3%ADrez-olvera-ba7822268',
                   label: 'LinkedIn',
                 },
                 {

@@ -1,5 +1,5 @@
-import { siAngular, siDocker, siDotnet, siN8n, siNextdotjs, type SimpleIcon } from 'simple-icons';
-import { BookOpen, Layers, SquareKanban, Users, type LucideIcon } from 'lucide-react';
+import { siAngular, siDocker, siDotnet, siN8n, siNextdotjs, siSvelte, type SimpleIcon } from 'simple-icons';
+import { BookOpen, ClipboardList, Layers, SquareKanban, Users, type LucideIcon } from 'lucide-react';
 
 /* Icono de cada curso según su nombre (por palabra clave). Si agregas un curso
    en translations.ts toma su icono automáticamente; si no coincide con
@@ -13,6 +13,8 @@ const RULES: { test: RegExp; icon: CourseIcon }[] = [
   // Angular usa su rojo clásico (el logo nuevo es casi negro y no se ve en modo oscuro).
   // C# y ASP.NET: simple-icons no tiene C#, se usa el logo de .NET (su plataforma).
   { test: /c#|asp\.?net|\.net/i, icon: { kind: 'brand', icon: siDotnet, color: '#512BD4' } },
+  { test: /svelte/i, icon: { kind: 'brand', icon: siSvelte, color: `#${siSvelte.hex}` } },
+  { test: /gesti[oó]n de proyectos|project management/i, icon: { kind: 'lucide', icon: ClipboardList, color: '#0ea5e9' } },
   { test: /angular/i, icon: { kind: 'brand', icon: siAngular, color: '#DD0031' } },
   { test: /n8n/i, icon: { kind: 'brand', icon: siN8n, color: `#${siN8n.hex}` } },
   { test: /docker/i, icon: { kind: 'brand', icon: siDocker, color: `#${siDocker.hex}` } },

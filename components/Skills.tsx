@@ -6,20 +6,13 @@ import { useUniverse } from '@/lib/universe-context';
 import ScrollCue from '@/components/universe/ScrollCue';
 import { Code2 } from 'lucide-react';
 
-import { skillData } from '@/lib/skills';
+import { skillData, skillCategoryOrder } from '@/lib/skills';
 
 export default function Skills() {
   const { t } = useI18n();
   const { sectionLabel } = useUniverse();
 
-  const categories = [
-    { key: 'languages' as const, label: t.skills.categories.languages, emoji: '📝' },
-    { key: 'frameworks' as const, label: t.skills.categories.frameworks, emoji: '⚡' },
-    { key: 'databases' as const, label: t.skills.categories.databases, emoji: '🗄️' },
-    { key: 'devops' as const, label: t.skills.categories.devops, emoji: '🐳' },
-    { key: 'architecture' as const, label: t.skills.categories.architecture, emoji: '🏗️' },
-    { key: 'tools' as const, label: t.skills.categories.tools, emoji: '🛠️' },
-  ];
+  const categories = skillCategoryOrder.map((c) => ({ ...c, label: t.skills.categories[c.key] }));
 
   return (
     <section

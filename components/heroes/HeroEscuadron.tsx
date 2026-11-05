@@ -49,7 +49,7 @@ export default function HeroEscuadron() {
           <div className="esc-panel" style={{ padding: '1.4rem 1.5rem', transform: 'rotate(1deg)' }}>
             <h2 className="esc-font" style={{ fontSize: '1.75rem', borderBottom: `3px solid ${line}`, paddingBottom: '0.5rem', textTransform: 'uppercase', color: 'var(--e-text)' }}>{c.card}</h2>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, minmax(0, 1fr))', gap: '0.6rem', marginTop: '0.9rem', textAlign: 'center' }}>
-              {['25+', '30+', '15+'].map((v, i) => (
+              {['25+', '30+', '60+'].map((v, i) => (
                 <div key={v}>
                   <div className="esc-font" style={{ fontSize: '2.5rem', color: ['var(--e-red)', 'var(--e-blue)', 'var(--e-text)'][i] }}>{v}</div>
                   <div style={{ fontSize: '0.75rem', fontWeight: 800, textTransform: 'uppercase' }}>{c.stats[i]}</div>
