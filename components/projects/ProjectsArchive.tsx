@@ -206,10 +206,12 @@ export default function ProjectsArchive({ projects, header, backdrop, vortex = f
   // Las tarjetas dependen del scroll y del ancho de pantalla, que no existen en
   // el servidor: se dibujan solo en el navegador para evitar errores de hidratación.
   const mounted = useMounted();
-  const L = narrow ? LAYOUT.narrow : LAYOUT.wide;
+  const total = projects.length;
+  // Filas suficientes para que cada proyecto tenga al menos una tarjeta.
+  const base = narrow ? LAYOUT.narrow : LAYOUT.wide;
+  const L = useMemo(() => ({ ...base, rows: Math.max(base.rows, Math.ceil(total / base.cols)) }), [base, total]);
   const boardW = L.cols * L.cellW;
   const boardH = L.rows * L.cellH;
-  const total = projects.length;
 
   const trackRef = useRef<HTMLDivElement>(null);
   const stageRef = useRef<HTMLDivElement>(null);
@@ -234,7 +236,9 @@ export default function ProjectsArchive({ projects, header, backdrop, vortex = f
     for (let i = 0; i < L.cols * L.rows; i++) {
       const col = i % L.cols;
       const row = Math.floor(i / L.cols);
-      const projectIndex = (col + row * 2) % total;
+      // Recorre los proyectos en orden: todos aparecen al menos una vez; si sobran
+      // celdas, se repiten desde el principio.
+      const projectIndex = i % total;
       const primary = !seen.has(projectIndex);
       seen.add(projectIndex);
       out.push({
