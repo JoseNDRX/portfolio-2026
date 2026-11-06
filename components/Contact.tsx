@@ -272,7 +272,7 @@ export default function Contact() {
                     rows={5}
                     value={form.message}
                     onChange={(e) => setForm({ ...form, message: e.target.value })}
-                    placeholder="Hola José..."
+                    placeholder={lang === 'es' ? 'Hola José...' : 'Hi José...'}
                     style={{ resize: 'vertical' }}
                   />
                 </div>

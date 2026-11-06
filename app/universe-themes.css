@@ -431,3 +431,38 @@ html.dark[data-universe='bas'] {
 .bas-hero .bas-name { color: var(--b-name); text-shadow: var(--b-name-shadow); }
 .bas-hero .u-ash { background: var(--b-ash); }
 .bas-hero .u-focus-lines { background: repeating-conic-gradient(from 0deg at 50% 50%, var(--b-lines) 0deg 1.5deg, transparent 1.5deg 7deg); }
+
+/* =====================================================================
+   JERARQUÍA Y LECTURA
+   Las tipografías temáticas se quedan en los títulos; el texto corrido y la
+   interfaz chica deben leerse sin esfuerzo en todos los universos.
+   ===================================================================== */
+
+/* Olimpo y Grimorio: Cormorant tiene el ojo medio muy bajo y a 15–16 px se
+   lee diminuta. font-size-adjust iguala su tamaño visual al de una sans normal
+   (sin tocar los títulos, que usan Cinzel / IM Fell a su propio tamaño). */
+html[data-universe='oli'] main section:not(#hero):not(.ol-coro),
+html[data-universe='oli'] footer,
+html[data-universe='gri'] main section:not(#hero),
+html[data-universe='gri'] footer {
+  font-size-adjust: 0.5;
+}
+html[data-universe='oli'] :is(h1, h2, h3, h4, .ol-greek),
+html[data-universe='gri'] :is(h1, h2, h3, h4) {
+  font-size-adjust: none;
+}
+
+/* Interfaz chica (etiquetas, chips, fechas, formularios): sans legible. */
+html[data-universe='oli'] :is(.skill-badge, .section-tag, .ol-chip, .input-field, label, .pa-meta),
+html[data-universe='gri'] :is(.skill-badge, .section-tag, .input-field, label, .pa-meta) {
+  font-family: var(--font-inter), system-ui, sans-serif;
+  font-size-adjust: none;
+}
+
+/* Escuadrón: Bangers solo en títulos grandes; los títulos de tarjeta (h3)
+   en sans extra negrita, que en tamaños chicos se lee mucho mejor. */
+html[data-universe='esc'] main h3 {
+  font-family: var(--font-inter), system-ui, sans-serif;
+  font-weight: 800 !important;
+  letter-spacing: 0;
+}

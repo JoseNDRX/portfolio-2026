@@ -305,3 +305,93 @@ html:not(.dark)[data-universe='oli'] { --ol-const-op: .75; }
 @media (prefers-reduced-motion: reduce) {
   .ol-hero *, .ol-panteon *, .ol-coro * { animation: none !important; transition: none !important; }
 }
+
+/* El Coro siempre es oscuro (columnata en sombra): constelaciones en dorado claro. */
+.ub-oli-sky-coro .ub-oli-const { color: #e2c275; }
+
+/* ------------------------------------------------- PANTEÓN · DOS CARAS
+   Normal: solo las categorías y los chips del stack, sin imagen.
+   Activa (hover con mouse; toque en móvil; Enter/Espacio con teclado): la
+   cara del dios — su imagen ocupa toda la tarjeta, con su nombre y epíteto.
+   Las dos caras comparten la misma celda: la tarjeta no cambia de tamaño. */
+.ol-god { display: grid; cursor: pointer; -webkit-tap-highlight-color: transparent; }
+.ol-face { grid-area: 1 / 1; transition: opacity .55s ease, transform .7s cubic-bezier(.2, .9, .2, 1); }
+
+.ol-face-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  justify-content: center;
+  min-height: 300px;
+  padding: 2.4rem 1.4rem 1.8rem;
+  background: radial-gradient(ellipse at 50% 0%, rgba(226, 194, 117, .14), transparent 60%);
+}
+/* Las categorías hacen de título de la cara normal */
+.ol-face-info .ol-gcat { margin-top: 0; font-size: .85rem; line-height: 1.6; }
+
+.ol-face-god { position: relative; overflow: hidden; opacity: 0; pointer-events: none; }
+.ol-face-god img {
+  object-fit: cover;
+  transform: scale(1.12);
+  filter: blur(8px) var(--ol-portrait-filter);
+  transition: transform 1s cubic-bezier(.2, .9, .2, 1), filter .7s ease;
+}
+/* Degradado para que el nombre se lea sobre la ilustración */
+.ol-face-god::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 40%, rgba(10, 8, 5, .55) 68%, rgba(10, 8, 5, .92) 100%);
+}
+.ol-god-caption {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 1.4rem;
+  z-index: 1;
+  text-align: center;
+  padding: 0 1rem;
+}
+.ol-god-caption .ol-greek { position: static; color: #e2c275; text-shadow: 0 2px 10px rgba(0, 0, 0, .8); }
+.ol-god-caption .ol-gname { color: #f4ead2; }
+.ol-god-caption .ol-gdomain { color: #e8dcc0; }
+
+/* Cara activa */
+.ol-god[data-active] .ol-face-info { opacity: 0; transform: translateY(-10px); }
+.ol-god[data-active] .ol-face-god { opacity: 1; }
+.ol-god[data-active] .ol-face-god img { transform: scale(1.02); filter: var(--ol-portrait-hover); }
+@media (hover: hover) {
+  .ol-god:hover .ol-face-info { opacity: 0; transform: translateY(-10px); }
+  .ol-god:hover .ol-face-god { opacity: 1; }
+  .ol-god:hover .ol-face-god img { transform: scale(1.02); filter: var(--ol-portrait-hover); }
+}
+.ol-god:focus-visible { outline: 2px solid #c9a54c; outline-offset: 4px; }
+
+/* ------------------------------------------------- PANTEÓN · FONDO EN OSCURO
+   Antes el mármol quedaba al 6 % sobre azul casi negro y las tarjetas (también
+   oscuras) se confundían con el fondo. Ahora: cielo nocturno del Olimpo con
+   resplandor dorado arriba y bronce abajo, mármol con veteado visible y una luz
+   cálida detrás de las tarjetas para que se despeguen. */
+html.dark[data-universe='oli'] .ol-panteon {
+  background:
+    radial-gradient(ellipse 70% 45% at 50% 0%, rgba(226, 194, 117, .2), transparent 70%),
+    radial-gradient(ellipse 80% 40% at 50% 100%, rgba(170, 110, 50, .22), transparent 70%),
+    linear-gradient(180deg, #121a33 0%, #1a1d33 45%, #221a1c 100%);
+}
+html.dark[data-universe='oli'] .ol-panteon-marble {
+  opacity: .16;
+  filter: contrast(1.3) brightness(1.1);
+  mix-blend-mode: screen;
+}
+html.dark[data-universe='oli'] .ol-gods::before {
+  content: '';
+  position: absolute;
+  inset: 8% -6%;
+  z-index: -1;
+  background: radial-gradient(ellipse at 50% 45%, rgba(226, 194, 117, .1), transparent 65%);
+  pointer-events: none;
+}
+html.dark[data-universe='oli'] .ol-god {
+  box-shadow: 0 0 0 1px rgba(201, 165, 76, .18), 0 18px 50px rgba(0, 0, 0, .55);
+}

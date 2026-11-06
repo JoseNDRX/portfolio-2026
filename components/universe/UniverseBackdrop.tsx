@@ -2,10 +2,12 @@
 
 import { useEffect, useRef, useState } from 'react';
 import { useI18n } from '@/lib/i18n-context';
+import { randomSpot } from './spawn';
+import BasBackdrop from './BastionBackdrop';
 import { useUniverse } from '@/lib/universe-context';
 import type { Lang } from '@/lib/translations';
 import InkSplash, { makeSplash, type Splash } from './InkSplash';
-import { RUNES } from './MagicCircle';
+import GunshotSplash, { makeShot, type Shot } from './GunshotSplash';
 
 /* ---------------------------------------------------------------------------
    Fondos temáticos por sección. Cada universo puede tener los suyos; si no,
@@ -35,21 +37,6 @@ const MAX_VISIBLE = 2;
 const sfxText = (text: string, lang: Lang) => (lang === 'en' ? text.replace('¡', '') : text);
 
 type Burst = { id: number; text: string; x: number; y: number; rot: number; size: number; tone: (typeof TONES)[number] };
-
-/** Elige un punto al azar fuera de la columna de contenido (px dentro de la sección). */
-function randomSpot(w: number, h: number): { x: number; y: number } {
-  const content = Math.min(1100, w - 48); // ancho de .section-container
-  const side = (w - content) / 2;
-  if (side >= 150) {
-    // Pantallas anchas: márgenes laterales.
-    const left = Math.random() < 0.5;
-    const x = left ? 20 + Math.random() * (side - 130) : w - side + 20 + Math.random() * (side - 150);
-    return { x, y: 60 + Math.random() * Math.max(40, h - 160) };
-  }
-  // Pantallas chicas: franjas de arriba y abajo (el padding de la sección).
-  const top = Math.random() < 0.5;
-  return { x: 16 + Math.random() * Math.max(20, w - 180), y: top ? 10 + Math.random() * 40 : h - 80 + Math.random() * 30 };
-}
 
 function SfxSpawner({ words }: { words: string[] }) {
   const { lang } = useI18n();
@@ -208,6 +195,71 @@ const CONSTELLATIONS: Constellation[] = [
     stars: [[50, 0, 3.6], [50, 38, 3], [50, 100, 2.8], [10, 26, 2.6], [90, 52, 2.6]],
     lines: [[0, 1], [1, 2], [3, 1], [1, 4]],
   },
+  {
+    name: { es: 'Aries', en: 'Aries' },
+    stars: [[30, 82, 2.0], [22, 55, 2.6], [16, 38, 4.0], [52, 42, 3.6]],
+    lines: [[0, 1], [1, 2], [1, 3]],
+  },
+  {
+    name: { es: 'Tauro', en: 'Taurus' },
+    stars: [[55, 72, 2.0], [42, 42, 2.4], [30, 28, 2.6], [65, 55, 3.2], [72, 68, 3.4], [12, 18, 2.2]],
+    lines: [[0, 1], [1, 2], [0, 3], [3, 4], [1, 5]],
+  },
+  {
+    name: { es: 'Géminis', en: 'Gemini' },
+    stars: [[38, 12, 2.0], [52, 15, 1.8], [45, 45, 3.5], [55, 50, 3.0], [60, 82, 1.9], [42, 88, 3.3], [30, 60, 2.9]],
+    lines: [[0, 2], [1, 2], [2, 3], [3, 4], [2, 5], [5, 6]],
+  },
+  {
+    name: { es: 'Cáncer', en: 'Cancer' },
+    stars: [[50, 15, 4.0], [42, 45, 3.5], [58, 45, 3.9], [42, 78, 3.9], [58, 78, 3.9]],
+    lines: [[0, 1], [0, 2], [1, 3], [2, 4]],
+  },
+  {
+    name: { es: 'Leo', en: 'Leo' },
+    stars: [[20, 82, 1.5], [18, 62, 3.5], [26, 45, 2.0], [30, 30, 3.4], [38, 15, 3.0], [55, 50, 2.6], [75, 60, 3.3], [88, 45, 2.1], [45, 78, 3.4]],
+    lines: [[0, 1], [1, 2], [2, 3], [3, 4], [2, 5], [5, 7], [5, 6], [0, 8]],
+  },
+  {
+    name: { es: 'Virgo', en: 'Virgo' },
+    stars: [[42, 92, 1.0], [52, 72, 3.4], [35, 72, 3.9], [55, 55, 2.7], [72, 40, 2.8], [28, 42, 3.6], [65, 30, 3.4], [86, 58, 3.5]],
+    lines: [[0, 2], [0, 1], [1, 3], [3, 4], [2, 5], [3, 6], [4, 7]],
+  },
+  {
+    name: { es: 'Libra', en: 'Libra' },
+    stars: [[50, 30, 2.6], [35, 50, 2.8], [58, 55, 3.9], [28, 75, 3.5], [72, 70, 3.6]],
+    lines: [[0, 1], [1, 2], [0, 2], [1, 3], [2, 4]],
+  },
+  {
+    name: { es: 'Escorpio', en: 'Scorpius' },
+    stars: [
+      [55, 12, 2.6], [62, 18, 2.3], [48, 20, 2.9],
+      [55, 40, 1.0], [48, 52, 2.8], [43, 65, 2.3],
+      [40, 78, 3.0], [52, 88, 3.6], [65, 90, 1.9],
+      [78, 82, 1.6], [80, 75, 2.7],
+    ],
+    lines: [[0, 1], [2, 1], [1, 3], [3, 4], [4, 5], [5, 6], [6, 7], [7, 8], [8, 9], [9, 10]],
+  },
+  {
+    name: { es: 'Sagitario', en: 'Sagittarius' },
+    stars: [[15, 55, 3.0], [30, 68, 2.7], [38, 85, 1.8], [55, 88, 3.2], [60, 72, 2.6], [78, 62, 3.3], [68, 42, 2.0], [48, 50, 2.8]],
+    lines: [[0, 1], [1, 2], [2, 3], [3, 4], [4, 5], [5, 6], [6, 7], [4, 7], [1, 7]],
+  },
+  {
+    name: { es: 'Capricornio', en: 'Capricornus' },
+    stars: [[20, 25, 3.6], [25, 42, 3.0], [40, 62, 3.7], [35, 80, 4.1], [55, 52, 4.3], [65, 70, 3.7], [80, 78, 2.9]],
+    lines: [[0, 1], [1, 2], [2, 3], [2, 4], [4, 5], [5, 6], [3, 5]],
+  },
+  {
+    name: { es: 'Acuario', en: 'Aquarius' },
+    stars: [[15, 45, 3.0], [25, 30, 2.9], [40, 28, 3.8], [55, 35, 3.8], [70, 42, 3.3], [55, 60, 4.2], [65, 75, 3.8], [50, 85, 4.0], [70, 90, 4.0]],
+    lines: [[0, 1], [1, 2], [2, 3], [3, 4], [3, 5], [5, 6], [6, 7], [6, 8]],
+  },
+  {
+    name: { es: 'Piscis', en: 'Pisces' },
+    stars: [[15, 40, 3.6], [35, 50, 4.5], [55, 55, 3.8], [72, 48, 4.5], [82, 60, 4.5], [72, 72, 4.5], [58, 65, 4.5], [25, 80, 4.0], [12, 88, 4.0]],
+    lines: [[0, 1], [1, 2], [2, 3], [3, 4], [4, 5], [5, 6], [6, 2], [1, 7], [7, 8]],
+  },
 ];
 
 /** Debe coincidir con la duración de .ub-oli-const (universe-olimpo.css). */
@@ -284,6 +336,16 @@ function ConstellationSpawner() {
   );
 }
 
+/** Cielo con constelaciones para las secciones propias de Olimpo que no usan
+    UniverseBackdrop (el Panteón y el Coro). */
+export function OliSky({ className = '' }: { className?: string }) {
+  return (
+    <div className={`ub ub-oli-sky ${className}`} aria-hidden="true">
+      <ConstellationSpawner />
+    </div>
+  );
+}
+
 function OliBackdrop({ section }: { section: BackdropSection }) {
   const motes = OLI_MOTES[section];
   return (
@@ -307,7 +369,7 @@ function OliBackdrop({ section }: { section: BackdropSection }) {
           style={{ left: `${12 + ((i * 23) % 76)}%`, bottom: `${(i * 17) % 30}%`, animationDelay: `${i * 2.1}s` }}
         />
       ))}
-      {section !== 'footer' && section !== 'projects' && <ConstellationSpawner />}
+      {section !== 'footer' && <ConstellationSpawner />}
     </div>
   );
 }
@@ -317,49 +379,14 @@ function OliBackdrop({ section }: { section: BackdropSection }) {
    hero apareciendo y desapareciendo semitransparentes en los márgenes.
    En Proyectos: un portal que deja ver otro mundo a través de él. */
 const GRI_FLOATERS = ['cristal', 'elixir-astral', 'elixir-rojo', 'elixir-dorado', 'elixir-turquesa', 'frasco'];
+/** Pergaminos (fotos de Pixabay con fondo transparente): salen más seguido y un poco más grandes. */
+const GRI_SCROLLS = ['pergamino-sellado', 'pergamino'];
 
-/** Un objeto flotante (poción / cristal) o un pergamino con renglones de runas. */
-type Ghost = { id: number; x: number; y: number; size: number; rot: number } & (
-  | { kind: 'img'; src: string }
-  | { kind: 'scroll'; rows: number[][]; seal: boolean }
-);
+type Ghost = { id: number; src: string; x: number; y: number; size: number; rot: number };
 
-/** Renglones de runas al azar (índices de RUNES) para un pergamino. */
-function scrollRows() {
-  return Array.from({ length: 5 }, (_, r) =>
-    Array.from({ length: r === 4 ? 3 + Math.floor(Math.random() * 3) : 6 + Math.floor(Math.random() * 3) }, () =>
-      Math.floor(Math.random() * RUNES.length),
-    ),
-  );
-}
-
-/** Pergamino que se desenrolla: dos rodillos, papel con runas y sello de cera. */
-function GriScroll({ g }: { g: Extract<Ghost, { kind: 'scroll' }> }) {
-  const h = Math.round(g.size * 1.25);
-  return (
-    <div
-      className="ub-gri-scroll"
-      style={{ left: g.x, top: g.y, width: g.size, '--rot': `${g.rot}deg`, '--h': `${h}px` } as React.CSSProperties}
-    >
-      <span className="ub-gri-rod" />
-      <div className="ub-gri-paper" style={{ height: h }}>
-        <svg viewBox="0 0 100 125" width="100%" height="100%" preserveAspectRatio="none">
-          <g fill="none" stroke="currentColor" strokeWidth="1.1" strokeLinecap="round" strokeLinejoin="round">
-            {g.rows.map((row, r) =>
-              row.map((rune, i) => (
-                <path key={`${r}-${i}`} d={RUNES[rune]} transform={`translate(${12 + i * 10} ${18 + r * 19}) scale(0.95)`} />
-              )),
-            )}
-          </g>
-          {g.seal && <circle className="ub-gri-seal" cx="78" cy="108" r="8" />}
-        </svg>
-      </div>
-      <span className="ub-gri-rod is-bottom" />
-    </div>
-  );
-}
-
-function GhostSpawner() {
+/** Pociones, gemas y pergaminos que aparecen y desaparecen en los márgenes.
+    También se usa en el hero de Grimorio. */
+export function GhostSpawner() {
   const ref = useRef<HTMLDivElement>(null);
   const [ghosts, setGhosts] = useState<Ghost[]>([]);
 
@@ -377,24 +404,21 @@ function GhostSpawner() {
       if (inView && !document.hidden) {
         const { width, height } = el.getBoundingClientRect();
         const wide = (width - Math.min(1100, width - 48)) / 2 >= 150;
-        // Cada tanto, en lugar de una poción, se desenrolla un pergamino.
-        const isScroll = Math.random() < 0.4;
-        const size = isScroll
-          ? wide ? 96 + Math.random() * 30 : 64 + Math.random() * 12
-          : wide ? 70 + Math.random() * 50 : 46 + Math.random() * 18;
+        // 1 de cada 4 apariciones es un pergamino; el resto, pociones y gemas.
+        const isScroll = Math.random() < 0.25;
+        const pool = isScroll ? GRI_SCROLLS : GRI_FLOATERS;
+        const size = (wide ? 70 + Math.random() * 50 : 46 + Math.random() * 18) * (isScroll ? 1.25 : 1);
         const spot = randomSpot(width, height);
-        const base = {
+        const g: Ghost = {
           id: nextId++,
+          src: pool[Math.floor(Math.random() * pool.length)],
           x: Math.max(8, Math.min(spot.x, width - size - 16)),
           y: Math.max(8, Math.min(spot.y, height - size * 1.5 - 8)),
           size,
-          rot: Math.round(Math.random() * (isScroll ? 12 : 24) - (isScroll ? 6 : 12)),
+          rot: Math.round(Math.random() * 24 - 12),
         };
-        const g: Ghost = isScroll
-          ? { ...base, kind: 'scroll', rows: scrollRows(), seal: Math.random() < 0.7 }
-          : { ...base, kind: 'img', src: GRI_FLOATERS[Math.floor(Math.random() * GRI_FLOATERS.length)] };
         setGhosts((list) => [...list.slice(-2), g]);
-        window.setTimeout(() => setGhosts((list) => list.filter((x) => x.id !== g.id)), isScroll ? SCROLL_LIFE_MS : GHOST_LIFE_MS);
+        window.setTimeout(() => setGhosts((list) => list.filter((x) => x.id !== g.id)), GHOST_LIFE_MS);
       }
       timer = window.setTimeout(spawn, 2200 + Math.random() * 2200);
     };
@@ -407,9 +431,7 @@ function GhostSpawner() {
 
   return (
     <div ref={ref} className="ub-sfx-area">
-      {ghosts.map((g) => g.kind === 'scroll' ? (
-        <GriScroll key={g.id} g={g} />
-      ) : (
+      {ghosts.map((g) => (
         // eslint-disable-next-line @next/next/no-img-element -- decorativo, tamaño variable y efímero
         <img
           key={g.id}
@@ -425,8 +447,6 @@ function GhostSpawner() {
 
 /** Debe coincidir con la duración de la animación .ub-gri-ghost (universe-grimorio.css). */
 const GHOST_LIFE_MS = 5200;
-/** Debe coincidir con la duración de .ub-gri-scroll (universe-grimorio.css). */
-const SCROLL_LIFE_MS = 6800;
 
 function GriPortal() {
   return (
@@ -484,6 +504,58 @@ const CUT_MIN = 3800;
 const CUT_MAX = 6500;
 
 type Cut = { id: number; x: number; y: number; rot: number; splash: Splash };
+
+/** Disparos: menos frecuentes que los tajos. Duración = .ub-pulp-shot (universe-pulp.css). */
+const SHOT_LIFE_MS = 7000;
+const SHOT_MIN = 9000;
+const SHOT_MAX = 15000;
+
+function Gunshots() {
+  const ref = useRef<HTMLDivElement>(null);
+  const [shots, setShots] = useState<{ id: number; x: number; y: number; shot: Shot }[]>([]);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    let inView = false;
+    let timer = 0;
+    let nextId = 0;
+    const io = new IntersectionObserver(([entry]) => {
+      inView = entry.isIntersecting;
+    });
+    io.observe(el);
+    const spawn = () => {
+      if (inView && !document.hidden) {
+        const { width, height } = el.getBoundingClientRect();
+        const spot = randomSpot(width, height);
+        const item = {
+          id: nextId++,
+          x: Math.max(60, Math.min(spot.x + 50, width - 60)),
+          // Deja espacio debajo para que los chorros escurran.
+          y: Math.max(60, Math.min(spot.y, height - 300)),
+          shot: makeShot(),
+        };
+        setShots((list) => [...list.slice(-1), item]);
+        window.setTimeout(() => setShots((list) => list.filter((x) => x.id !== item.id)), SHOT_LIFE_MS);
+      }
+      timer = window.setTimeout(spawn, SHOT_MIN + Math.random() * (SHOT_MAX - SHOT_MIN));
+    };
+    // El primero llega después del primer tajo.
+    timer = window.setTimeout(spawn, 5000 + Math.random() * 4000);
+    return () => {
+      window.clearTimeout(timer);
+      io.disconnect();
+    };
+  }, []);
+
+  return (
+    <div ref={ref} className="ub-sfx-area">
+      {shots.map((s) => (
+        <GunshotSplash key={s.id} shot={s.shot} style={{ left: s.x, top: s.y }} />
+      ))}
+    </div>
+  );
+}
 
 function KatanaCuts() {
   const ref = useRef<HTMLDivElement>(null);
@@ -606,6 +678,7 @@ function PulpBackdrop({ section }: { section: BackdropSection }) {
       <div className="ub-pulp-grain" />
       {section !== 'footer' && <div className="ub-pulp-scratch" />}
       {section !== 'footer' && section !== 'projects' && <KatanaCuts />}
+      {section !== 'footer' && section !== 'projects' && <Gunshots />}
     </div>
   );
 }
@@ -613,6 +686,7 @@ function PulpBackdrop({ section }: { section: BackdropSection }) {
 export default function UniverseBackdrop({ section }: { section: BackdropSection }) {
   const { universe } = useUniverse();
   if (universe === 'pulp') return <PulpBackdrop section={section} />;
+  if (universe === 'bas') return <BasBackdrop section={section} />;
   if (universe === 'esc') return <EscBackdrop section={section} />;
   if (universe === 'oli') return <OliBackdrop section={section} />;
   if (universe === 'gri') return <GriBackdrop section={section} />;

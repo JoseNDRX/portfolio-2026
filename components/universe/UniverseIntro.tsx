@@ -118,7 +118,7 @@ export default function UniverseIntro() {
         </div>
         <div className="ip-line" style={{ position: 'absolute', left: '-5%', top: '59%', width: '115%', height: 4, background: '#e5383b', boxShadow: '0 0 18px #e5383b', zIndex: 4 }} />
         {/* El tajo de katana corta la pantalla y salpica tinta justo antes de que se abra */}
-        <InkSplash splash={INTRO_SPLASH} rot={-11} delay={1.9} className="ip-splash" />
+        <InkSplash splash={INTRO_SPLASH} rot={-11} delay={3.4} className="ip-splash" />
         {skip}
       </div>
     );

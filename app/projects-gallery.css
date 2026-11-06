@@ -10,6 +10,8 @@
 
 .pg-track {
   position: relative;
+  /* Una pantalla: la galería se maneja con sus propios controles, no con el scroll de la página. */
+  height: 100vh;
 }
 
 .pg-stage {
@@ -86,6 +88,25 @@
   max-width: 60vw;
 }
 
+/* Botones anterior / siguiente */
+.pg-nav { display: flex; gap: 0.5rem; margin-top: 0.6rem; pointer-events: auto; }
+.pg-nav-btn {
+  width: 42px;
+  height: 42px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1.5px solid var(--accent);
+  background: var(--bg-card);
+  color: var(--text-primary);
+  border-radius: min(var(--radius), 10px);
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+.pg-nav-btn:hover,
+.pg-nav-btn:focus-visible { background: var(--accent); color: var(--on-accent); }
+.pg-stage { touch-action: pan-y; }
+
 .pg-rail {
   position: absolute;
   right: 1.5rem;
@@ -151,6 +172,13 @@
   .pg-header { top: 4.5rem; }
   .pg-header h2 { font-size: 1.4rem !important; }
   .pg-rail { display: none; }
+  /* Banda sólida detrás del título: las tarjetas en vuelo no tapan el texto. */
+  .pg-header {
+    top: 0;
+    padding-top: 4.5rem;
+    padding-bottom: 2.5rem;
+    background: linear-gradient(var(--bg-primary) 0%, var(--bg-primary) 72%, transparent);
+  }
 }
 
 @media (max-width: 550px) {

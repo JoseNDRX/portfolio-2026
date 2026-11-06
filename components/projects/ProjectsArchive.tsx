@@ -7,7 +7,6 @@ import {
   animate,
   motion,
   useMotionValue,
-  useScroll,
   useSpring,
   useTransform,
   useVelocity,
@@ -21,7 +20,9 @@ import ProjectDetail from './ProjectDetail';
 /* ---------------------------------------------------------------------------
    Archivo inmersivo: un lienzo infinito de tarjetas a distintas profundidades.
    - Arrastrar (mouse / dedo) mueve el archivo en cualquier dirección, con inercia.
-   - El scroll de la página también lo recorre (hacia abajo), así nunca atrapa.
+   - El scroll de la página NO lo mueve: la sección mide una pantalla y el
+     scroll pasa de largo; el archivo se recorre arrastrando, con rueda
+     horizontal (o Shift + rueda) y con su movimiento propio.
    - Rueda horizontal o Shift + rueda lo mueve de lado.
    - Clic en una tarjeta → vista de detalle.
    --------------------------------------------------------------------------- */
@@ -171,7 +172,8 @@ function VortexTile({ tile, project, image, category, total, tileW, openLabel, o
   const scale = useTransform(t, (tt) => vortexAt(tt, 0).scale);
   const opacity = useTransform(t, (tt) => vortexAt(tt, 0).opacity);
   // Las más cercanas (grandes) quedan por encima de las que ya caen al portal.
-  const zIndex = useTransform(t, (tt) => Math.round((1 - tt) * 30));
+  // Máximo 15: por debajo de la viñeta (20) y del título (30) del escenario.
+  const zIndex = useTransform(t, (tt) => Math.round((1 - tt) * 15));
   const num = String(tile.projectIndex + 1).padStart(2, '0');
   const width = Math.round(tileW * tile.depth);
 
@@ -226,12 +228,11 @@ export default function ProjectsArchive({ projects, header, backdrop, vortex = f
   const stageRef = useRef<HTMLDivElement>(null);
   const [selected, setSelected] = useState<number | null>(null);
 
-  // Desplazamiento por arrastre (dragX/Y) + recorrido por scroll de página (scrollY).
+  // Desplazamiento por arrastre (dragX/Y); el scroll de la página no interviene.
   const dragX = useMotionValue(0);
   const dragY = useMotionValue(0);
-  const { scrollYProgress } = useScroll({ target: trackRef, offset: ['start start', 'end end'] });
   const panX = dragX;
-  const panY = useTransform([dragY, scrollYProgress], ([d, p]: number[]) => d - p * boardH * 0.85);
+  const panY = dragY;
 
   // Inclinación 3D según la velocidad del arrastre.
   const vx = useVelocity(dragX);
@@ -409,7 +410,7 @@ export default function ProjectsArchive({ projects, header, backdrop, vortex = f
   const c = copy[lang];
 
   return (
-    <div ref={trackRef} className={`pa-track${vortex ? ' pa-track-vortex' : ''}`} style={{ position: 'relative' }}>
+    <div ref={trackRef} className="pa-track" style={{ position: 'relative' }}>
       <div
         ref={stageRef}
         className="pa-stage"

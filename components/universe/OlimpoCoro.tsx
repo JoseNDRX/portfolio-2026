@@ -5,6 +5,7 @@ import { motion } from 'framer-motion';
 import { useI18n } from '@/lib/i18n-context';
 import { useUniverse } from '@/lib/universe-context';
 import { universeCopy } from '@/lib/universe-copy';
+import { OliSky } from './UniverseBackdrop';
 
 /** Banda de greca en terracota y negro (separador del universo Olimpo). */
 export function Meander() {
@@ -34,6 +35,7 @@ export default function OlimpoCoro() {
       <section className="ol-coro" aria-label={c.coroLabel}>
         <div className="ol-coro-photo" aria-hidden="true" />
         <div className="ol-coro-shade" aria-hidden="true" />
+        <OliSky className="ub-oli-sky-coro" />
         <div className="ol-coro-inner">
           <motion.div
             className="ol-coro-frame"

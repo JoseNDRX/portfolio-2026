@@ -5,19 +5,35 @@ import UniverseBackdrop from '@/components/universe/UniverseBackdrop';
 import { useUniverse } from '@/lib/universe-context';
 import ScrollCue from '@/components/universe/ScrollCue';
 import { Briefcase, MapPin, ChevronRight } from 'lucide-react';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, useSyncExternalStore } from 'react';
 
-/** Logros visibles sin scroll; el resto se ve con scroll dentro del contenedor. */
-const VISIBLE_HIGHLIGHTS = 7;
+/** Logros visibles sin scroll (ordenados del más al menos impactante); el resto
+    se ve con scroll dentro del contenedor. En móvil se muestran menos. */
+const VISIBLE_DESKTOP = 7;
+const VISIBLE_MOBILE = 5;
+const MOBILE_QUERY = '(max-width: 760px)';
+
+function useMobile() {
+  return useSyncExternalStore(
+    (cb) => {
+      const mq = window.matchMedia(MOBILE_QUERY);
+      mq.addEventListener('change', cb);
+      return () => mq.removeEventListener('change', cb);
+    },
+    () => window.matchMedia(MOBILE_QUERY).matches,
+    () => false,
+  );
+}
 
 export default function Experience() {
   const { t, lang } = useI18n();
   const { universe, sectionLabel } = useUniverse();
   const [activeJob, setActiveJob] = useState(0);
   const jobs = t.experience.jobs;
-  const hidden = Math.max(0, jobs[activeJob].highlights.length - VISIBLE_HIGHLIGHTS);
+  const visible = useMobile() ? VISIBLE_MOBILE : VISIBLE_DESKTOP;
+  const hidden = Math.max(0, jobs[activeJob].highlights.length - visible);
 
-  // Alto del contenedor = hasta el final del 7º logro (se mide porque el alto
+  // Alto del contenedor = hasta el final del último logro visible (se mide porque el alto
   // de cada logro depende del texto y del ancho de pantalla).
   const listRef = useRef<HTMLDivElement>(null);
   const [maxH, setMaxH] = useState<number | null>(null);
@@ -29,18 +45,18 @@ export default function Experience() {
     el.scrollTop = 0;
     const measure = () => {
       const items = el.children;
-      if (items.length <= VISIBLE_HIGHLIGHTS) {
+      if (items.length <= visible) {
         setMaxH(null);
         return;
       }
-      const last = items[VISIBLE_HIGHLIGHTS - 1] as HTMLElement;
+      const last = items[visible - 1] as HTMLElement;
       setMaxH(last.offsetTop - el.offsetTop + last.offsetHeight + 4);
     };
     // El ResizeObserver mide al empezar a observar y cada vez que cambia el ancho.
     const ro = new ResizeObserver(measure);
     ro.observe(el);
     return () => ro.disconnect();
-  }, [activeJob, lang, universe]);
+  }, [activeJob, lang, universe, visible]);
 
   return (
     <section

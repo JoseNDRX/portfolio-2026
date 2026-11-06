@@ -63,6 +63,7 @@ export const UNIVERSES: Record<UniverseId, Universe> = {
       en: { home: 'Prologue', about: 'The author', skills: 'Spells', experience: 'Journeys', projects: 'Quests', courses: 'Academy', contact: 'Letter' },
     },
     hasIntro: true,
+    introMs: 6000,
   },
   pulp: {
     id: 'pulp',
@@ -74,8 +75,7 @@ export const UNIVERSES: Record<UniverseId, Universe> = {
       en: { home: 'Trailer', about: 'Ch. 1', skills: 'Ch. 2', experience: 'Ch. 3', projects: 'Ch. 4', courses: 'Ch. 5', contact: 'Ch. 6' },
     },
     hasIntro: true,
-    // Más larga que el resto para que el tajo y la salpicadura de tinta alcancen a verse.
-    introMs: 4600,
+    introMs: 6000,
   },
   bas: {
     id: 'bas',
@@ -87,6 +87,7 @@ export const UNIVERSES: Record<UniverseId, Universe> = {
       en: { home: 'Base', about: 'Soldier', skills: 'Gear', experience: 'Expeditions', projects: 'Operations', courses: 'Drills', contact: 'HQ' },
     },
     hasIntro: true,
+    introMs: 6000,
   },
 };
 

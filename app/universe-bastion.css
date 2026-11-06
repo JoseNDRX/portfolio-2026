@@ -1,0 +1,221 @@
+/* =====================================================================
+   BASTIÓN · fondos animados por sección (components/universe/BastionBackdrop.tsx)
+   Fantasía militar: murallas reales con color de brasa, fuego cruzado de
+   balas trazadoras, cohetes que despegan, cables de maniobra y bengalas.
+   Fotos: Pixabay (licencia de contenido de Pixabay).
+   ===================================================================== */
+
+html:not(.dark)[data-universe='bas'] {
+  --bs-photo-op: .3;
+  --bs-photo-filter: grayscale(.55) sepia(.35) contrast(1.05) brightness(1.05);
+  --bs-veil: linear-gradient(180deg, rgba(231,227,220,.55), rgba(231,227,220,.2) 40%, rgba(231,227,220,.65));
+  --bs-wall: #3a3d40;
+  --bs-cable: rgba(30, 33, 36, .55);
+  --bs-tracer: #d9661f;
+  --bs-tracer-glow: rgba(217, 102, 31, .55);
+  --bs-smoke: rgba(80, 74, 66, .35);
+}
+html.dark[data-universe='bas'] {
+  --bs-photo-op: .32;
+  --bs-photo-filter: grayscale(.5) sepia(.45) contrast(1.15) brightness(.75);
+  --bs-veil: linear-gradient(180deg, rgba(31,35,38,.6), rgba(31,35,38,.2) 40%, rgba(31,35,38,.7));
+  --bs-wall: #141618;
+  --bs-cable: rgba(236, 230, 218, .6);
+  --bs-tracer: #ffb347;
+  --bs-tracer-glow: rgba(255, 160, 60, .8);
+  --bs-smoke: rgba(210, 200, 185, .32);
+}
+
+.ub-bas > * { position: absolute; }
+
+/* ------------------------------------------------------------ COMUNES */
+.ub-bas-photo {
+  inset: -6%;
+  background-size: cover;
+  background-position: center;
+  filter: var(--bs-photo-filter);
+  opacity: var(--bs-photo-op);
+  animation: ub-bas-pan 34s ease-in-out infinite alternate;
+}
+@keyframes ub-bas-pan { from { transform: scale(1) translate(0, 0); } to { transform: scale(1.08) translate(-2%, -1.5%); } }
+.ub-bas-veil { inset: 0; background: var(--bs-veil); }
+
+.ub-bas-about .ub-bas-photo { background-image: url('/universes/bastion/bg/about.jpg'); background-position: center 35%; }
+.ub-bas-skills .ub-bas-photo { background-image: url('/universes/bastion/bg/skills.jpg'); }
+.ub-bas-experience .ub-bas-photo { background-image: url('/universes/bastion/bg/experience.jpg'); }
+.ub-bas-courses .ub-bas-photo { background-image: url('/universes/bastion/bg/courses.jpg'); }
+.ub-bas-contact .ub-bas-photo { background-image: url('/universes/bastion/bg/contact.jpg'); }
+
+/* Muralla (misma silueta que el hero) */
+.ub-bas-wall {
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 170px;
+  fill: var(--bs-wall);
+  opacity: .9;
+}
+
+/* --------------------------------------------------------- FUEGO CRUZADO
+   Cada ráfaga es una línea (rotada) por la que pasan 3 trazadoras seguidas.
+   La bala cruza en el primer 16 % del ciclo y el resto queda en silencio,
+   así las ráfagas de los dos lados se alternan como un tiroteo. */
+.ub-bas-fire { position: absolute; inset: 0; overflow: hidden; pointer-events: none; }
+.ub-bas-burst { position: absolute; left: 0; right: 0; height: 0; }
+.ub-bas-tracer {
+  position: absolute;
+  left: 0;
+  top: -1px;
+  width: 120px;
+  height: 2px;
+  border-radius: 2px;
+  background: linear-gradient(90deg, transparent, var(--bs-tracer) 55%, #fff6dc);
+  box-shadow: 0 0 10px var(--bs-tracer-glow);
+  opacity: 0;
+  animation: ub-bas-tracer var(--d) linear infinite;
+}
+/* Desde la derecha: la bala se voltea (la punta brillante va adelante) */
+.from-right .ub-bas-tracer { scale: -1 1; animation-name: ub-bas-tracer-r; }
+@keyframes ub-bas-tracer {
+  0% { translate: -160px 0; opacity: 1; }
+  16% { translate: calc(100vw + 40px) 0; opacity: 1; }
+  16.1%, 100% { translate: calc(100vw + 40px) 0; opacity: 0; }
+}
+@keyframes ub-bas-tracer-r {
+  0% { translate: calc(100vw + 40px) 0; opacity: 1; }
+  16% { translate: -160px 0; opacity: 1; }
+  16.1%, 100% { translate: -160px 0; opacity: 0; }
+}
+
+/* Cohetes: cada uno viaja por un carril del alto de toda la sección (inclinado
+   con rotate) y lo cruza completo, de abajo hasta salir por arriba. Las
+   posiciones en % del carril funcionan igual en secciones cortas o largas. */
+.ub-bas-lane {
+  position: absolute;
+  top: -8%;
+  bottom: 0;
+  width: 0;
+  transform-origin: bottom center;
+}
+.ub-bas-rocket {
+  position: absolute;
+  left: -2px;
+  top: calc(100% + 30px);
+  width: 4px;
+  height: 16px;
+  border-radius: 2px 2px 1px 1px;
+  background: linear-gradient(180deg, #fff, #ffd27a 60%, #ff7a2f);
+  box-shadow: 0 0 12px 4px var(--bs-tracer-glow);
+  opacity: 0;
+  animation: ub-bas-rocket 8s cubic-bezier(.45, 0, .85, .55) infinite;
+}
+.ub-bas-rocket::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 100%;
+  width: 10px;
+  height: 45vh;
+  translate: -50% 0;
+  background: linear-gradient(180deg, var(--bs-smoke), transparent);
+  filter: blur(5px);
+}
+@keyframes ub-bas-rocket {
+  0% { top: calc(100% + 30px); opacity: 0; }
+  3% { opacity: 1; }
+  /* sale por arriba con la estela incluida */
+  50% { top: calc(-45vh - 40px); opacity: 1; }
+  51%, 100% { top: calc(-45vh - 40px); opacity: 0; }
+}
+
+/* ------------------------------------------------ CABLES DE MANIOBRA
+   Se disparan en diagonal (el cable se estira de golpe) y se retraen. */
+.ub-bas-cables { inset: 0; }
+.ub-bas-cable {
+  position: absolute;
+  height: 1.5px;
+  background: linear-gradient(90deg, transparent, var(--bs-cable) 15%, var(--bs-cable));
+  transform-origin: left center;
+  animation: ub-bas-cable 5.5s cubic-bezier(.9, 0, .2, 1) infinite;
+}
+.ub-bas-cable::after {
+  /* El arpón en la punta */
+  content: '';
+  position: absolute;
+  right: -5px;
+  top: -3px;
+  width: 8px;
+  height: 7px;
+  background: var(--bs-cable);
+  clip-path: polygon(0 0, 100% 50%, 0 100%);
+}
+.ub-bas-cable.c0 { left: 0; top: 22%; width: 46vw; rotate: -14deg; }
+.ub-bas-cable.c1 { right: 0; top: 30%; width: 40vw; rotate: 196deg; animation-delay: -1.4s; }
+.ub-bas-cable.c2 { left: 0; top: 72%; width: 38vw; rotate: -24deg; animation-delay: -2.8s; }
+.ub-bas-cable.c3 { right: 0; top: 64%; width: 44vw; rotate: 200deg; animation-delay: -4.1s; }
+.ub-bas-cable.c1, .ub-bas-cable.c3 { translate: 100% 0; }
+@keyframes ub-bas-cable {
+  0% { scale: 0 1; opacity: 0; }
+  2% { opacity: 1; }
+  10% { scale: 1 1; }
+  30% { scale: 1 1; opacity: 1; }
+  40% { scale: 0 1; opacity: 0; }
+  100% { scale: 0 1; opacity: 0; }
+}
+
+/* ------------------------------------------------ BENGALAS (Carta) */
+.ub-bas-flares { inset: 0; }
+.ub-bas-flare {
+  position: absolute;
+  bottom: 0;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  animation: ub-bas-flare 7s cubic-bezier(.2, .7, .3, 1) infinite;
+}
+/* La estela de humo de color que deja al subir */
+.ub-bas-flare::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 100%;
+  width: 16px;
+  height: 60vh;
+  translate: -50% 0;
+  background: linear-gradient(180deg, var(--flare-smoke), transparent);
+  filter: blur(8px);
+  opacity: .55;
+}
+.ub-bas-flare.is-red { background: #ff5a3c; box-shadow: 0 0 16px 6px #ff5a3c; --flare-smoke: rgba(220, 70, 50, .6); }
+.ub-bas-flare.is-green { background: #6fdc6a; box-shadow: 0 0 16px 6px #6fdc6a; --flare-smoke: rgba(90, 190, 90, .55); }
+.ub-bas-flare.f0 { left: 7%; }
+.ub-bas-flare.f1 { left: 90%; animation-delay: -2.4s; }
+.ub-bas-flare.f2 { left: 14%; animation-delay: -4.6s; }
+@keyframes ub-bas-flare {
+  0% { translate: 0 0; opacity: 0; }
+  5% { opacity: 1; }
+  60% { translate: 12px -70vh; opacity: 1; }
+  100% { translate: 20px -78vh; opacity: 0; }
+}
+
+/* En el hero el fuego cruzado va detrás de la muralla y del contenido */
+.bas-hero .ub-bas-fire { z-index: 0; }
+
+@supports (animation-timeline: view()) {
+  .ub-bas-about .ub-bas-wall,
+  .ub-bas-footer .ub-bas-wall {
+    animation: ub-bas-parallax linear both;
+    animation-timeline: view();
+  }
+  @keyframes ub-bas-parallax { from { translate: 0 30px; } to { translate: 0 -10px; } }
+}
+
+@media (max-width: 760px) {
+  .ub-bas-wall { height: 110px; }
+  .ub-bas-tracer { width: 70px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ub-bas *, .ub-bas-photo, .bas-hero .ub-bas-fire * { animation: none !important; }
+  .ub-bas-cable, .ub-bas-flare, .ub-bas-fire { display: none; }
+}

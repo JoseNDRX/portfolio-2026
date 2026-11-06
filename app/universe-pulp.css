@@ -471,3 +471,54 @@ html.dark[data-universe='pulp'] {
 @media (prefers-reduced-motion: reduce) {
   .pulp-gash { animation: none; }
 }
+
+/* Salpicadura acuarela (InkSplash): el lavado se expande un instante después
+   del corte, como tinta que corre en papel mojado. Los chorros, en granate. */
+.ub-pulp-wash {
+  transform-box: fill-box;
+  transform-origin: 30% 50%;
+  animation: ub-pulp-wash 4.4s cubic-bezier(0.15, 0.8, 0.3, 1) both;
+}
+@keyframes ub-pulp-wash {
+  0%, 9% { scale: 0.35; opacity: 0; }
+  30% { scale: 1; opacity: 1; }
+  100% { scale: 1.06; opacity: 1; }
+}
+.ub-pulp-drips { fill: #a3191b; }
+
+/* ------------------------------------------------------ DISPARO AL FONDO
+   (GunshotSplash.tsx) Fogonazo → impacto con salpicadura radial → chorros que
+   escurren por la pared → se desvanece. Duración = SHOT_LIFE_MS (7 s). */
+.ub-pulp-shot { position: absolute; width: 0; height: 0; animation: ub-pulp-shot-life 7s linear both; }
+@keyframes ub-pulp-shot-life { 0%, 80% { opacity: 1; } 100% { opacity: 0; } }
+.ub-pulp-flash-hit {
+  position: absolute;
+  left: -40px;
+  top: -40px;
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #fff 0 12%, #ffe9a8 25%, rgba(255, 140, 40, .6) 45%, transparent 70%);
+  animation: ub-pulp-flash-hit .35s ease-out both;
+}
+@keyframes ub-pulp-flash-hit {
+  0% { scale: .2; opacity: 1; }
+  40% { scale: 1.3; opacity: 1; }
+  100% { scale: 1.6; opacity: 0; }
+}
+.ub-pulp-shot-ink { position: absolute; left: -160px; top: -160px; overflow: visible; opacity: .92; }
+.ub-pulp-shot-splat {
+  transform-box: view-box;
+  transform-origin: 160px 160px;
+  animation: ub-pulp-shot-splat .4s cubic-bezier(.1, .9, .3, 1) .08s both;
+}
+@keyframes ub-pulp-shot-splat { from { scale: .1; opacity: 0; } 30% { opacity: 1; } to { scale: 1; opacity: 1; } }
+.ub-pulp-shot-drips > g {
+  transform-box: fill-box;
+  transform-origin: top;
+  animation: ub-pulp-shot-drip 3.2s cubic-bezier(.35, .2, .3, 1) both;
+}
+@keyframes ub-pulp-shot-drip { from { scale: 1 0; } to { scale: 1 1; } }
+@media (prefers-reduced-motion: reduce) {
+  .ub-pulp-shot { display: none; }
+}

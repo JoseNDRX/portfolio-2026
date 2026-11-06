@@ -29,7 +29,7 @@ type UniverseContextType = {
 
 const UniverseContext = createContext<UniverseContextType | null>(null);
 
-const DEFAULT_INTRO_MS = 3400;
+const DEFAULT_INTRO_MS = 6000; // toda intro dura al menos 6 s
 
 function prefersReducedMotion() {
   return typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches;

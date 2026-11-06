@@ -40,7 +40,7 @@ export default function HeroEscuadron() {
               {c.contact}
             </a>
           </div>
-          <div className="esc-burst esc-pop esc-font" aria-hidden="true" style={{ position: 'absolute', top: -34, right: -26, width: 170, height: 170, background: 'var(--e-red)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '2.1rem', color: '#fff', textShadow: '2px 2px 0 #111' }}>
+          <div className="esc-burst esc-pop esc-font esc-hero-burst" aria-hidden="true" style={{ position: 'absolute', top: -34, right: -26, width: 170, height: 170, background: 'var(--e-red)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '2.1rem', color: '#fff', textShadow: '2px 2px 0 #111' }}>
             {c.burst}
           </div>
         </div>

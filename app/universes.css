@@ -129,7 +129,8 @@ html[data-universe='esc'] .grid-bg { background-image: none; }
 /* =====================================================================
    INTROS
    ===================================================================== */
-.u-intro { position: fixed; inset: 0; z-index: 3000; overflow: hidden; animation: u-introout 0.45s ease var(--intro-out, 2.95s) both; }
+/* Todas las intros duran 6 s (introMs en lib/universes.ts): la capa se desvanece en los últimos 0.45 s. */
+.u-intro { position: fixed; inset: 0; z-index: 3000; overflow: hidden; animation: u-introout 0.45s ease var(--intro-out, 5.55s) both; }
 @keyframes u-introout { to { opacity: 0; visibility: hidden; } }
 .u-lb-top, .u-lb-bot { position: absolute; left: 0; right: 0; height: 11%; background: #000; z-index: 10; animation: u-lbin 0.5s ease both; }
 .u-lb-top { top: 0; transform-origin: top; }
@@ -142,9 +143,10 @@ html[data-universe='esc'] .grid-bg { background-image: none; }
 .ie-p1 { animation: ie-p1 0.55s cubic-bezier(0.2, 1.4, 0.4, 1) 0.3s both; }
 .ie-p2 { animation: ie-p2 0.55s cubic-bezier(0.2, 1.4, 0.4, 1) 1.6s both; }
 .ie-p3 { animation: ie-p3 0.55s cubic-bezier(0.2, 1.4, 0.4, 1) 2.9s both; }
-@keyframes ie-p1 { from { transform: translateX(-120%) rotate(-6deg); } }
-@keyframes ie-p2 { from { transform: translateY(-140%) rotate(4deg); } }
-@keyframes ie-p3 { from { transform: translateX(140%) rotate(6deg); } }
+/* Cada viñeta entra desde fuera y con opacidad 0: ninguna se ve antes de su turno. */
+@keyframes ie-p1 { from { transform: translateX(-120vw) rotate(-6deg); opacity: 0; } 40% { opacity: 1; } }
+@keyframes ie-p2 { from { transform: translateY(-120vh) rotate(4deg); opacity: 0; } 40% { opacity: 1; } }
+@keyframes ie-p3 { from { transform: translateX(120vw) rotate(6deg); opacity: 0; } 40% { opacity: 1; } }
 .ie-title { animation: u-fadeup 0.5s ease 4.1s both; }
 /* olimpo */
 .io-beam { animation: io-beam 1.4s ease-out 0.3s both; transform-origin: top; }
@@ -153,34 +155,48 @@ html[data-universe='esc'] .grid-bg { background-image: none; }
 @keyframes io-title { from { opacity: 0; letter-spacing: 0.9em; filter: blur(8px); } to { opacity: 1; letter-spacing: 0.28em; filter: blur(0); } }
 .io-sub { animation: u-fadeup 0.8s ease 1.9s both; }
 /* grimorio */
-.ig-draw { stroke-dasharray: 1400; animation: ig-draw 1.8s ease-in-out 0.3s both; }
+.ig-draw { stroke-dasharray: 1400; animation: ig-draw 3.2s ease-in-out 0.3s both; }
 @keyframes ig-draw { from { stroke-dashoffset: 1400; } to { stroke-dashoffset: 0; } }
-.ig-glow { transform-box: fill-box; transform-origin: center; filter: blur(14px); animation: ig-glow 1.2s ease 1.7s both; }
+.ig-glow { transform-box: fill-box; transform-origin: center; filter: blur(14px); animation: ig-glow 1.4s ease 3.4s both; }
 @keyframes ig-glow { from { opacity: 0; transform: scale(0.6); } to { opacity: 1; transform: scale(1); } }
-.ig-title { animation: u-fadeup 1s ease 1.6s both; }
+.ig-title { animation: u-fadeup 1.2s ease 3.2s both; }
 /* capítulo final */
-.ip-c1 { animation: ip-c1 1.3s steps(1) 0.2s both; }
+.ip-c1 { animation: ip-c1 1.6s steps(1) 0.4s both; }
 @keyframes ip-c1 { 0% { opacity: 0; } 10% { opacity: 1; } 14% { opacity: 0.4; } 18%, 100% { opacity: 1; } }
-.ip-c2 { animation: u-fadeup 0.4s ease 1s both; }
-.ip-line { animation: ip-line 0.25s ease-in 2.05s both; transform-origin: left; }
+.ip-c2 { animation: u-fadeup 0.5s ease 1.7s both; }
+.ip-line { animation: ip-line 0.25s ease-in 3.55s both; transform-origin: left; }
 @keyframes ip-line { from { transform: rotate(-11deg) scaleX(0); } to { transform: rotate(-11deg) scaleX(1); } }
-.ip-top { animation: ip-top 0.7s cubic-bezier(0.7, 0, 0.3, 1) 2.35s both; }
-.ip-bot { animation: ip-bot 0.7s cubic-bezier(0.7, 0, 0.3, 1) 2.35s both; }
+.ip-top { animation: ip-top 0.8s cubic-bezier(0.7, 0, 0.3, 1) 3.9s both; }
+.ip-bot { animation: ip-bot 0.8s cubic-bezier(0.7, 0, 0.3, 1) 3.9s both; }
 @keyframes ip-top { to { transform: translate(-10%, -75%); } }
 @keyframes ip-bot { to { transform: translate(10%, 75%); } }
 /* bastión */
-.u-shake { animation: u-shake 0.45s linear 1.4s 2; }
+.u-shake { animation: u-shake 0.45s linear 2.6s 2; }
 @keyframes u-shake { 0%, 100% { transform: translate(0, 0); } 20% { transform: translate(-6px, 3px); } 40% { transform: translate(5px, -4px); } 60% { transform: translate(-4px, 5px); } 80% { transform: translate(6px, -2px); } }
-.ib-jp { animation: ib-jp 0.5s cubic-bezier(0.2, 1.5, 0.4, 1) 0.3s both; }
+.ib-jp { animation: ib-jp 0.6s cubic-bezier(0.2, 1.5, 0.4, 1) 0.5s both; }
 @keyframes ib-jp { from { opacity: 0; transform: scale(1.6); } }
-.ib-ep { animation: u-fadeup 0.4s ease 0.8s both; }
-.ib-flash { animation: ib-flash 0.6s ease 1.4s both; }
+.ib-ep { animation: u-fadeup 0.6s ease 1.4s both; }
+.ib-flash { animation: ib-flash 0.7s ease 2.6s both; }
 @keyframes ib-flash { 0% { opacity: 0; } 15% { opacity: 0.85; } 100% { opacity: 0; } }
-.ib-title { animation: u-fadeup 0.6s ease 2s both; }
+.ib-title { animation: u-fadeup 0.8s ease 3.3s both; }
 
 @media (max-width: 760px) {
-  .u-intro-panels { grid-template-columns: 1fr !important; }
+  /* Escuadrón: las 3 viñetas en columna dejan libre el espacio del título final */
+  .u-intro-panels { grid-template-columns: 1fr !important; inset: 13% 7% 31% !important; gap: 12px !important; }
+  .u-intro-panels .esc-panel { font-size: 1.3rem !important; }
+  .ie-title { bottom: 19% !important; }
+  /* En columna, la 2.ª viñeta ya no cae desde arriba (pasaría sobre la 1.ª): entra de lado */
+  .ie-p2 { animation-name: ie-p2-m; }
+  .ie-p3 { animation-name: ie-p1; }
+  /* Capítulo final: en vertical la diagonal pasaba encima de los textos; aquí es
+     más plana y cada texto queda lejos del corte. */
+  .ip-top { clip-path: polygon(0 0, 100% 0, 100% 47%, 0 53%) !important; padding-bottom: 22vh !important; }
+  .ip-bot { clip-path: polygon(0 53%, 100% 47%, 100% 100%, 0 100%) !important; padding-top: 22vh !important; }
+  .ip-line { top: 53% !important; animation-name: ip-line-m; }
+  .ip-splash { top: calc(53% - 18px); scale: 1.1; }
 }
+@keyframes ie-p2-m { from { transform: translateX(120vw) rotate(4deg); opacity: 0; } 40% { opacity: 1; } }
+@keyframes ip-line-m { from { transform: rotate(-7.3deg) scaleX(0); } to { transform: rotate(-7.3deg) scaleX(1); } }
 
 @media (prefers-reduced-motion: reduce) {
   .u-hero *, .u-board *, .u-intro * {
@@ -344,4 +360,23 @@ html:not(.dark)[data-universe='gri'] .mc-hero,
 
 @media (prefers-reduced-motion: reduce) {
   .magic-circle .mc-outer, .magic-circle .mc-astro, .magic-circle .mc-core { animation: none; }
+}
+
+/* Escuadrón en teléfonos: la explosión del hero, más chica y en la esquina,
+   para que no tape el recuadro de narración ("Mientras tanto…"). */
+@media (max-width: 600px) {
+  .esc-hero-burst {
+    width: 96px !important;
+    height: 96px !important;
+    top: -58px !important;
+    right: -14px !important;
+    font-size: 1.25rem !important;
+  }
+}
+
+/* Autoscroll activo (components/AutoScrollToggle.tsx): los avisos de scroll se ocultan. */
+html[data-autoscroll='on'] .scroll-cue {
+  opacity: 0 !important;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
 }

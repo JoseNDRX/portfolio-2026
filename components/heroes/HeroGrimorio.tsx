@@ -4,6 +4,7 @@ import { useRef } from 'react';
 import { useI18n } from '@/lib/i18n-context';
 import ScrollCue from '@/components/universe/ScrollCue';
 import MagicCircle from '@/components/universe/MagicCircle';
+import { GhostSpawner } from '@/components/universe/UniverseBackdrop';
 import { universeCopy, heroSkills } from '@/lib/universe-copy';
 
 /** Luciérnagas: doradas y turquesa. */
@@ -36,6 +37,10 @@ export default function HeroGrimorio() {
     <section id="hero" ref={ref} className="u-hero gri-hero gr-hero" onMouseMove={onMove}>
       <div className="gr-photo" aria-hidden="true" />
       <div className="gr-veil" aria-hidden="true" />
+      {/* Pociones, gemas y pergaminos que aparecen y desaparecen (como en las secciones) */}
+      <div className="ub" aria-hidden="true">
+        <GhostSpawner />
+      </div>
       {FIREFLIES.map((f) => (
         <span key={f.left + f.bottom} className={`gr-firefly gr-firefly-${f.tone}`} style={{ left: f.left, bottom: f.bottom, animationDelay: f.delay }} />
       ))}
@@ -72,7 +77,7 @@ export default function HeroGrimorio() {
           </div>
         </div>
 
-        {/* Altar: solo el círculo mágico (los objetos flotantes aparecen en las demás secciones) */}
+        {/* Altar: el círculo mágico */}
         <div className="gr-stage u-side" aria-hidden="true">
           <div className="gr-circle">
             <MagicCircle className="mc-hero" size={460} />

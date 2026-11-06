@@ -4,7 +4,7 @@
 
 .pa-track {
   position: relative;
-  height: 220vh; /* el scroll de la página recorre el archivo */
+  height: 100vh; /* una pantalla: el scroll de la página pasa de largo, no mueve el archivo */
 }
 
 .pa-stage {
@@ -367,6 +367,13 @@
   .pa-header { top: 4.5rem; }
   .pa-header h2 { font-size: 1.35rem !important; }
   .pa-title { font-size: 0.85rem; }
+  /* En móvil el título ocupa 2–3 renglones: la banda sólida de arriba baja más
+     para que las tarjetas no pasen por encima del texto. */
+  .pa-vignette {
+    background:
+      linear-gradient(var(--bg-primary) 0%, var(--bg-primary) 25%, transparent 40%, transparent 84%, var(--bg-primary)),
+      linear-gradient(90deg, var(--bg-primary), transparent 8%, transparent 92%, var(--bg-primary));
+  }
 }
 
 /* =====================================================================

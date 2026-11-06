@@ -7,6 +7,7 @@ import { useUniverse } from '@/lib/universe-context';
 import { universeCopy } from '@/lib/universe-copy';
 import { UNIVERSES } from '@/lib/universes';
 import { useState, useEffect, useSyncExternalStore } from 'react';
+import AutoScrollToggle from './AutoScrollToggle';
 
 const noopSubscribe = () => () => {};
 
@@ -39,6 +40,7 @@ export default function Navbar() {
   return (
     <>
       <nav
+        className="site-nav"
         style={{
           position: 'fixed',
           top: 0,
@@ -80,7 +82,7 @@ export default function Navbar() {
           >
             <Code2 size={20} color="white" />
           </div>
-          <span style={{ fontWeight: 700, fontSize: '1.05rem', color: 'var(--text-primary)' }}>
+          <span className="nav-logo-text" style={{ fontWeight: 700, fontSize: '1.05rem', color: 'var(--text-primary)' }}>
             JNDRX<span className="gradient-text">.dev</span>
           </span>
         </a>
@@ -119,7 +121,7 @@ export default function Navbar() {
         </div>
 
         {/* Controls */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+        <div className="nav-controls" style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
           {/* Lang toggle */}
           <button
             onClick={() => setLang(lang === 'es' ? 'en' : 'es')}
@@ -165,6 +167,9 @@ export default function Navbar() {
               {boardCopy.open}: {UNIVERSES[universe].name[lang]}
             </span>
           </button>
+
+          {/* Recorrido automático de la página */}
+          <AutoScrollToggle lang={lang} />
 
           {/* Claro / oscuro (cada universo tiene sus dos versiones) */}
           {mounted && (
@@ -258,6 +263,12 @@ export default function Navbar() {
           .desktop-nav { display: none !important; }
           .hamburger-btn { display: flex !important; }
           .universe-btn-label { display: none; }
+        }
+        /* Teléfonos: solo el ícono del logo y controles más juntos, para que quepan todos los botones. */
+        @media (max-width: 480px) {
+          .nav-logo-text { display: none; }
+          .nav-controls { gap: 0.4rem !important; }
+          .site-nav { padding-left: 1rem !important; padding-right: 1rem !important; }
         }
       `}</style>
     </>
