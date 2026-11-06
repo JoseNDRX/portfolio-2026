@@ -2,6 +2,7 @@
 
 import React, { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import { useI18n } from './i18n-context';
+import { prefersReducedMotion } from './hooks';
 import {
   UNIVERSES,
   UNIVERSE_STORAGE_KEY,
@@ -30,10 +31,6 @@ type UniverseContextType = {
 const UniverseContext = createContext<UniverseContextType | null>(null);
 
 const DEFAULT_INTRO_MS = 6000; // toda intro dura al menos 6 s
-
-function prefersReducedMotion() {
-  return typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-}
 
 function applyToDocument(id: UniverseId) {
   document.documentElement.dataset.universe = id;

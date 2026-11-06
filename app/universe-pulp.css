@@ -1,6 +1,6 @@
 /* =====================================================================
    CAPÍTULO FINAL · fondos animados por sección (PulpBackdrop en
-   components/universe/UniverseBackdrop.tsx).
+   components/universe/backdrops/PulpBackdrop.tsx).
    Noir de venganza: blanco y negro de alto contraste + un solo color (rojo).
    Película, no cómic: grano, rayones, lluvia, flashes de relámpago.
    ===================================================================== */
@@ -350,7 +350,7 @@ html.dark[data-universe='pulp'] {
 /* ---------------------------------------------------- TAJO DE KATANA
    Una hoja larga cruza (0.8 s), deja una salpicadura de tinta roja que se
    esparce y unos chorros que escurren hacia abajo; todo se desvanece a los
-   4.4 s (CUT_LIFE_MS en UniverseBackdrop.tsx). Componente: InkSplash.tsx. */
+   4.4 s (CUT_LIFE_MS en backdrops/PulpBackdrop.tsx). Componente: InkSplash.tsx. */
 .ub-pulp-cut {
   position: absolute;
   width: 0;

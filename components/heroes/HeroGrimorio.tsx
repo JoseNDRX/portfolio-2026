@@ -4,7 +4,7 @@ import { useRef } from 'react';
 import { useI18n } from '@/lib/i18n-context';
 import ScrollCue from '@/components/universe/ScrollCue';
 import MagicCircle from '@/components/universe/MagicCircle';
-import { GhostSpawner } from '@/components/universe/UniverseBackdrop';
+import { GhostSpawner } from '@/components/universe/backdrops/GriBackdrop';
 import { universeCopy, heroSkills } from '@/lib/universe-copy';
 
 /** Luciérnagas: doradas y turquesa. */

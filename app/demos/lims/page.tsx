@@ -4,8 +4,8 @@ import { useState } from 'react';
 import Link from 'next/link';
 import {
   ArrowLeft, FlaskConical, CheckCircle2, Clock, XCircle,
-  BarChart3, FileText, Droplets, Beaker, Thermometer, Search,
-  Filter, Download, Plus, Eye
+  FileText, Beaker, Search,
+  Download, Plus, Eye
 } from 'lucide-react';
 
 const samples = [

@@ -1,7 +1,7 @@
 'use client';
 
 import { WALL_PATH } from '@/components/heroes/HeroBastion';
-import type { BackdropSection } from './UniverseBackdrop';
+import type { BackdropSection } from './types';
 
 /* ---------------------------------------------------------------------------
    BASTIÓN · fondos por sección: fantasía militar (sin personajes ni emblemas

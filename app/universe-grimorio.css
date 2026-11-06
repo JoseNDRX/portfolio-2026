@@ -78,7 +78,7 @@ html.dark[data-universe='gri'] {
 }
 
 /* =====================================================================
-   FONDOS POR SECCIÓN (components/universe/UniverseBackdrop.tsx → GriBackdrop)
+   FONDOS POR SECCIÓN (components/universe/backdrops/GriBackdrop.tsx)
    ===================================================================== */
 html.dark[data-universe='gri'] {
   --gr-bg-filter: brightness(.7) saturate(.85);

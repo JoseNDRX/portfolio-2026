@@ -5,7 +5,7 @@ import { motion } from 'framer-motion';
 import { useI18n } from '@/lib/i18n-context';
 import { useUniverse } from '@/lib/universe-context';
 import { universeCopy } from '@/lib/universe-copy';
-import { OliSky } from './UniverseBackdrop';
+import { OliSky } from './backdrops/OliBackdrop';
 
 /** Banda de greca en terracota y negro (separador del universo Olimpo). */
 export function Meander() {

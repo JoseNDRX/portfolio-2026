@@ -180,7 +180,7 @@ html:not(.dark)[data-universe='oli'] .skill-badge { font-weight: 700; color: #6e
 .ol-credits { position: relative; z-index: 1; margin-top: 3rem; text-align: center; font-size: .75rem; color: var(--text-muted); }
 
 /* =====================================================================
-   FONDOS POR SECCIÓN (components/universe/UniverseBackdrop.tsx → OliBackdrop)
+   FONDOS POR SECCIÓN (components/universe/backdrops/OliBackdrop.tsx)
    Fotos reales de Grecia en public/universes/olimpo/bg/ (Wikimedia, PD / CC0).
    ===================================================================== */
 html.dark[data-universe='oli'] {

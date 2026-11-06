@@ -24,6 +24,7 @@ import './universe-olimpo.css';
 import './universe-grimorio.css';
 import './universe-pulp.css';
 import './universe-bastion.css';
+import './navbar.css';
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter', display: 'swap' });
 

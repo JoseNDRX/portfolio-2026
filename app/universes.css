@@ -380,3 +380,28 @@ html[data-autoscroll='on'] .scroll-cue {
   pointer-events: none;
   transition: opacity 0.3s ease;
 }
+
+/* =====================================================================
+   CARTELERA (components/universe/UniverseBoard.tsx): encabezado y pósters.
+   Siempre oscura, sin importar el universo ni el modo.
+   ===================================================================== */
+.u-board-inner { max-width: 1320px; margin: 0 auto; padding: 2.5rem 1.5rem 3rem; }
+.u-board-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+.u-board-kicker { font: 700 12px var(--font-inter), sans-serif; letter-spacing: .3em; color: #e5383b; text-transform: uppercase; }
+.u-board-title { margin-top: 8px; font-family: var(--font-anton), Impact, sans-serif; font-size: clamp(2rem, 5vw, 3rem); color: #f1e9d2; font-weight: 400; text-transform: uppercase; }
+.u-board-hint { margin-top: 6px; color: #a1a1aa; font-size: 15px; }
+.u-board-close { width: 44px; height: 44px; border-radius: 50%; border: 1px solid #3f3f46; background: transparent; color: #f4f4f5; display: flex; align-items: center; justify-content: center; cursor: pointer; }
+
+.u-poster-media { position: relative; }
+.u-poster-body { padding: 14px 16px 16px; color: #f4f4f5; }
+.u-poster-row { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+.u-poster-live { font: 700 10px var(--font-inter), sans-serif; letter-spacing: .1em; white-space: nowrap; color: #34d399; text-transform: uppercase; }
+.u-poster-tagline { font-size: 13px; color: #a1a1aa; margin-top: 4px; font-family: var(--font-inter), sans-serif; }
+
+/* Nombre de cada universo con su propia tipografía */
+.u-poster-name.is-pro { font-family: var(--font-inter), sans-serif; font-weight: 800; font-size: 18px; }
+.u-poster-name.is-esc { font-family: var(--font-bangers), Impact, sans-serif; font-size: 22px; letter-spacing: .05em; }
+.u-poster-name.is-oli { font-family: var(--font-cinzel), Georgia, serif; font-size: 18px; font-weight: 700; letter-spacing: .08em; }
+.u-poster-name.is-gri { font-family: var(--font-fell), Georgia, serif; font-size: 22px; }
+.u-poster-name.is-pulp { font-family: var(--font-anton), Impact, sans-serif; font-size: 20px; letter-spacing: .04em; text-transform: uppercase; }
+.u-poster-name.is-bas { font-family: var(--font-oswald), Impact, sans-serif; font-size: 20px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; }

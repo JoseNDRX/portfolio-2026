@@ -9,7 +9,7 @@ import { universeCopy } from '@/lib/universe-copy';
 import { skillData } from '@/lib/skills';
 import { GODS } from '@/lib/olimpo';
 import ScrollCue from '@/components/universe/ScrollCue';
-import { OliSky } from '@/components/universe/UniverseBackdrop';
+import { OliSky } from '@/components/universe/backdrops/OliBackdrop';
 
 /** Sección Habilidades en el universo Olimpo: cada dios protege categorías del stack. */
 export default function SkillsPanteon() {

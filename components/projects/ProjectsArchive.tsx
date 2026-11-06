@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useMemo, useRef, useState, useSyncExternalStore } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import Image from 'next/image';
 import {
   AnimatePresence,
@@ -13,6 +13,7 @@ import {
   type MotionValue,
 } from 'framer-motion';
 import { useI18n } from '@/lib/i18n-context';
+import { NARROW_QUERY, useMediaQuery, useMounted } from '@/lib/hooks';
 import { mediaFor } from '@/lib/project-media';
 import type { Project } from './ProjectCard';
 import ProjectDetail from './ProjectDetail';
@@ -33,8 +34,6 @@ const LAYOUT = {
 };
 /** Profundidades: <1 = más al fondo (más chica y lenta), >1 = más cerca. */
 const DEPTHS = [0.72, 0.86, 1, 1.14];
-const NARROW_QUERY = '(max-width: 760px)';
-const noopSubscribe = () => () => {};
 /** Velocidad del movimiento propio (px/s) y espera tras la última interacción. */
 const DRIFT = { x: 26, y: 12 };
 const IDLE_DELAY_MS = 1800;
@@ -52,18 +51,6 @@ const copy = {
   es: { hint: 'Arrastra para explorar · Clic para abrir', open: 'Abrir proyecto' },
   en: { hint: 'Drag to explore · Click to open', open: 'Open project' },
 };
-
-function useNarrow() {
-  return useSyncExternalStore(
-    (cb) => {
-      const mq = window.matchMedia(NARROW_QUERY);
-      mq.addEventListener('change', cb);
-      return () => mq.removeEventListener('change', cb);
-    },
-    () => window.matchMedia(NARROW_QUERY).matches,
-    () => false,
-  );
-}
 
 /** Número pseudoaleatorio estable (0..1) para que el mosaico no cambie entre renders. */
 function seeded(n: number) {
@@ -215,10 +202,10 @@ type Props = {
 
 export default function ProjectsArchive({ projects, header, backdrop, vortex = false }: Props) {
   const { lang } = useI18n();
-  const narrow = useNarrow();
+  const narrow = useMediaQuery(NARROW_QUERY);
   // Las tarjetas dependen del scroll y del ancho de pantalla, que no existen en
   // el servidor: se dibujan solo en el navegador para evitar errores de hidratación.
-  const mounted = useSyncExternalStore(noopSubscribe, () => true, () => false);
+  const mounted = useMounted();
   const L = narrow ? LAYOUT.narrow : LAYOUT.wide;
   const boardW = L.cols * L.cellW;
   const boardH = L.rows * L.cellH;

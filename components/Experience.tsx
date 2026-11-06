@@ -5,32 +5,21 @@ import UniverseBackdrop from '@/components/universe/UniverseBackdrop';
 import { useUniverse } from '@/lib/universe-context';
 import ScrollCue from '@/components/universe/ScrollCue';
 import { Briefcase, MapPin, ChevronRight } from 'lucide-react';
-import { useEffect, useRef, useState, useSyncExternalStore } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { NARROW_QUERY, useMediaQuery } from '@/lib/hooks';
 
 /** Logros visibles sin scroll (ordenados del más al menos impactante); el resto
     se ve con scroll dentro del contenedor. En móvil se muestran menos. */
 const VISIBLE_DESKTOP = 7;
 const VISIBLE_MOBILE = 5;
-const MOBILE_QUERY = '(max-width: 760px)';
 
-function useMobile() {
-  return useSyncExternalStore(
-    (cb) => {
-      const mq = window.matchMedia(MOBILE_QUERY);
-      mq.addEventListener('change', cb);
-      return () => mq.removeEventListener('change', cb);
-    },
-    () => window.matchMedia(MOBILE_QUERY).matches,
-    () => false,
-  );
-}
 
 export default function Experience() {
   const { t, lang } = useI18n();
   const { universe, sectionLabel } = useUniverse();
   const [activeJob, setActiveJob] = useState(0);
   const jobs = t.experience.jobs;
-  const visible = useMobile() ? VISIBLE_MOBILE : VISIBLE_DESKTOP;
+  const visible = useMediaQuery(NARROW_QUERY) ? VISIBLE_MOBILE : VISIBLE_DESKTOP;
   const hidden = Math.max(0, jobs[activeJob].highlights.length - visible);
 
   // Alto del contenedor = hasta el final del último logro visible (se mide porque el alto

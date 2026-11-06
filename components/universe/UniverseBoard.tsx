@@ -97,15 +97,6 @@ function Clip({ id, lang }: { id: UniverseId; lang: Lang }) {
   }
 }
 
-const titleStyle: Record<UniverseId, React.CSSProperties> = {
-  pro: { fontFamily: 'var(--font-inter), sans-serif', fontWeight: 800, fontSize: 18 },
-  esc: { fontFamily: 'var(--font-bangers), Impact, sans-serif', fontSize: 22, letterSpacing: '.05em' },
-  oli: { fontFamily: 'var(--font-cinzel), Georgia, serif', fontSize: 18, fontWeight: 700, letterSpacing: '.08em' },
-  gri: { fontFamily: 'var(--font-fell), Georgia, serif', fontSize: 22 },
-  pulp: { fontFamily: 'var(--font-anton), Impact, sans-serif', fontSize: 20, letterSpacing: '.04em', textTransform: 'uppercase' },
-  bas: { fontFamily: 'var(--font-oswald), Impact, sans-serif', fontSize: 20, fontWeight: 700, letterSpacing: '.1em', textTransform: 'uppercase' },
-};
-
 export default function UniverseBoard() {
   const { lang } = useI18n();
   const { universe, boardOpen, closeBoard, chooseUniverse } = useUniverse();
@@ -130,14 +121,14 @@ export default function UniverseBoard() {
 
   return (
     <div className="u-board" role="dialog" aria-modal="true" aria-labelledby="u-board-title" onClick={(e) => e.target === e.currentTarget && closeBoard()}>
-      <div style={{ maxWidth: 1320, margin: '0 auto', padding: '2.5rem 1.5rem 3rem' }}>
-        <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', gap: 16, flexWrap: 'wrap' }}>
+      <div className="u-board-inner">
+        <div className="u-board-head">
           <div>
-            <p style={{ font: '700 12px var(--font-inter), sans-serif', letterSpacing: '.3em', color: '#e5383b', textTransform: 'uppercase' }}>{c.kicker}</p>
-            <h2 id="u-board-title" style={{ marginTop: 8, fontFamily: 'var(--font-anton), Impact, sans-serif', fontSize: 'clamp(2rem, 5vw, 3rem)', color: '#f1e9d2', fontWeight: 400, textTransform: 'uppercase' }}>{c.title}</h2>
-            <p style={{ marginTop: 6, color: '#a1a1aa', fontSize: 15 }}>{c.hint}</p>
+            <p className="u-board-kicker">{c.kicker}</p>
+            <h2 id="u-board-title" className="u-board-title">{c.title}</h2>
+            <p className="u-board-hint">{c.hint}</p>
           </div>
-          <button ref={closeRef} onClick={closeBoard} aria-label={c.close} style={{ width: 44, height: 44, borderRadius: '50%', border: '1px solid #3f3f46', background: 'transparent', color: '#f4f4f5', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer' }}>
+          <button ref={closeRef} onClick={closeBoard} aria-label={c.close} className="u-board-close">
             <X size={18} />
           </button>
         </div>
@@ -148,19 +139,19 @@ export default function UniverseBoard() {
             const active = universe === id;
             return (
               <button key={id} className="u-poster" aria-pressed={active} onClick={() => chooseUniverse(id)}>
-                <div style={{ position: 'relative' }}>
+                <div className="u-poster-media">
                   <div className="u-clip-label" aria-hidden="true">
                     <span className="u-rec" />
                     {c.preview}
                   </div>
                   <Clip id={id} lang={lang} />
                 </div>
-                <div style={{ padding: '14px 16px 16px', color: '#f4f4f5' }}>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 8 }}>
-                    <span style={titleStyle[id]}>{u.name[lang]}</span>
-                    {active && <span style={{ font: '700 10px var(--font-inter), sans-serif', letterSpacing: '.1em', whiteSpace: 'nowrap', color: '#34d399', textTransform: 'uppercase' }}>{c.onScreen}</span>}
+                <div className="u-poster-body">
+                  <div className="u-poster-row">
+                    <span className={`u-poster-name is-${id}`}>{u.name[lang]}</span>
+                    {active && <span className="u-poster-live">{c.onScreen}</span>}
                   </div>
-                  <div style={{ fontSize: 13, color: '#a1a1aa', marginTop: 4, fontFamily: 'var(--font-inter), sans-serif' }}>{u.tagline[lang]}</div>
+                  <div className="u-poster-tagline">{u.tagline[lang]}</div>
                 </div>
               </button>
             );

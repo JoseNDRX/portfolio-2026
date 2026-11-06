@@ -72,21 +72,7 @@ export default function AutoScrollToggle({ lang }: Props) {
       aria-pressed={on}
       aria-label={label}
       title={label}
-      className="nav-icon-btn"
-      style={{
-        width: 38,
-        height: 38,
-        borderRadius: 'min(var(--radius), 10px)',
-        border: `1.5px solid ${on ? 'var(--accent)' : 'var(--border)'}`,
-        background: on ? 'var(--accent)' : 'var(--bg-card)',
-        color: on ? 'var(--on-accent)' : 'var(--text-primary)',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        cursor: 'pointer',
-        transition: 'all 0.2s ease',
-        flexShrink: 0,
-      }}
+      className={`nav-btn is-square${on ? ' is-active' : ''}`}
     >
       {on ? <Pause size={16} /> : <ChevronsDown size={17} />}
     </button>

@@ -1,9 +1,10 @@
 'use client';
 
-import { useCallback, useEffect, useRef, useState, useSyncExternalStore } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { animate, motion, useMotionValue, useTransform, type MotionValue } from 'framer-motion';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { useI18n } from '@/lib/i18n-context';
+import { NARROW_QUERY, prefersReducedMotion, useMediaQuery } from '@/lib/hooks';
 import ProjectCard, { type Project } from './ProjectCard';
 
 /* ---------------------------------------------------------------------------
@@ -15,7 +16,6 @@ import ProjectCard, { type Project } from './ProjectCard';
 
 /** Distancia (px) entre un expediente y el siguiente en el eje Z. */
 const GAP = 1100;
-const NARROW_QUERY = '(max-width: 760px)';
 /** Tiempo que se queda cada expediente antes de avanzar solo. */
 const AUTO_MS = 4500;
 /** Posición lateral de cada tarjeta: -1 izquierda, 1 derecha. Se repite. */
@@ -41,18 +41,6 @@ type CardProps = {
   narrow: boolean;
   onFocusCard: (index: number) => void;
 };
-
-function useNarrow() {
-  return useSyncExternalStore(
-    (cb) => {
-      const mq = window.matchMedia(NARROW_QUERY);
-      mq.addEventListener('change', cb);
-      return () => mq.removeEventListener('change', cb);
-    },
-    () => window.matchMedia(NARROW_QUERY).matches,
-    () => false,
-  );
-}
 
 function SpatialCard({ project, index, total, progress, narrow, onFocusCard }: CardProps) {
   const lane = LANES[index % LANES.length];
@@ -102,7 +90,7 @@ export default function ProjectsGallery({ projects, header }: Props) {
   // 0 = primer expediente, 1 = último. Lo mueve solo la galería, nunca el scroll.
   const progress = useMotionValue(0);
   const [active, setActive] = useState(0);
-  const narrow = useNarrow();
+  const narrow = useMediaQuery(NARROW_QUERY);
 
   const goTo = useCallback(
     (i: number) => {
@@ -120,7 +108,7 @@ export default function ProjectsGallery({ projects, header }: Props) {
   };
   useEffect(() => {
     const el = stageRef.current;
-    if (!el || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    if (!el || prefersReducedMotion()) return;
     const io = new IntersectionObserver(([e]) => {
       pause.current.inView = e.isIntersecting;
     });

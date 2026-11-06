@@ -1,5 +1,5 @@
 /* =====================================================================
-   FONDOS TEMÁTICOS POR SECCIÓN (components/universe/UniverseBackdrop.tsx)
+   FONDOS TEMÁTICOS POR SECCIÓN (components/universe/backdrops/EscBackdrop.tsx)
    Usan las variables del universo (--e-*), así siguen el modo claro / oscuro.
    ===================================================================== */
 
@@ -144,7 +144,7 @@ footer > .section-container {
 }
 
 /* Onomatopeyas: aparecen en un punto al azar, se quedan un momento y se van.
-   La duración (1.9 s) coincide con LIFE_MS en UniverseBackdrop.tsx. */
+   La duración (1.9 s) coincide con SFX_LIFE_MS en backdrops/EscBackdrop.tsx. */
 .ub-sfx-area {
   position: absolute;
   inset: 0;

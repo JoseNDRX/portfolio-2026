@@ -3,8 +3,8 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import {
-  ArrowLeft, Users, MapPin, TrendingUp, Phone, Mail,
-  Building2, CheckCircle2, Clock, AlertCircle, Filter,
+  ArrowLeft, Users, MapPin, TrendingUp, Phone,
+  Building2, CheckCircle2, Clock, Filter,
   Map, List, Search, Star, ChevronRight
 } from 'lucide-react';
 
@@ -132,10 +132,10 @@ export default function CrmDemoPage() {
               </select>
               {/* View toggle */}
               <div style={{ display: 'flex', border: '1.5px solid var(--border)', borderRadius: '10px', overflow: 'hidden' }}>
-                {([['list', <List size={15} />, 'Lista'], ['map', <Map size={15} />, 'Mapa']] as const).map(([v, icon, label]) => (
+                {([['list', List, 'Lista'], ['map', Map, 'Mapa']] as const).map(([v, Icon, label]) => (
                   <button key={v} onClick={() => setView(v as 'list' | 'map')}
                     style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', padding: '0.55rem 0.9rem', border: 'none', background: view === v ? 'var(--accent-light)' : 'var(--bg-card)', color: view === v ? 'var(--accent)' : 'var(--text-muted)', fontWeight: 600, fontSize: '0.82rem', cursor: 'pointer' }}>
-                    {icon}{label}
+                    <Icon size={15} />{label}
                   </button>
                 ))}
               </div>

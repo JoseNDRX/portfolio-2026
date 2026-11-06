@@ -2,6 +2,7 @@
 
 import { useEffect } from 'react';
 import { useUniverse } from '@/lib/universe-context';
+import { prefersReducedMotion } from '@/lib/hooks';
 
 /* ---------------------------------------------------------------------------
    Animaciones de entrada de los elementos, según el universo.
@@ -26,7 +27,7 @@ export default function UniverseMotion() {
   const { universe } = useUniverse();
 
   useEffect(() => {
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    if (prefersReducedMotion()) return;
 
     const els = Array.from(document.querySelectorAll<HTMLElement>(TARGETS));
     // Escalonado: cada elemento espera según su posición entre hermanos del mismo tipo.
